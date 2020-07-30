@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"artemisaturn.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="[TOC] 1.1 程序设计语言Machine Code Assembly Language High-level Language 如Algol, Fortran, Pascal, C语言等。 1.2 什么叫编译程序翻译程序：就是将源程序转换成目标程序的程序。 source program —–&gt;  Translator  ——&gt;  target program 翻译程序和解释程序的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译原理（1）编译概述">
+<meta property="og:url" content="http://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="[TOC] 1.1 程序设计语言Machine Code Assembly Language High-level Language 如Algol, Fortran, Pascal, C语言等。 1.2 什么叫编译程序翻译程序：就是将源程序转换成目标程序的程序。 source program —–&gt;  Translator  ——&gt;  target program 翻译程序和解释程序的">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0/image-20200531170908968.png">
+<meta property="og:image" content="f:%5Cblog%5Csource_posts%5C%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0%5Cimage-20200531200636454.png">
+<meta property="article:published_time" content="2020-05-31T03:05:01.000Z">
+<meta property="article:modified_time" content="2020-06-14T09:06:16.299Z">
+<meta property="article:author" content="Daphne Wang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0/image-20200531170908968.png">
+
+<link rel="canonical" href="http://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>编译原理（1）编译概述 | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Daphne Wang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          编译原理（1）编译概述
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-05-31 11:05:01" itemprop="dateCreated datePublished" datetime="2020-05-31T11:05:01+08:00">2020-05-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-14 17:06:16" itemprop="dateModified" datetime="2020-06-14T17:06:16+08:00">2020-06-14</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>[TOC]</p>
+<h3 id="1-1-程序设计语言"><a href="#1-1-程序设计语言" class="headerlink" title="1.1 程序设计语言"></a>1.1 程序设计语言</h3><p>Machine Code</p>
+<p>Assembly Language</p>
+<p>High-level Language</p>
+<p>如Algol, Fortran, Pascal, C语言等。</p>
+<h3 id="1-2-什么叫编译程序"><a href="#1-2-什么叫编译程序" class="headerlink" title="1.2 什么叫编译程序"></a>1.2 什么叫编译程序</h3><p>翻译程序：就是将源程序转换成目标程序的程序。</p>
+<p>source program —–&gt;  Translator  ——&gt;  target program</p>
+<p>翻译程序和解释程序的区别：</p>
+<p><img src="%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0/image-20200531170908968.png" alt="1"></p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">解释方式最终不生成目标程序，这是编译方式和解释方式的根本区别。</span><br><span class="line">编译方式：是将源程序经编译得到可执行文件后，就可脱离源程序和编译程序单独执行，所以编译方式的效率高，执行速度快；</span><br><span class="line">解释方式：在执行时，必须源程序和解释程序同时参与才能运行，其不产生可执行程序文件，效率低，执行速度慢。</span><br></pre></td></tr></table></figure>
+
+<p>编译程序和汇编程序的区别：</p>
+<p>​        如果源语言是诸如C、C++、Java等“高级语言”，而目标语言是诸如汇编语言或机器语言之类的“低级语言”，这样的一个翻译程序称为编译程序。如果源语言是汇编语言，而目标语言是机器语言，这样的一个翻译程序称为汇编程序。</p>
+<p>解释性语言：</p>
+<p>（1）源代码不能直接翻译成机器语言，而是先翻译成中间代码，再由解释器对中间代码进行解释运行：  源代码—&gt;中间代码—&gt;机器语言</p>
+<p>（2）程序不需要编译，程序在运行时才翻译成机器语言，每执行一次都要翻译一次；</p>
+<p>（3）解释性语言代表：Python、JavaScript、Shell、Ruby、MATLAB等；</p>
+<p>（4）运行效率一般相对比较低，依赖解释器，跨平台性好；</p>
+<p>（5）Java是编译性-解释性语言，因为其同时具备编译性和解释性两种特性。</p>
+<h3 id="1-3-编译程序的组成"><a href="#1-3-编译程序的组成" class="headerlink" title="1.3 编译程序的组成"></a>1.3 编译程序的组成</h3><p>一个典型的编译程序应具有以下的组成：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0%5Cimage-20200531200636454.png" alt="image-20200531200636454"></p>
+<p>编译程序的两个主要任务：</p>
+<p>一是分析，二是综合。</p>
+<p>编译程序结构(components)</p>
+<ul>
+<li>词法分析程序</li>
+<li>语法分析程序</li>
+<li>语义分析程序</li>
+<li>中间代码生成程序</li>
+<li>代码优化程序</li>
+<li>目标代码生成程序</li>
+<li>符号表管理程序</li>
+<li>出错处理程序</li>
+</ul>
+<p>（1）Scanner （词法分析）</p>
+<p>任务：识别单词符号，是最初级的语法分析。</p>
+<p>依循的规则：语言的构词规则。</p>
+<p>（2）Parser （语法分析）</p>
+<p>任务∶对词法分析的输出即单词符号串进行分析，识别出一个个语法成分，并进行语法检查。</p>
+<p>依循的规则：语法规则。</p>
+<p>（语法单位：算术表达式、短语、句子、子程序……）</p>
+<p>（3）Semantic Analyzer （语义分析）</p>
+<p>任务：对语法分析所识别的各种语法成分的意义(即语义)进行确定并加以处理。</p>
+<p>依循的规则：语义规则</p>
+<p>（4）Intermediate Code Generator</p>
+<p>任务：从源程序的树形或其它形式，产生源程序的中间代码。</p>
+<p>中间代码：四元式、三元式……</p>
+<p>（5）Target Code Generator</p>
+<p>任务：将中间代码转换成汇编程序或者机器语言。</p>
+<p>（6）代码优化</p>
+<p>代码优化程序的功能是将中间代码中重复和冗余部分进行优化，提高目标程序的执行效率。</p>
+<p>（7）符号表管理</p>
+<ul>
+<li>符号表管理是一个贯穿编译全过程的工作。</li>
+<li>编译程序在分析源程序时，需要记录标识符的各种属性信息；</li>
+<li>在语义分析和代码生成阶段，还要对建立的符号表进行检索，提取相应的属性信息。–类型、作用域、分配存储信息</li>
+</ul>
+<p>（8）Error Handler （错误检测及处理）</p>
+<ul>
+<li>错误可发生在编译的各个阶段，错误处理也是贯穿编译全过程。</li>
+<li>词法分析阶段可查出的错误，如标识符的组成不符合词法规则； </li>
+<li>语句结构错误是在语法分析中可查出的错误；</li>
+<li>语义分析阶段可查出的错误，即结构正确，但所涉及的操作无意义或错误。</li>
+<li>在编译时查出的，叫Comple-time error，在运行时表现才表现出来的错误叫Run-time error。</li>
+</ul>
+<p>（9）前端和后端</p>
+<ul>
+<li>前端包括编译逻辑结构中的分析部分，即词法分析、语法分析、语义分析和中间代码生成，除此还包括符号表建造及相应分析中的错误处理以及与机器无关的优化部分。</li>
+<li>后端包括与目标机有关的部分，即综合部分，它包括目标代码生成及生成期间对符号表的相应检索操作和错误处理操作，以及与机器相关的代码优化部分。</li>
+<li>将编译系统划分为前后端，有利于移植编译系统和利用后端为同一目标机配置不同语言的编译系统。</li>
+</ul>
+<p>（10）遍（pass）</p>
+<p>​        对源程序(或其中间形式)从头至尾扫描一次并进行有关加工处理，生成新的中间形式或最终目标程序，称为一遍。</p>
+<p>分遍原则∶</p>
+<ul>
+<li>目标质量高低(高则多遍) </li>
+<li>机器内存大小(小则多遍)</li>
+<li>源语言简繁(繁则多遍)</li>
+<li>设计人员多少(多则多遍)</li>
+</ul>
+<p>多遍扫描编译程序的优缺点∶</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">优点：（1）可以减少内存容量的需求，分便后，以遍为单位分别调用编译的各个子程序，各遍程序可以相互覆盖；</span><br><span class="line">（2）可使各遍的编译程序相互独立，结构清晰；</span><br><span class="line">（3）能够进行充分的优化，产生高质量的目标程序；</span><br><span class="line">（4）可将编译程序分为“前端”和“后端”，有利于编译程序的移植。</span><br><span class="line">缺点：每遍都要读符号、送符号，增加了许多重复性工作，降低了编译效率。</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-编译程序的生成"><a href="#1-4-编译程序的生成" class="headerlink" title="1.4 编译程序的生成"></a>1.4 编译程序的生成</h3><p><strong>实现工具：</strong>Low-level Language；</p>
+<p>​                   High-level Language；</p>
+<p>​                   Automatic Builder。</p>
+<p><strong>生成方法：</strong>Self-compiler;</p>
+<p>​                   transplant</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/30/python%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" rel="prev" title="python基础语法">
+      <i class="fa fa-chevron-left"></i> python基础语法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%882%EF%BC%89%E6%96%87%E6%B3%95%E5%92%8C%E8%AF%AD%E8%A8%80/" rel="next" title="编译原理（2）文法和语言">
+      编译原理（2）文法和语言 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-程序设计语言"><span class="nav-number">1.</span> <span class="nav-text">1.1 程序设计语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-什么叫编译程序"><span class="nav-number">2.</span> <span class="nav-text">1.2 什么叫编译程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-编译程序的组成"><span class="nav-number">3.</span> <span class="nav-text">1.3 编译程序的组成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-编译程序的生成"><span class="nav-number">4.</span> <span class="nav-text">1.4 编译程序的生成</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Daphne Wang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Daphne Wang</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

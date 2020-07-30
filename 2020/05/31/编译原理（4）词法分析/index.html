@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"artemisaturn.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="[TOC] 词法分析程序亦称为扫描器。 扫描器的任务是识别基本的语法单位——单词； 扫描器的输出是语法分析程序的输入。 词法分析程序的设计和实现： 首先需要描述和刻画语言中的原子单位——单词，其次需要识别单词和执行某些相关的动作。描述程序设计语言的词法的机制是3型文法和正则表达式，识别机制是有穷状态自动机。 4.1 词法分析程序词法分析（lexical analysis） –逐个读入源程序字符并按">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译原理（4）词法分析">
+<meta property="og:url" content="http://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="[TOC] 词法分析程序亦称为扫描器。 扫描器的任务是识别基本的语法单位——单词； 扫描器的输出是语法分析程序的输入。 词法分析程序的设计和实现： 首先需要描述和刻画语言中的原子单位——单词，其次需要识别单词和执行某些相关的动作。描述程序设计语言的词法的机制是3型文法和正则表达式，识别机制是有穷状态自动机。 4.1 词法分析程序词法分析（lexical analysis） –逐个读入源程序字符并按">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613110111799.png">
+<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613112425500.png">
+<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613160754459.png">
+<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613160815782.png">
+<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613160908110.png">
+<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613183717517.png">
+<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613184408840.png">
+<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613190857433.png">
+<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613190905154.png">
+<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613192154391.png">
+<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613192229903.png">
+<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613205712090.png">
+<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613210019996.png">
+<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613210048337.png">
+<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613210135127.png">
+<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613210145552.png">
+<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613210156741.png">
+<meta property="article:published_time" content="2020-05-31T14:39:22.000Z">
+<meta property="article:modified_time" content="2020-06-14T08:18:34.063Z">
+<meta property="article:author" content="Daphne Wang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613110111799.png">
+
+<link rel="canonical" href="http://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>编译原理（4）词法分析 | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Daphne Wang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          编译原理（4）词法分析
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-05-31 22:39:22" itemprop="dateCreated datePublished" datetime="2020-05-31T22:39:22+08:00">2020-05-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-14 16:18:34" itemprop="dateModified" datetime="2020-06-14T16:18:34+08:00">2020-06-14</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>[TOC]</p>
+<p>词法分析程序亦称为扫描器。</p>
+<p>扫描器的任务是识别基本的语法单位——单词；</p>
+<p>扫描器的输出是语法分析程序的输入。</p>
+<p><strong>词法分析程序的设计和实现</strong>：</p>
+<p>首先需要描述和刻画语言中的原子单位——单词，其次需要识别单词和执行某些相关的动作。描述程序设计语言的词法的机制是3型文法和正则表达式，识别机制是有穷状态自动机。</p>
+<h2 id="4-1-词法分析程序"><a href="#4-1-词法分析程序" class="headerlink" title="4.1 词法分析程序"></a>4.1 词法分析程序</h2><p><strong>词法分析（lexical analysis）</strong></p>
+<p>–逐个读入源程序字符并按照构词规则切分成一系列单词。   </p>
+<p>–单词是语言中具有独立意义的最小单位，包括保留字、标识符、运算符、标点符号和常量等。</p>
+<p>–词法分析是编译过程中的一个阶段，在语法分析前进行 。也可以和语法分析结合在一起作为一遍，由语法分析程序调用词法分析程序来获得当前单词供语法分析使用。</p>
+<p>![image-20200612210637695](C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200612210637695.png)</p>
+<ul>
+<li><p>主要任务：</p>
+<p>–读源程序，产生单词符号，并转换为token表示</p>
+</li>
+<li><p>其他任务：</p>
+<p>–滤掉空格，删除注释、换行符</p>
+<p>–对行列计数</p>
+<p>–发现并定位词法错误，并尽量改正</p>
+<p>–建立符号表、常数表等表格，……</p>
+</li>
+</ul>
+<h3 id="4-1-1-词法分析器的输入缓冲区"><a href="#4-1-1-词法分析器的输入缓冲区" class="headerlink" title="4.1.1 词法分析器的输入缓冲区"></a>4.1.1 词法分析器的输入缓冲区</h3><h3 id="4-1-2-词法分析器的输出"><a href="#4-1-2-词法分析器的输出" class="headerlink" title="4.1.2 词法分析器的输出"></a>4.1.2 词法分析器的输出</h3><ul>
+<li><p>单词符号一般可分为下列五种：</p>
+<p>–基本字，关键字</p>
+<p>–标识符</p>
+<p>–常数（量）</p>
+<p>–运算符</p>
+<p>–界符</p>
+</li>
+<li><p>输出的二元式（token）表示：（单词种别，单词自身的值）</p>
+</li>
+<li><p>Token的种类：</p>
+<p>​    1、有些单词，只需要值，如基本字；</p>
+<p>​    2、有些单词，还需要其他信息，如标示符。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">例： A:&#x3D;B+2                                                            </span><br><span class="line">(Id的整数码,指向A的符号表的入口指针）   ($28, Aaddr)       </span><br><span class="line">(运算符的整数码,’:&#x3D;’)                                                     </span><br><span class="line">(Id的整数码,指向B的符号表的入口指针)        </span><br><span class="line">(运算符的整数码,’+’)                                            </span><br><span class="line">(常数的整数码, 2)</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-1-3-以状态转换图为例设计词法分析器"><a href="#4-1-3-以状态转换图为例设计词法分析器" class="headerlink" title="4.1.3 以状态转换图为例设计词法分析器"></a>4.1.3 以状态转换图为例设计词法分析器</h3><img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613110111799.png" alt="image-20200613110111799" style="zoom:50%;" />
+
+<h2 id="4-2-正规表达式与正规集（正规语言）"><a href="#4-2-正规表达式与正规集（正规语言）" class="headerlink" title="4.2 正规表达式与正规集（正规语言）"></a>4.2 正规表达式与正规集（正规语言）</h2><ul>
+<li><p>正规表达式（regular expression）是描述单词符号的一种方便工具，也是定义正规集的工具。</p>
+</li>
+<li><p>定义（正规式和它所表示的正规集）：</p>
+<p>–设字母表为Σ，辅助字母表Σ`={Ф，ε，|，·，*，(，)}。</p>
+<p>–1) ε和Ф都是Σ上的正规式，它们所表示的正规集分别为{ε}和{ }；</p>
+<p>–2) 任何a∈Σ，a是Σ上的一个正规式，它所表示的正规集为{a}；</p>
+<p>–3) 假定e1和e2都是Σ上的正规式，它们所表示的正规集分别为L(e1)和L(e2)，那么，(e1), e1| e2, e1·e2, e1* 也都是正规式，它们所表示的正规集分别为L(e1), L(e1)∪L(e2), L(e1)L(e2)和(L(e1))*。</p>
+<p>–4) 仅由有限次使用上述三步骤而定义的表达式才是Σ上的正规式，仅由这些正规式所表示的字集才是Σ上的正规集。</p>
+<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613112425500.png" alt="image-20200613112425500" style="zoom:75%;" />
+
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">例1  令Σ&#x3D;&#123;a，b&#125;， Σ上的正规式和相应的正规集的例子有：</span><br><span class="line">    正规式			 正规集</span><br><span class="line">    a			   &#123;a&#125;</span><br><span class="line">    a|b			   &#123;a,b&#125;</span><br><span class="line">    ab			   &#123;ab&#125;</span><br><span class="line">    (a|b)(a|b)	   &#123;aa,ab,ba,bb&#125;</span><br><span class="line">    a* 			   &#123;ε,a,aa, ……任意个a的串&#125;</span><br><span class="line">    (a|b)*		   &#123;ε,a,b,aa,ab ……所有由a和b组成的串&#125;</span><br><span class="line">	(a|b)*(aa|bb)(a|b)*    &#123;Σ*上所有含有两个相继的a或两个相继的b组成的串&#125;</span><br><span class="line">	</span><br><span class="line">例3 Σ&#x3D;&#123;d，.，e，+，-&#125;,则Σ上的正规式 d*(.dd*|ε)(e(+|-|ε)dd*|ε )</span><br><span class="line">	表示的是无符号数的集合。其中d为0~9的数字。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>若两个正规式e1和e2所表示的正规集相同,则说e1和e2等价,写作e1=e2。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">例如： e1&#x3D; (a|b)， e2 &#x3D; b|a</span><br><span class="line"></span><br><span class="line">又如： e1&#x3D; b(ab)* ,  e2 &#x3D;(ba)*b				</span><br><span class="line">	  e1&#x3D; (a|b)* ,  e2 &#x3D;(a*|b*)*</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>设r,s,t为正规式，正规式服从的代数规律有：</p>
+<p>–1、r|s=s|r                    “或”服从交换律</p>
+<p>–2、r|(s|t)=(r|s)|t        “或”的可结合律</p>
+<p>–3、(rs)t=r(st)                “连接”的可结合律</p>
+<p>–4、r(s|t)=rs|rt      (s|t)r=sr|tr    分配律 </p>
+<p>–5、εr=r, rε=r                 ε是“连接”的恒等元素 零一律</p>
+<p>–6、 r|r=r    <strong>r* =ε|r+    r+=rr*</strong> </p>
+</li>
+<li><p>文法的定义</p>
+<p>–G={VN,VT,P,S}</p>
+<p>–VN：非终结符的非空有穷集</p>
+<p>–VT：终结符的非空有穷集</p>
+<p>–P： 产生式的非空有穷集</p>
+<p>​         a→b  a∈( VN∪VT )* 且至少含一个非终结符， b∈( VN∪VT )*</p>
+<p>–S：∈VN，称为开始符号</p>
+</li>
+<li><p>正规文法： G的任何产生式为A→aB或A→a，其中a∈VT ∪ ε ，A，B∈VN</p>
+</li>
+</ul>
+<p><strong>对任意一个正规文法，存在一个定义同一个语言的正规式；反之亦然。</strong></p>
+<p>Σ上的<strong>正规式=&gt;正规文法</strong></p>
+<p>初始VT= Σ, S∈VN ，生成正规产生式(或定义式) :S→r （r为正规式）     </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(R1) 对形如 A→r1r2的正规产生式： A→r1B           </span><br><span class="line">							 B→r2               </span><br><span class="line">							 B∈VN                   </span><br><span class="line">(R2)对形如A→r*r1的正规产生式：   A→rB          </span><br><span class="line">							 A→r1          </span><br><span class="line">							 B→rB          </span><br><span class="line">							 B→r1   B∈VN                                </span><br><span class="line">(R3)对形如A→r1|r2的正规产生式:  A→r1        </span><br><span class="line">							 A→r2</span><br></pre></td></tr></table></figure>
+
+<p>不断应用R做变换，直到每个产生式右端只含一个VN</p>
+<p><strong>正规文法=&gt;正规式</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">正规文法                      正规式</span><br><span class="line">A→xB, B→y      转换成： 	  A&#x3D;xy 			</span><br><span class="line">A→xA|y         转换成：       A&#x3D;x*y </span><br><span class="line">A→x|y          转换成：       A&#x3D;x|y</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-3-有穷自动机"><a href="#4-3-有穷自动机" class="headerlink" title="4.3 有穷自动机"></a>4.3 有穷自动机</h2><h3 id="4-3-1-确定的有穷自动机DFA"><a href="#4-3-1-确定的有穷自动机DFA" class="headerlink" title="4.3.1 确定的有穷自动机DFA"></a>4.3.1 确定的有穷自动机DFA</h3><p><strong>DFA定义：</strong></p>
+<p>一个确定的有穷自动机（DFA）M是一个五元组：M=（K，Σ，f，S，Z）其中</p>
+<p>​    1、K是一个有穷集，它的每个元素称为一个状态；</p>
+<p>​    2、Σ是一个有穷字母表，它的每个元素称为一个输入符号，所以也称Σ为输入符号字母表；</p>
+<p>​    3、f是转换函数，是在K×Σ→K上的映射，即，如f（ki，a）=kj，（ki∈K，kj∈K）就意味着，当前状态为ki，输入符为a时，将转换为下一个状态kj，我们把kj称作ki的一个后继状态；</p>
+<p>​    4、S∈K是唯一的一个初态；</p>
+<p>​    5、Z 包含于 K是一个终态集，终态也称可接受状态或结束状态。</p>
+<p><strong>DFA例：</strong></p>
+<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613160754459.png" alt="image-20200613160754459" style="zoom:70%;" />
+
+<p><strong>DFA的状态转换图表示：</strong></p>
+<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613160815782.png" alt="image-20200613160815782" style="zoom:67%;" />
+
+<p><strong>DFA</strong> <strong>的矩阵表示</strong></p>
+<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613160908110.png" alt="image-20200613160908110" style="zoom:67%;" />
+
+<p><strong>DFA M的作用：</strong></p>
+<p> 对于∑*中的任何字符串t，若存在一条从初态结到某一终态结的道路，且这条路上所有弧的标记符连接成的字符串等于t，则称t可为DFA M所接受（识别）。若M的初态结同时又是终态结，则空字可为M所识别（接受）。</p>
+<ul>
+<li><p>∑*上的符号串t被M接受的形式叙述：</p>
+<p>若t∈∑*，f (S，t)=P，其中S为 M的开始状态，P ∈ Z，Z为终态集。</p>
+<p>则称t为DFA M所<strong>接受</strong>（<strong>识别</strong>）。</p>
+</li>
+<li><p>∑*上的符号串t在M上运行的定义：</p>
+<p>一个输入符号串t，（我们将它表示成 t1tx的形式，其中t1 ∈∑，tx∈ ∑<em>）在DFA M上*</em>运行**的定义为：</p>
+<p>f（Q， t1 tx ）=f（f（Q， t1 ），tx） 其中Q∈K                         </p>
+</li>
+</ul>
+<p>例：证明t=baab被前例中的DFA所接受</p>
+<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613183717517.png" alt="image-20200613183717517" style="zoom:50%;" />
+
+<p>所识别的语言：含有相继两个a或相继两个b的串。</p>
+<p>DFA M所能接受的符号串的全体记为 L(M)(语言)</p>
+<p><strong>结论：</strong></p>
+<p>– Σ上一个符号串集V 包含于 Σ*是正规的，当且仅当存在一个Σ上的确定有穷自动机M，使得V=L(M)。</p>
+<h3 id="4-3-2-不确定的有穷自动机NFA"><a href="#4-3-2-不确定的有穷自动机NFA" class="headerlink" title="4.3.2 不确定的有穷自动机NFA"></a>4.3.2 不确定的有穷自动机NFA</h3><p>NFA定义：</p>
+<p>N={K，Σ，f，S，Z}，其中K为状态的有穷非空集，Σ为有穷输入字母表，f为Kx Σ*到K的子集（2^K）的一种映射，S 包含于 K是初始状态集，Z 包含于 K为终止状态集。</p>
+<ul>
+<li><p>例子</p>
+<p>NFA N=（{S，P，Z}，{0，1}，f，{S，P}，{Z}）</p>
+<p>其中 f（S，0）={P}</p>
+<p>​        f（S，1）={S，Z}</p>
+<p>​        f（P，1）={Z}</p>
+<p>​        f（Z，0）={P}</p>
+<p>​        f（Z，1）={P}</p>
+<p>状态图表示：</p>
+</li>
+</ul>
+<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613184408840.png" alt="image-20200613184408840" style="zoom:80%;" />
+
+<ul>
+<li>∑*上的符号串t在NFA N上运行</li>
+<li>∑*上的符号串t被NFA N接受</li>
+<li>具有ε转移的不确定的有穷自动机NFA… f为 K x（Σ ∪{ε}）到K的子集（2^K）的一种映射</li>
+<li>对任何一个具有ε转移的不确定的有穷自动机NFA　N，一定存在一个不具有ε转移的不确定的有穷自动机NFA　Ｍ ，使得L(M)=L(N)。</li>
+</ul>
+<h3 id="4-3-3-NFA的确定化"><a href="#4-3-3-NFA的确定化" class="headerlink" title="4.3.3 NFA的确定化"></a>4.3.3 NFA的确定化</h3><p>DFA是NFA的特例。对每个NFA N一定存在一个DFA M ，使得L(M)=L(N)。对每个NFA N存在着与之等价的DFA M。与某一NFA等价的DFA不唯一。</p>
+<p><strong>定义对状态集合I的几个有关运算：</strong></p>
+<ol>
+<li>状态集合 I 的 ε- 闭包，表示为 ε-closure(I)，定义为一状态集，是状态集 I 中的任何状态S经任意条ε弧而能到达的状态的集合。状态集合 I 的任何状态S都属于 ε-closure(I)。</li>
+<li>状态集合 I 的a弧转换，表示为 move(I,a) 定义为状态集合 J，其中 J 是所有那些可从 I 的某一状态经过一条a弧而到达的状态的全体。定义 Ia = ε-closure(J)</li>
+</ol>
+<p>例：</p>
+<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613190857433.png" alt="image-20200613190857433" style="zoom:80%;" />
+
+
+
+<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613190905154.png" alt="image-20200613190905154" style="zoom:80%;" />
+
+<p>假设NFA N=(K, Σ, f, K0, Kt)按如下办法构造一个DFA M=(S, Σ, d, S0, St)，使得L(M)=L(N)：</p>
+<ol>
+<li><p>M的状态集S由K的一些子集组成。用[S1 S2… Sj ]表示S的元素，其中S1, S2,,… Sj是K的状态。并且约定，状态S1, S2,… Sj 是按某种规则排列的，即对于子集{S1, S2}={ S2, S1,}来说，S的状态就是[S1 S2]；</p>
+</li>
+<li><p>M和N的输入字母表是相同的，即是 Σ ；</p>
+</li>
+<li><p>转换函数是这样定义的：                    </p>
+<p> d([S1 S2,… Sj],a)= [R1R2… Rt]  其中   {R1,R2,… , Rt} = ε-closure(move({S1, S2,,… Sj},a)) </p>
+</li>
+<li><p>S0=ε-closure(K0)为M的开始状态；</p>
+</li>
+<li><p>St={[Si Sk… Se]，其中[Si  Sk… Se]∈S且{Si , Sk,,… Se}∩Kt≠Φ}</p>
+</li>
+</ol>
+<p><strong>NFA确定化例子：</strong></p>
+<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613192154391.png" alt="image-20200613192154391" style="zoom:80%;" />
+
+<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613192229903.png" alt="image-20200613192229903" style="zoom:80%;" />
+
+<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613205712090.png" alt="image-20200613205712090" style="zoom:80%;" />
+
+<h2 id="4-4-有穷自动机和正规表达式"><a href="#4-4-有穷自动机和正规表达式" class="headerlink" title="4.4 有穷自动机和正规表达式"></a>4.4 有穷自动机和正规表达式</h2><p><strong>有穷自动机和正规表达式的等价性：</strong>   </p>
+<ul>
+<li>对于∑上的一个NFA M，可以构造一个∑上的正规式R,使得L(R)=L(M)。</li>
+<li>对于∑上的一个正规式R，可以构造一个∑上的NFA M，使的L(M)=L(R)。</li>
+</ul>
+<p><strong>正规式 =&gt;有穷自动机</strong></p>
+<p>设给定正规式W，则构造相应自动机的方法如下：</p>
+<p>若W=ø，则对应的NFA为<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613210019996.png" alt="image-20200613210019996" style="zoom:50%;" /></p>
+<p>若W&lt;&gt;ø，则对应的NFA为<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613210048337.png" alt="image-20200613210048337" style="zoom:50%;" /></p>
+<p>然后利用以下规则加入结点和箭弧，直到得到自动机为止。</p>
+<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613210135127.png" alt="image-20200613210135127" style="zoom:70%;" />
+
+<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613210145552.png" alt="image-20200613210145552" style="zoom:70%;" />
+
+<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613210156741.png" alt="image-20200613210156741" style="zoom:70%;" />
+
+<p><strong>有穷自动机=&gt;正规式</strong></p>
+<p>首先检查是否只有一个终态结点，若有多个，则引入新结点T，从所有终态结点引ε边到T结点，并令T为唯一的终态结点。</p>
+<p>然后按以下规则消除结点与箭弧：</p>
+<p>![image-20200613223618156](C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613223618156.png)</p>
+<h2 id="4-5-有穷自动机和正规文法"><a href="#4-5-有穷自动机和正规文法" class="headerlink" title="4.5 有穷自动机和正规文法"></a>4.5 有穷自动机和正规文法</h2><p><strong>有穷自动机和正规文法的等价性：</strong>     </p>
+<ul>
+<li>对于一个NFA M，都存在 一个正规文法G，使得L(G)=L(M).               </li>
+<li>对于一个正规文法G,都存在一个NFA M，使得L(M)=L(G). </li>
+</ul>
+<p><strong>正规文法=&gt;自动机</strong></p>
+<ul>
+<li>字母表与G的终结符集相同；</li>
+<li>G中的非终结符对应状态，开始符对应开始状态</li>
+<li>增加一个新的终结状态Z。</li>
+<li>G中的A-&gt;tB构造转换函数f(A,t)=B</li>
+<li>G中的A-&gt;t构造转换函数f(A,t)=Z</li>
+</ul>
+<p><strong>自动机=&gt;正规文法</strong></p>
+<ul>
+<li>对转换函数f(A,t)=B，对应产生式：   A-&gt;tB</li>
+<li>对终态Z，增加一产生式： Z-&gt;ε</li>
+<li>NFA的初态对应文法的开始符号；</li>
+<li>NFA的字母表对应文法的终结符号集。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%882%EF%BC%89%E6%96%87%E6%B3%95%E5%92%8C%E8%AF%AD%E8%A8%80/" rel="prev" title="编译原理（2）文法和语言">
+      <i class="fa fa-chevron-left"></i> 编译原理（2）文法和语言
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%885%EF%BC%89%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/" rel="next" title="编译原理（5）自顶向下语法分析方法">
+      编译原理（5）自顶向下语法分析方法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-词法分析程序"><span class="nav-number">1.</span> <span class="nav-text">4.1 词法分析程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-1-词法分析器的输入缓冲区"><span class="nav-number">1.1.</span> <span class="nav-text">4.1.1 词法分析器的输入缓冲区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-2-词法分析器的输出"><span class="nav-number">1.2.</span> <span class="nav-text">4.1.2 词法分析器的输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-3-以状态转换图为例设计词法分析器"><span class="nav-number">1.3.</span> <span class="nav-text">4.1.3 以状态转换图为例设计词法分析器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-正规表达式与正规集（正规语言）"><span class="nav-number">2.</span> <span class="nav-text">4.2 正规表达式与正规集（正规语言）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-有穷自动机"><span class="nav-number">3.</span> <span class="nav-text">4.3 有穷自动机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-1-确定的有穷自动机DFA"><span class="nav-number">3.1.</span> <span class="nav-text">4.3.1 确定的有穷自动机DFA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-2-不确定的有穷自动机NFA"><span class="nav-number">3.2.</span> <span class="nav-text">4.3.2 不确定的有穷自动机NFA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-3-NFA的确定化"><span class="nav-number">3.3.</span> <span class="nav-text">4.3.3 NFA的确定化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-有穷自动机和正规表达式"><span class="nav-number">4.</span> <span class="nav-text">4.4 有穷自动机和正规表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5-有穷自动机和正规文法"><span class="nav-number">5.</span> <span class="nav-text">4.5 有穷自动机和正规文法</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Daphne Wang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Daphne Wang</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"artemisaturn.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="[TOC] 句型的分析——分析算法分类： 自上而下分析法：  从文法的开始符号出发，反复使用各种产生式，寻找与输入符号匹配的最左推导。 自下而上分析法： 从输入符号串开始，逐步进行归约（最右推导的逆过程），直至归约到文法的开始符号。 5.1 自上而下语法分析的一般过程从文法的开始符号出发，反复使用各种产生式，寻找与输入符号匹配的最左推导。 1234文法G：    S → cAd    A → ab">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译原理（5）自顶向下语法分析方法">
+<meta property="og:url" content="http://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%885%EF%BC%89%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="[TOC] 句型的分析——分析算法分类： 自上而下分析法：  从文法的开始符号出发，反复使用各种产生式，寻找与输入符号匹配的最左推导。 自下而上分析法： 从输入符号串开始，逐步进行归约（最右推导的逆过程），直至归约到文法的开始符号。 5.1 自上而下语法分析的一般过程从文法的开始符号出发，反复使用各种产生式，寻找与输入符号匹配的最左推导。 1234文法G：    S → cAd    A → ab">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200601224211773.png">
+<meta property="article:published_time" content="2020-05-31T14:40:04.000Z">
+<meta property="article:modified_time" content="2020-06-14T08:26:16.369Z">
+<meta property="article:author" content="Daphne Wang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200601224211773.png">
+
+<link rel="canonical" href="http://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%885%EF%BC%89%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>编译原理（5）自顶向下语法分析方法 | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%885%EF%BC%89%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Daphne Wang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          编译原理（5）自顶向下语法分析方法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-05-31 22:40:04" itemprop="dateCreated datePublished" datetime="2020-05-31T22:40:04+08:00">2020-05-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-14 16:26:16" itemprop="dateModified" datetime="2020-06-14T16:26:16+08:00">2020-06-14</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>[TOC]</p>
+<p>句型的分析——分析算法分类：</p>
+<p><strong>自上而下分析法：</strong></p>
+<p> 从文法的开始符号出发，反复使用各种产生式，寻找与输入符号匹配的最左推导。</p>
+<p><strong>自下而上分析法：</strong></p>
+<p>从输入符号串开始，逐步进行归约（最右推导的逆过程），直至归约到文法的开始符号。</p>
+<h2 id="5-1-自上而下语法分析的一般过程"><a href="#5-1-自上而下语法分析的一般过程" class="headerlink" title="5.1 自上而下语法分析的一般过程"></a>5.1 自上而下语法分析的一般过程</h2><p>从文法的开始符号出发，反复使用各种产生式，寻找与输入符号匹配的最左推导。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">文法G：    S → cAd    A → ab |a                  </span><br><span class="line">识别输入串  w=cad</span><br><span class="line">试探：推导过程：S =&gt; cAd =&gt; cabd</span><br><span class="line">回溯:试探推导过程：S =&gt; cAd =&gt; cad</span><br></pre></td></tr></table></figure>
+
+<h3 id="一、自上而下语法分析的问题"><a href="#一、自上而下语法分析的问题" class="headerlink" title="一、自上而下语法分析的问题"></a>一、自上而下语法分析的问题</h3><h4 id="5-1-1-左递归问题"><a href="#5-1-1-左递归问题" class="headerlink" title="5.1.1 左递归问题"></a>5.1.1 左递归问题</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">定义：一个文法是含有左递归的，如果存在非终结符P</span><br><span class="line">                            P &#x3D;&gt; Pα </span><br><span class="line">含有左递归的文法使上述的自上而下分析过程陷入无限循环。</span><br></pre></td></tr></table></figure>
+
+<p>直接左递归 若 P –&gt; Pα | β     （α、β ∈V*且β不以P开头）</p>
+<p>间接左递归 若 P =&gt; Pα           S –&gt; Aa     A–&gt;Sb      A–&gt;b</p>
+<h4 id="5-1-2-消除左递归"><a href="#5-1-2-消除左递归" class="headerlink" title="5.1.2 消除左递归"></a>5.1.2 消除左递归</h4><p><strong>消除直接左递归：</strong></p>
+<p>​        形如：P –&gt; Pα | β         （ α非ε， β不以P打头）</p>
+<p>​        改写为：P –&gt; β P’         P’  –&gt;  α P’ | ε</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">例： E --&gt; E+T|T</span><br><span class="line"><span class="code">    T --&gt; T*F|F</span></span><br><span class="line"><span class="code">    F --&gt; (E)|i</span></span><br><span class="line">G[E]: (1)E --&gt; TE'  (2)E' --&gt; +TE'|ε  </span><br><span class="line"><span class="code">      (2)T --&gt; FT'  (4)T' --&gt; *FT'|ε </span></span><br><span class="line"><span class="code">      (5)F --&gt; (E)|i</span></span><br></pre></td></tr></table></figure>
+
+<p>一般情况：</p>
+<p>A –&gt; Aα1 | Aα2| …| Aαm|β1|β2|…|βn</p>
+<p>消除左递归后：</p>
+<p>A  –&gt;  β1A’|β2A’|…|βnA’</p>
+<p>A’ –&gt;  α1A’ | α2A’| …|αmA’|ε</p>
+<p><strong>消除间接左递归</strong></p>
+<p>间接左递归定义：给定文法G(S) :<br>            S→Qc∣c        Q→Rb∣b          R→Sa∣a</p>
+<p>虽然不存在直接左递归，但S、Q、R 都是左递归的，例如有  S⇒Qc⇒Rbc⇒Sabc </p>
+<p>要求文法：1. 无回路（A=&gt;A）   2. 无空产生式（不含以ε为右部的产生式）</p>
+<p>消除左递归的算法：</p>
+<ol>
+<li>把文法G的所有非终结符按任一种顺序排列P1, P2, P3…. Pn;</li>
+</ol>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">例：S--&gt;Ac|c  A--&gt;Bb|b   B--&gt;Sa|a</span><br><span class="line">（1）排序：B  A  S</span><br><span class="line">（2）将B代入A： A--&gt;Sab|ab|b</span><br><span class="line"><span class="code">    将A代入S： S--&gt;Sabc|abc|bc|c</span></span><br><span class="line"> 消除S的直接左递归，得到文法：</span><br><span class="line"><span class="code">    S--&gt;abcS'|bcS'|cS'</span></span><br><span class="line"><span class="code">    S'--&gt;abcS'|ε</span></span><br><span class="line"><span class="code">    A--&gt;Sab|ab|b</span></span><br><span class="line"><span class="code">    B--&gt;Sa|a</span></span><br><span class="line">（3）化简，最终得到结果：</span><br><span class="line"><span class="code">	S--&gt;abcS'|bcS'|cS'</span></span><br><span class="line"><span class="code">    S'--&gt;abcS'|ε</span></span><br><span class="line"><span class="code">    </span></span><br><span class="line">（1）排序：S  A  B</span><br><span class="line">（2）将S代入A： A--&gt;Bb|b</span><br><span class="line"><span class="code">	将S、A代入B： B--&gt;Aca|ca|a</span></span><br><span class="line"><span class="code">	            B--&gt;Bbca|bca|ca|a</span></span><br><span class="line">消除B的直接左递归，得到文法：</span><br><span class="line"><span class="code">	S--&gt;Ac|c</span></span><br><span class="line"><span class="code">	A--&gt;Bb|b</span></span><br><span class="line"><span class="code">	B--&gt;bcaB'|caB'|aB'</span></span><br><span class="line"><span class="code">	B'--&gt;bcaB'|ε</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="5-1-3-回溯问题"><a href="#5-1-3-回溯问题" class="headerlink" title="5.1.3 回溯问题"></a>5.1.3 回溯问题</h4><p>定义：分析过程中，当一个非终结符用某一个候选匹配成功时，这种匹配可能是暂时的。出错时，不得不“<strong>回溯</strong>”。</p>
+<h4 id="5-1-4-提取左公因子"><a href="#5-1-4-提取左公因子" class="headerlink" title="5.1.4 提取左公因子"></a>5.1.4 提取左公因子</h4><p>提取左公因子：A →αβ1|αβ2</p>
+<p>变为： A →αA’         A’ →β1 |β2</p>
+<p>若A →αβ1|αβ2 |…|αβn|r</p>
+<p>变为：A →αA’          A’ →β1|β2|…|βn</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">例：S → iEtS|iEtSeS|a      E→b</span><br><span class="line">提取左公因子： S -→ iEtSS’|a </span><br><span class="line"><span class="code">            S’-→ eS|ε</span></span><br><span class="line"><span class="code">            E -→ b</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-2-递归下降分析法"><a href="#5-2-递归下降分析法" class="headerlink" title="5.2 递归下降分析法"></a>5.2 递归下降分析法</h2><p>递归下降分析器：在消除了左递归和提取左公因子后，可以构造一个不带回溯的自上而下的分析程序。</p>
+<p>这个程序由一组递归过程组成，每个过程对应文法的一个非终结符。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">例：G[ E]:    </span><br><span class="line">   (<span class="number">1</span>)   E → TE’    (<span class="number">2</span>)  E’ → +TE’| ε</span><br><span class="line">   (<span class="number">3</span>)   T → FT’    (<span class="number">4</span>)  T’ → *FT’ |ε</span><br><span class="line">   (<span class="number">5</span>)   F → (E)|i</span><br><span class="line"></span><br><span class="line">Procedure E;</span><br><span class="line">     Begin</span><br><span class="line">         T;E’</span><br><span class="line">     End;</span><br><span class="line">Procedure T;</span><br><span class="line">     Begin</span><br><span class="line">         F;T’</span><br><span class="line">     End;</span><br><span class="line">Procedure F;</span><br><span class="line">   IF sym=‘i’ then advance</span><br><span class="line">   <span class="keyword">else</span></span><br><span class="line">       IF sym=‘(’ then</span><br><span class="line">           Begin</span><br><span class="line">              advance;</span><br><span class="line">              E</span><br><span class="line">       IF sym=‘)’ then advance</span><br><span class="line">              <span class="keyword">else</span>  ERROR</span><br><span class="line">           End;</span><br><span class="line">    <span class="keyword">else</span> ERROR;</span><br><span class="line">Procedure E’;</span><br><span class="line">   IF sym=‘+’ then</span><br><span class="line">     Begin</span><br><span class="line">         advance;</span><br><span class="line">         T;E’</span><br><span class="line">     End;</span><br><span class="line">Procedure T’;</span><br><span class="line">   IF sym=‘*’ then</span><br><span class="line">     Begin</span><br><span class="line">         advance;</span><br><span class="line">         F;T’</span><br><span class="line">     End;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-3-非递归的预测分析方法（LL-1-）"><a href="#5-3-非递归的预测分析方法（LL-1-）" class="headerlink" title="5.3 非递归的预测分析方法（LL(1)）"></a>5.3 非递归的预测分析方法（LL(1)）</h2><h3 id="一、总控程序"><a href="#一、总控程序" class="headerlink" title="一、总控程序"></a>一、总控程序</h3><img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200601224211773.png" alt="image-20200601224211773" style="zoom:80%;" />
+
+<p>分析算法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">   首先把‘#’，然后把文法开始符号推入栈；把第一个输入符号读进a;    FLAG：=TRUE；</span><br><span class="line">WHILE FLAG  DO      </span><br><span class="line">BEGIN</span><br><span class="line">   把栈顶符号上托出去并放在Ｘ中；</span><br><span class="line">   IF X ∈ Vt  </span><br><span class="line">   		THEN  </span><br><span class="line">       		IF X=a  </span><br><span class="line">       			THEN</span><br><span class="line">       				把下一个输入符号读进a</span><br><span class="line">　     	   ELSE ERROR      </span><br><span class="line">   ELSE  IF X=‘#’ </span><br><span class="line">   		THEN</span><br><span class="line">            IF X=a  </span><br><span class="line">       			 THEN  </span><br><span class="line">       				 FLAG:=FALSE</span><br><span class="line">            ELSE ERROR</span><br><span class="line">   ELSE IF M[X,a]=&#123;X-&gt;X1X2..XK&#125;</span><br><span class="line">          THEN   </span><br><span class="line">              把XK，X K<span class="number">-1</span>,..,X1一一推进栈 </span><br><span class="line">          ELSE　ERROR</span><br><span class="line">   END OF WHILE;</span><br><span class="line">STOP<span class="comment">/*分析成功，过程完毕*／</span></span><br><span class="line"><span class="comment">END</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="二、预测分析表M的构造"><a href="#二、预测分析表M的构造" class="headerlink" title="二、预测分析表M的构造"></a>二、预测分析表M的构造</h3><p>​                                                            ——LL（1）文法及其分析程序</p>
+<p>FIRST集和FOLLOW集 </p>
+<p>设G=(VT, VN, S, P)是上下文无关文法</p>
+<p>FIRST（α）= {a|α =&gt; aβ, a∈VT, α, β∈V*}</p>
+<p>FOLLOW（A）= {a|S =&gt;…Aa…, a ∈VT}</p>
+<h4 id="5-3-1-first集"><a href="#5-3-1-first集" class="headerlink" title="5.3.1 first集"></a>5.3.1 first集</h4><p>（1）为什么要引入first集的概念？</p>
+<ul>
+<li>因为有公共左因子的问题，公共左公因子是指在文法的产生式集合中，某个非终结符的多个候选式具有相同的前缀。</li>
+<li>一般来说，公共左公因子的产生式为 </li>
+</ul>
+<p>$$<br>A→αβ1│αβ2<br>$$</p>
+<ul>
+<li><p>如果有公共左因子的问题，那么只能采取试探的方法来分析每一个候选式，分析的过程很可能产生回溯，回溯分析法是一种不确定的方法。</p>
+</li>
+<li><p>若所有候选式都没有公共左因子就可以选择惟一匹配的候选式，不会产生(公共左公因子引起的)回溯。</p>
+</li>
+<li><p>为了消除回溯，对任何一个非终结符和当前的待匹配符号，期望 </p>
+<p>​        要么只有一个候选式可用</p>
+<p>​        要么没有候选式可用</p>
+<p>因此引入以下FIRST集合的概念:</p>
+</li>
+<li><p>对α∈(VT⋃VN)∗,有<br>$$<br>FIRST(α)＝ { {a|α⟹a⋅⋅⋅,a∈VT} }<br>$$<br>特别地，若α⟹ε,  则ε∈FIRST(α)</p>
+</li>
+</ul>
+<p>（2）推导算法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">对每一文法X∈V，计算first（X）：</span><br><span class="line">	①X∈Vt，则first（X）&#x3D;&#123;X&#125; </span><br><span class="line">    ②X∈Vn（非终结符），且有X-&gt;a , 则a∈first（X）</span><br><span class="line">    ③X∈Vn（非终结符），且有X-&gt;# , 若#∈first（X）</span><br><span class="line">    ④若有X，Y1,Y2,Y3...∈Vn，且有产生式X-&gt;Y1,Y2,Y3&#x3D;&gt;#,则first（Y1）-&#123;#&#125;，first（Y2）-&#123;#&#125;...first（Yi）都属于first（X）找中</span><br><span class="line">	重复②-④</span><br><span class="line">⑤当所有Yi&#x3D;&gt;#   则first（X）&#x3D; first（Y1）-&#123;#&#125; ∪ first（Y2）-&#123;#&#125;..... ∪ first（Yi）</span><br><span class="line">当有X-&gt;# ，才能说#∈first（X）</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-3-2-follow集"><a href="#5-3-2-follow集" class="headerlink" title="5.3.2 follow集"></a>5.3.2 follow集</h4><p>（1）为什么要引入follow集的概念？</p>
+<p>​        当某一非终结符的产生式中含有空产生式时，它的非空产生式右部的开始符号集两两不相交，并与在推导过程中紧跟该非终结符右部可能出现的终结符集也不相交，则仍可构造确定的自顶向下分析。因此，引入了一个文法符号的<strong>后跟符号</strong>集合。 </p>
+<p>（2）推导算法（PS：求follow集，都是从开始符号S开始推导）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">计算follow集:</span><br><span class="line">	①设S为起始，&#123;#&#125;加入follow（S）</span><br><span class="line">    ②要求follow（B），若A-&gt;aBb是一个产生式，则把first（b）的非空元素加入follow（B）中</span><br><span class="line">	③若b-&gt;#,则把follow（A）加入follow（B）中</span><br><span class="line">解释：因为若D-&gt;xAy,A-&gt;aBb, 则 D-&gt;xaBby,且b&#x3D;#，则first（y）或者说是follow(A)∈follow(B)</span><br><span class="line">就是所求符号的右边如果等于# 则不停找上一级</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-3-3-select集"><a href="#5-3-3-select集" class="headerlink" title="5.3.3 select集"></a>5.3.3 select集</h4><p>select(X-&gt;Y)，先求first（Y），如果first（Y）存在#∈first（Y）的情况，则再求follow（X），最后求两者的并集即可</p>
+<p>例：</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th>是否</th>
+<th>Frist集</th>
+<th>Follow集</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">S</td>
+<td>否</td>
+<td>{ a, ^, ( }</td>
+<td>{ #,   ’,’ ,  )  }</td>
+</tr>
+<tr>
+<td align="left">T</td>
+<td>否</td>
+<td>{ a, ^, ( }</td>
+<td>{ ) }</td>
+</tr>
+<tr>
+<td align="left">N</td>
+<td>是</td>
+<td>{ ‘,’  ,  # }</td>
+<td>{ ) }</td>
+</tr>
+</tbody></table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Select(S-&gt;a) &#x3D;first（a）&#x3D; &#123;a&#125;</span><br><span class="line">Select(S-&gt;^) &#x3D;first（^）&#x3D;&#123;^&#125;</span><br><span class="line">Select(S-&gt;(T)) &#x3D;first（ （T）  ）&#x3D;&#123; ( &#125;</span><br><span class="line">Select(T-&gt;SN) &#x3D; first(S)&#x3D;&#123;a,^,(&#125;</span><br><span class="line">Select(N-&gt;,SN)&#x3D;first( , ) &#x3D;&#123; , &#125;</span><br><span class="line">Select(N-&gt;#) &#x3D;follow(N) &#x3D; &#123; ) &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-3-4-预测分析表构造算法"><a href="#5-3-4-预测分析表构造算法" class="headerlink" title="5.3.4 预测分析表构造算法"></a>5.3.4 预测分析表构造算法</h4><p>1.对文法G的每个产生式Ａ→a执行第二步和第三步；</p>
+<p>2.对每个终结符a∈FIRST(α)，把Ａ→α加至M[A,a]中，</p>
+<p>3.若ε∈FIRST(α)，则对任何b∈FOLLOW(A)， 把Ａ→α加至M[A,b]中，</p>
+<p>4.把所有无定义的M[A,a]标上“出错标志”。</p>
+<h3 id="三、LL（1）文法"><a href="#三、LL（1）文法" class="headerlink" title="三、LL（1）文法"></a>三、LL（1）文法</h3><p>一个文法G，若它的分析表M不含多重定义入口，则称为LL（1）文法。</p>
+<p>例：</p>
+<p>文法S→iEtS|iEtSeS|a     E→b</p>
+<p>不是LL（1）文法。</p>
+<p>一个LL（1）文法是无二义的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">一个文法G是LL（1）的，当且仅当对于G的每一个非终结符Ａ的任何两个不同产生式Ａ→α|β，下面的条件成立：</span><br><span class="line">1.FIRST（α）∩ FIRST(β) &#x3D; φ</span><br><span class="line">	也就是，α和β推导不出以同一个终结符a为首的符号串；它们不应该都能推出空字ε．</span><br><span class="line">2.假若β&#x3D;&gt;ε，那么FIRST（α) ∩ FOLLOW（A）＝ φ</span><br><span class="line">	也就是，若β&#x3D;&gt;ε.则α所能推出的串的首符号不应在FOLLOW(A）中．</span><br><span class="line">  结论：</span><br><span class="line">  		LL(1)文法是无二义的．</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" rel="prev" title="编译原理（4）词法分析">
+      <i class="fa fa-chevron-left"></i> 编译原理（4）词法分析
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%886%EF%BC%89%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9A%84%E4%BC%98%E5%85%88%E5%88%86%E6%9E%90%E6%B3%95/" rel="next" title="编译原理（6）自底向上的优先分析法">
+      编译原理（6）自底向上的优先分析法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-自上而下语法分析的一般过程"><span class="nav-number">1.</span> <span class="nav-text">5.1 自上而下语法分析的一般过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、自上而下语法分析的问题"><span class="nav-number">1.1.</span> <span class="nav-text">一、自上而下语法分析的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-1-左递归问题"><span class="nav-number">1.1.1.</span> <span class="nav-text">5.1.1 左递归问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-2-消除左递归"><span class="nav-number">1.1.2.</span> <span class="nav-text">5.1.2 消除左递归</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-3-回溯问题"><span class="nav-number">1.1.3.</span> <span class="nav-text">5.1.3 回溯问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-4-提取左公因子"><span class="nav-number">1.1.4.</span> <span class="nav-text">5.1.4 提取左公因子</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-递归下降分析法"><span class="nav-number">2.</span> <span class="nav-text">5.2 递归下降分析法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-非递归的预测分析方法（LL-1-）"><span class="nav-number">3.</span> <span class="nav-text">5.3 非递归的预测分析方法（LL(1)）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、总控程序"><span class="nav-number">3.1.</span> <span class="nav-text">一、总控程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、预测分析表M的构造"><span class="nav-number">3.2.</span> <span class="nav-text">二、预测分析表M的构造</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-1-first集"><span class="nav-number">3.2.1.</span> <span class="nav-text">5.3.1 first集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-2-follow集"><span class="nav-number">3.2.2.</span> <span class="nav-text">5.3.2 follow集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-3-select集"><span class="nav-number">3.2.3.</span> <span class="nav-text">5.3.3 select集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-4-预测分析表构造算法"><span class="nav-number">3.2.4.</span> <span class="nav-text">5.3.4 预测分析表构造算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、LL（1）文法"><span class="nav-number">3.3.</span> <span class="nav-text">三、LL（1）文法</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Daphne Wang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Daphne Wang</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
