@@ -27,19 +27,29 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="[TOC] 7.1 LR分析概述shift 移进 reduce 归约 acc 接受 空格 error LR（K）  L  从左至右扫描输入符号串 R 构造一个最右推导的逆过程 K 向右顺序查看输入串的K个符号 LR（0）:在分析过程中不需向右查看输入符号。  四种分析器： LR(0)  SLR(1)  LR(1)  LALR(1) SLR(1)和LALR(1)分别是LR(0)和LR(1)的一种改进">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200614142419341.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200614143324736.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200614143850915.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200614143916188.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200614145819899.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200614153148449.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200614153440192.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200614154824752.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614142419341.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614142419341.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614143324736.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614143324736.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614143850915.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614143850915.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614143916188.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614143916188.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614145819899.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614145819899.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0%5Cimage-20200614150627057.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614150627057.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614153148449.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614153148449.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614153440192.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614153440192.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614154824752.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614154824752.png">
 <meta property="article:published_time" content="2020-05-31T14:41:36.000Z">
-<meta property="article:modified_time" content="2020-06-14T07:48:49.440Z">
+<meta property="article:modified_time" content="2020-08-01T02:05:07.288Z">
 <meta property="article:author" content="Daphne Wang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200614142419341.png">
+<meta name="twitter:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614142419341.png">
 
 <link rel="canonical" href="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/">
 
@@ -189,7 +199,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-14 15:48:49" itemprop="dateModified" datetime="2020-06-14T15:48:49+08:00">2020-06-14</time>
+                <time title="修改时间：2020-08-01 10:05:07" itemprop="dateModified" datetime="2020-08-01T10:05:07+08:00">2020-08-01</time>
               </span>
 
           
@@ -217,18 +227,26 @@
 </ul>
 <p>四种分析器： LR(0)  SLR(1)  LR(1)  LALR(1)</p>
 <p>SLR(1)和LALR(1)分别是LR(0)和LR(1)的一种改进。</p>
-<h3 id="LR分析器模型"><a href="#LR分析器模型" class="headerlink" title="LR分析器模型"></a>LR分析器模型</h3><img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614142419341.png" alt="image-20200614142419341" style="zoom:80%;" />
+<h3 id="LR分析器模型"><a href="#LR分析器模型" class="headerlink" title="LR分析器模型"></a>LR分析器模型</h3><img src="编译原理（7）L-R分析程序及其自动构造\image-20200614142419341.png" alt="image-20200614142419341" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614142419341.png" class="" title="This is image_a">
 
 <h3 id="LR分析算法"><a href="#LR分析算法" class="headerlink" title="LR分析算法"></a>LR分析算法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">置ip指向输入串w的第一个符号</span><br><span class="line">令S为栈顶状态</span><br><span class="line">   a是ip指向的符号</span><br><span class="line">重复 begin</span><br><span class="line">if  ACTION[S,a]&#x3D;Sj</span><br><span class="line">       then   begin  PUSH j,a(进栈)</span><br><span class="line">                     ip 前进(指向下一输入符号)</span><br><span class="line">               end</span><br><span class="line">else if ACTION[S,a]&#x3D;rj     (第j条产生式为A→B)</span><br><span class="line">	then begin</span><br><span class="line">    pop  |β|  项</span><br><span class="line">    令当前栈顶状态为S’</span><br><span class="line">    push GOTO[S’,A]和A(进栈)</span><br><span class="line">    end</span><br><span class="line">    else if ACTION[s,a]&#x3D;acc</span><br><span class="line">        then return (成功）</span><br><span class="line">        else error</span><br><span class="line">    end.重复</span><br><span class="line"></span><br><span class="line">其中，Sj&#x3D;GOTO[Si,X]表示当栈顶状态为Si遇到当前文法符号为X时应转向状态Sj</span><br></pre></td></tr></table></figure>
 
 <h3 id="LR分析程序"><a href="#LR分析程序" class="headerlink" title="LR分析程序"></a>LR分析程序</h3><p>例：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">G[S]: S → a A c B e   [1]   </span><br><span class="line">      A → b           [2] </span><br><span class="line">      A → Ab          [3]		</span><br><span class="line">      B → d           [4]</span><br><span class="line">w&#x3D;abbcde#</span><br><span class="line"></span><br><span class="line">Step   states.   Syms.   The rest of input	action goto</span><br><span class="line">1        0        #            abbcde#           s2</span><br><span class="line">2        02       #a           bbcde#            s4</span><br><span class="line">3        024      #ab          bcde#             r2   goto(2,A)</span><br><span class="line">4        023      #aA          bcde#             s6</span><br><span class="line">5        0236     #aAb         cde#              r3</span><br><span class="line">6        023      #aA          cde#              s5</span><br><span class="line">7        0235     #aAc         de#               s8</span><br><span class="line">8        02358    #aAcd        e#                r4 </span><br><span class="line">9        02357    #aAcB        e#                s9</span><br><span class="line">10       023579   #aAcBe       #                 r1</span><br><span class="line">11       01       #S           #                 acc</span><br></pre></td></tr></table></figure>
 
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614143324736.png" alt="image-20200614143324736" style="zoom:90%;" />
+<img src="编译原理（7）L-R分析程序及其自动构造\image-20200614143324736.png" alt="image-20200614143324736" style="zoom:90%;" />
 
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614143850915.png" alt="image-20200614143850915" style="zoom:80%;" />
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614143324736.png" class="" title="This is image_b">
 
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614143916188.png" alt="image-20200614143916188" style="zoom:80%;" />
+<img src="编译原理（7）L-R分析程序及其自动构造\image-20200614143850915.png" alt="image-20200614143850915" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614143850915.png" class="" title="This is image_c">
+
+<img src="编译原理（7）L-R分析程序及其自动构造\image-20200614143916188.png" alt="image-20200614143916188" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614143916188.png" class="" title="This is image_d">
 
 <h3 id="构造LR分析表的预备知识"><a href="#构造LR分析表的预备知识" class="headerlink" title="构造LR分析表的预备知识"></a>构造LR分析表的预备知识</h3><p><strong>ＬＲ文法</strong></p>
 <ul>
@@ -245,11 +263,15 @@
 <li>LR(0)分析表的构造</li>
 </ul>
 <p><strong>活前缀</strong></p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614145819899.png" alt="image-20200614145819899" style="zoom:80%;" />
+<img src="编译原理（7）L-R分析程序及其自动构造\image-20200614145819899.png" alt="image-20200614145819899" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614145819899.png" class="" title="This is image_e">
 
 <p><strong>LR分析需要构造识别活前缀的有穷自动机</strong></p>
 <p>​        我们可以把文法的终结符和非终结符都看成有穷自动机的输入符号，每次把一个符号进栈看成已识别过了该符号，同时状态进行转换，当识别到可归前缀时，相当于在栈中形成句柄，认为达到了识别句柄的终态。</p>
-<p>![image-20200614150627057](C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614150627057.png)</p>
+<p><img src="%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0%5Cimage-20200614150627057.png" alt="f"></p>
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614150627057.png" class="" title="This is image_f">
+
 <h3 id="构造识别文法活前缀DFA的三种方法"><a href="#构造识别文法活前缀DFA的三种方法" class="headerlink" title="构造识别文法活前缀DFA的三种方法"></a>构造识别文法活前缀DFA的三种方法</h3><ol>
 <li>根据形式定义求出活前缀的正规表达式，然后由此正规表达式构造NFA再确定化为DFA</li>
 <li>求出文法的所有项目，按一定规则构造识别活前缀的NFA再确定化为DFA</li>
@@ -286,11 +308,15 @@
 <p><strong>例子：</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">例：文法G:</span><br><span class="line">（0）S&#96;→E     (1) E→aA     (2) E→bB</span><br><span class="line"> (3) A→cA    (4) A→d      (5) B→cB</span><br><span class="line"> (7) B→d</span><br></pre></td></tr></table></figure>
 
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614153148449.png" alt="image-20200614153148449" style="zoom:40%;" />
+<img src="编译原理（7）L-R分析程序及其自动构造\image-20200614153148449.png" alt="image-20200614153148449" style="zoom:50%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614153148449.png" class="" title="This is image_g">
 
 <h3 id="LR（0）分析表的构造"><a href="#LR（0）分析表的构造" class="headerlink" title="LR（0）分析表的构造"></a>LR（0）分析表的构造</h3><p>如果每个入口不含多重定义，则称它为文法G的一张LR(0)表。具有LR(0)表的文法G称为一个LR（0）文法。</p>
 <p>LR(0)文法是无二义的。</p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614153440192.png" alt="image-20200614153440192" style="zoom:90%;" />
+<img src="编译原理（7）L-R分析程序及其自动构造\image-20200614153440192.png" alt="image-20200614153440192" style="zoom:90%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614153440192.png" class="" title="This is image_h">
 
 <p>若含有移进/归约冲突，则文法不是LR(0)的</p>
 <h2 id="7-3-SLR（1）分析"><a href="#7-3-SLR（1）分析" class="headerlink" title="7.3 SLR（1）分析"></a>7.3 SLR（1）分析</h2><p>若 LR(0) 项目集规范族中有项目集IK含 移进/归约、 归约/归约冲突：</p>
@@ -307,7 +333,9 @@
 </ul>
 <p><strong>SLR(1)文法是无二义的。</strong></p>
 <p>数字1的意思是，在分析过程中顶多只要向前看一个符号。</p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614154824752.png" alt="image-20200614154824752" style="zoom:50%;" />
+<img src="编译原理（7）L-R分析程序及其自动构造\image-20200614154824752.png" alt="image-20200614154824752" style="zoom:50%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614154824752.png" class="" title="This is image_i">
 
 
 
@@ -339,10 +367,7 @@
     <a href="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%886%EF%BC%89%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9A%84%E4%BC%98%E5%85%88%E5%88%86%E6%9E%90%E6%B3%95/" rel="prev" title="编译原理（6）自底向上的优先分析法">
       <i class="fa fa-chevron-left"></i> 编译原理（6）自底向上的优先分析法
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/07/30/test/" rel="next" title="test">
-      test <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -415,7 +440,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

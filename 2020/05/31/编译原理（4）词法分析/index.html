@@ -27,28 +27,43 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="[TOC] 词法分析程序亦称为扫描器。 扫描器的任务是识别基本的语法单位——单词； 扫描器的输出是语法分析程序的输入。 词法分析程序的设计和实现： 首先需要描述和刻画语言中的原子单位——单词，其次需要识别单词和执行某些相关的动作。描述程序设计语言的词法的机制是3型文法和正则表达式，识别机制是有穷状态自动机。 4.1 词法分析程序词法分析（lexical analysis） –逐个读入源程序字符并按">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613110111799.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613112425500.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613160754459.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613160815782.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613160908110.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613183717517.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613184408840.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613190857433.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613190905154.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613192154391.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613192229903.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613205712090.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613210019996.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613210048337.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613210135127.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613210145552.png">
-<meta property="og:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613210156741.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200612210637695.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200612210637695.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613110111799.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613110111799.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613112425500.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613112425500.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613160754459.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613160754459.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613160815782.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613160815782.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613160908110.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613160908110.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613183717517.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613183717517.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613184408840.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613184408840.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613190857433.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613190857433.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613190905154.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613190905154.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613192154391.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613192154391.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613192229903.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613192229903.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613205712090.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613205712090.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image_20200801092900.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image_20200801092900.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image_20200801093105.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image_20200801093105.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613223618156.png">
+<meta property="og:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613223618156.png">
 <meta property="article:published_time" content="2020-05-31T14:39:22.000Z">
-<meta property="article:modified_time" content="2020-06-14T08:18:34.063Z">
+<meta property="article:modified_time" content="2020-08-01T01:34:30.056Z">
 <meta property="article:author" content="Daphne Wang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="c:/Users/KinKi%20Kids/AppData/Roaming/Typora/typora-user-images/image-20200613110111799.png">
+<meta name="twitter:image" content="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200612210637695.png">
 
 <link rel="canonical" href="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/">
 
@@ -198,7 +213,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-14 16:18:34" itemprop="dateModified" datetime="2020-06-14T16:18:34+08:00">2020-06-14</time>
+                <time title="修改时间：2020-08-01 09:34:30" itemprop="dateModified" datetime="2020-08-01T09:34:30+08:00">2020-08-01</time>
               </span>
 
           
@@ -222,7 +237,9 @@
 <p>–逐个读入源程序字符并按照构词规则切分成一系列单词。   </p>
 <p>–单词是语言中具有独立意义的最小单位，包括保留字、标识符、运算符、标点符号和常量等。</p>
 <p>–词法分析是编译过程中的一个阶段，在语法分析前进行 。也可以和语法分析结合在一起作为一遍，由语法分析程序调用词法分析程序来获得当前单词供语法分析使用。</p>
-<p>![image-20200612210637695](C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200612210637695.png)</p>
+<p><img src="%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200612210637695.png" alt="a"></p>
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200612210637695.png" class="" title="This is image_a">
+
 <ul>
 <li><p>主要任务：</p>
 <p>–读源程序，产生单词符号，并转换为token表示</p>
@@ -251,7 +268,9 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">例： A:&#x3D;B+2                                                            </span><br><span class="line">(Id的整数码,指向A的符号表的入口指针）   ($28, Aaddr)       </span><br><span class="line">(运算符的整数码,’:&#x3D;’)                                                     </span><br><span class="line">(Id的整数码,指向B的符号表的入口指针)        </span><br><span class="line">(运算符的整数码,’+’)                                            </span><br><span class="line">(常数的整数码, 2)</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-1-3-以状态转换图为例设计词法分析器"><a href="#4-1-3-以状态转换图为例设计词法分析器" class="headerlink" title="4.1.3 以状态转换图为例设计词法分析器"></a>4.1.3 以状态转换图为例设计词法分析器</h3><img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613110111799.png" alt="image-20200613110111799" style="zoom:50%;" />
+<h3 id="4-1-3-以状态转换图为例设计词法分析器"><a href="#4-1-3-以状态转换图为例设计词法分析器" class="headerlink" title="4.1.3 以状态转换图为例设计词法分析器"></a>4.1.3 以状态转换图为例设计词法分析器</h3><img src="编译原理（4）词法分析/image-20200613110111799.png" alt="image-20200613110111799" style="zoom:60%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613110111799.png" class="" title="This is image_b">
 
 <h2 id="4-2-正规表达式与正规集（正规语言）"><a href="#4-2-正规表达式与正规集（正规语言）" class="headerlink" title="4.2 正规表达式与正规集（正规语言）"></a>4.2 正规表达式与正规集（正规语言）</h2><ul>
 <li><p>正规表达式（regular expression）是描述单词符号的一种方便工具，也是定义正规集的工具。</p>
@@ -262,7 +281,9 @@
 <p>–2) 任何a∈Σ，a是Σ上的一个正规式，它所表示的正规集为{a}；</p>
 <p>–3) 假定e1和e2都是Σ上的正规式，它们所表示的正规集分别为L(e1)和L(e2)，那么，(e1), e1| e2, e1·e2, e1* 也都是正规式，它们所表示的正规集分别为L(e1), L(e1)∪L(e2), L(e1)L(e2)和(L(e1))*。</p>
 <p>–4) 仅由有限次使用上述三步骤而定义的表达式才是Σ上的正规式，仅由这些正规式所表示的字集才是Σ上的正规集。</p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613112425500.png" alt="image-20200613112425500" style="zoom:75%;" />
+<img src="编译原理（4）词法分析/image-20200613112425500.png" alt="image-20200613112425500" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613112425500.png" class="" title="This is image_c">
 
 </li>
 </ul>
@@ -310,13 +331,19 @@
 <p>​    4、S∈K是唯一的一个初态；</p>
 <p>​    5、Z 包含于 K是一个终态集，终态也称可接受状态或结束状态。</p>
 <p><strong>DFA例：</strong></p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613160754459.png" alt="image-20200613160754459" style="zoom:70%;" />
+<img src="编译原理（4）词法分析/image-20200613160754459.png" alt="image-20200613160754459" style="zoom:75%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613160754459.png" class="" title="This is image_d">
 
 <p><strong>DFA的状态转换图表示：</strong></p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613160815782.png" alt="image-20200613160815782" style="zoom:67%;" />
+<img src="编译原理（4）词法分析\image-20200613160815782.png" alt="image-20200613160815782" style="zoom:75%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613160815782.png" class="" title="This is image_e">
 
 <p><strong>DFA</strong> <strong>的矩阵表示</strong></p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613160908110.png" alt="image-20200613160908110" style="zoom:67%;" />
+<img src="编译原理（4）词法分析\image-20200613160908110.png" alt="image-20200613160908110" style="zoom:70%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613160908110.png" class="" title="This is image_f">
 
 <p><strong>DFA M的作用：</strong></p>
 <p> 对于∑*中的任何字符串t，若存在一条从初态结到某一终态结的道路，且这条路上所有弧的标记符连接成的字符串等于t，则称t可为DFA M所接受（识别）。若M的初态结同时又是终态结，则空字可为M所识别（接受）。</p>
@@ -331,7 +358,9 @@
 </li>
 </ul>
 <p>例：证明t=baab被前例中的DFA所接受</p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613183717517.png" alt="image-20200613183717517" style="zoom:50%;" />
+<img src="编译原理（4）词法分析\image-20200613183717517.png" alt="image-20200613183717517" style="zoom:55%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613183717517.png" class="" title="This is image_g">
 
 <p>所识别的语言：含有相继两个a或相继两个b的串。</p>
 <p>DFA M所能接受的符号串的全体记为 L(M)(语言)</p>
@@ -350,7 +379,9 @@
 <p>状态图表示：</p>
 </li>
 </ul>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613184408840.png" alt="image-20200613184408840" style="zoom:80%;" />
+<img src="编译原理（4）词法分析\image-20200613184408840.png" alt="image-20200613184408840" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613184408840.png" class="" title="This is image_h">
 
 <ul>
 <li>∑*上的符号串t在NFA N上运行</li>
@@ -365,11 +396,13 @@
 <li>状态集合 I 的a弧转换，表示为 move(I,a) 定义为状态集合 J，其中 J 是所有那些可从 I 的某一状态经过一条a弧而到达的状态的全体。定义 Ia = ε-closure(J)</li>
 </ol>
 <p>例：</p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613190857433.png" alt="image-20200613190857433" style="zoom:80%;" />
+<img src="编译原理（4）词法分析\image-20200613190857433.png" alt="image-20200613190857433" style="zoom:80%;" />
 
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613190857433.png" class="" title="This is image_i">
 
+<img src="编译原理（4）词法分析\image-20200613190905154.png" alt="image-20200613190905154" style="zoom:90%;" />
 
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613190905154.png" alt="image-20200613190905154" style="zoom:80%;" />
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613190905154.png" class="" title="This is image_j">
 
 <p>假设NFA N=(K, Σ, f, K0, Kt)按如下办法构造一个DFA M=(S, Σ, d, S0, St)，使得L(M)=L(N)：</p>
 <ol>
@@ -386,11 +419,17 @@
 </li>
 </ol>
 <p><strong>NFA确定化例子：</strong></p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613192154391.png" alt="image-20200613192154391" style="zoom:80%;" />
+<img src="编译原理（4）词法分析\image-20200613192154391.png" alt="image-20200613192154391" style="zoom:80%;" />
 
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613192229903.png" alt="image-20200613192229903" style="zoom:80%;" />
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613192154391.png" class="" title="This is image_k">
 
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613205712090.png" alt="image-20200613205712090" style="zoom:80%;" />
+<img src="编译原理（4）词法分析\image-20200613192229903.png" alt="image-20200613192229903" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613192229903.png" class="" title="This is image_l">
+
+<img src="编译原理（4）词法分析\image-20200613205712090.png" alt="image-20200613205712090" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613205712090.png" class="" title="This is image_m">
 
 <h2 id="4-4-有穷自动机和正规表达式"><a href="#4-4-有穷自动机和正规表达式" class="headerlink" title="4.4 有穷自动机和正规表达式"></a>4.4 有穷自动机和正规表达式</h2><p><strong>有穷自动机和正规表达式的等价性：</strong>   </p>
 <ul>
@@ -399,19 +438,19 @@
 </ul>
 <p><strong>正规式 =&gt;有穷自动机</strong></p>
 <p>设给定正规式W，则构造相应自动机的方法如下：</p>
-<p>若W=ø，则对应的NFA为<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613210019996.png" alt="image-20200613210019996" style="zoom:50%;" /></p>
-<p>若W&lt;&gt;ø，则对应的NFA为<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613210048337.png" alt="image-20200613210048337" style="zoom:50%;" /></p>
+<p><img src="%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image_20200801092900.png" alt="n"></p>
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image_20200801092900.png" class="" title="This is image_n">
+
 <p>然后利用以下规则加入结点和箭弧，直到得到自动机为止。</p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613210135127.png" alt="image-20200613210135127" style="zoom:70%;" />
-
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613210145552.png" alt="image-20200613210145552" style="zoom:70%;" />
-
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613210156741.png" alt="image-20200613210156741" style="zoom:70%;" />
+<p><img src="%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image_20200801093105.png" alt="o"></p>
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image_20200801093105.png" class="" title="This is image_o">
 
 <p><strong>有穷自动机=&gt;正规式</strong></p>
 <p>首先检查是否只有一个终态结点，若有多个，则引入新结点T，从所有终态结点引ε边到T结点，并令T为唯一的终态结点。</p>
 <p>然后按以下规则消除结点与箭弧：</p>
-<p>![image-20200613223618156](C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613223618156.png)</p>
+<p><img src="%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613223618156.png" alt="p"></p>
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613223618156.png" class="" title="This is image_p">
+
 <h2 id="4-5-有穷自动机和正规文法"><a href="#4-5-有穷自动机和正规文法" class="headerlink" title="4.5 有穷自动机和正规文法"></a>4.5 有穷自动机和正规文法</h2><p><strong>有穷自动机和正规文法的等价性：</strong>     </p>
 <ul>
 <li>对于一个NFA M，都存在 一个正规文法G，使得L(G)=L(M).               </li>
@@ -526,7 +565,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

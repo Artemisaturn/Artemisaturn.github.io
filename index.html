@@ -145,74 +145,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://artemisaturn.github.io/2020/07/30/test/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Daphne Wang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/30/test/" class="post-title-link" itemprop="url">test</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-07-30 23:19:22" itemprop="dateCreated datePublished" datetime="2020-07-30T23:19:22+08:00">2020-07-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-01 08:54:39" itemprop="dateModified" datetime="2020-08-01T08:54:39+08:00">2020-08-01</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>dasdfasfd</p>
-<p><img src="test/aaa.png" alt="aaa"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img aaa.png This is an example image %&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -244,7 +176,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-14 15:48:49" itemprop="dateModified" datetime="2020-06-14T15:48:49+08:00">2020-06-14</time>
+                <time title="修改时间：2020-08-01 10:05:07" itemprop="dateModified" datetime="2020-08-01T10:05:07+08:00">2020-08-01</time>
               </span>
 
           
@@ -272,18 +204,26 @@
 </ul>
 <p>四种分析器： LR(0)  SLR(1)  LR(1)  LALR(1)</p>
 <p>SLR(1)和LALR(1)分别是LR(0)和LR(1)的一种改进。</p>
-<h3 id="LR分析器模型"><a href="#LR分析器模型" class="headerlink" title="LR分析器模型"></a>LR分析器模型</h3><img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614142419341.png" alt="image-20200614142419341" style="zoom:80%;" />
+<h3 id="LR分析器模型"><a href="#LR分析器模型" class="headerlink" title="LR分析器模型"></a>LR分析器模型</h3><img src="编译原理（7）L-R分析程序及其自动构造\image-20200614142419341.png" alt="image-20200614142419341" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614142419341.png" class="" title="This is image_a">
 
 <h3 id="LR分析算法"><a href="#LR分析算法" class="headerlink" title="LR分析算法"></a>LR分析算法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">置ip指向输入串w的第一个符号</span><br><span class="line">令S为栈顶状态</span><br><span class="line">   a是ip指向的符号</span><br><span class="line">重复 begin</span><br><span class="line">if  ACTION[S,a]&#x3D;Sj</span><br><span class="line">       then   begin  PUSH j,a(进栈)</span><br><span class="line">                     ip 前进(指向下一输入符号)</span><br><span class="line">               end</span><br><span class="line">else if ACTION[S,a]&#x3D;rj     (第j条产生式为A→B)</span><br><span class="line">	then begin</span><br><span class="line">    pop  |β|  项</span><br><span class="line">    令当前栈顶状态为S’</span><br><span class="line">    push GOTO[S’,A]和A(进栈)</span><br><span class="line">    end</span><br><span class="line">    else if ACTION[s,a]&#x3D;acc</span><br><span class="line">        then return (成功）</span><br><span class="line">        else error</span><br><span class="line">    end.重复</span><br><span class="line"></span><br><span class="line">其中，Sj&#x3D;GOTO[Si,X]表示当栈顶状态为Si遇到当前文法符号为X时应转向状态Sj</span><br></pre></td></tr></table></figure>
 
 <h3 id="LR分析程序"><a href="#LR分析程序" class="headerlink" title="LR分析程序"></a>LR分析程序</h3><p>例：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">G[S]: S → a A c B e   [1]   </span><br><span class="line">      A → b           [2] </span><br><span class="line">      A → Ab          [3]		</span><br><span class="line">      B → d           [4]</span><br><span class="line">w&#x3D;abbcde#</span><br><span class="line"></span><br><span class="line">Step   states.   Syms.   The rest of input	action goto</span><br><span class="line">1        0        #            abbcde#           s2</span><br><span class="line">2        02       #a           bbcde#            s4</span><br><span class="line">3        024      #ab          bcde#             r2   goto(2,A)</span><br><span class="line">4        023      #aA          bcde#             s6</span><br><span class="line">5        0236     #aAb         cde#              r3</span><br><span class="line">6        023      #aA          cde#              s5</span><br><span class="line">7        0235     #aAc         de#               s8</span><br><span class="line">8        02358    #aAcd        e#                r4 </span><br><span class="line">9        02357    #aAcB        e#                s9</span><br><span class="line">10       023579   #aAcBe       #                 r1</span><br><span class="line">11       01       #S           #                 acc</span><br></pre></td></tr></table></figure>
 
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614143324736.png" alt="image-20200614143324736" style="zoom:90%;" />
+<img src="编译原理（7）L-R分析程序及其自动构造\image-20200614143324736.png" alt="image-20200614143324736" style="zoom:90%;" />
 
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614143850915.png" alt="image-20200614143850915" style="zoom:80%;" />
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614143324736.png" class="" title="This is image_b">
 
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614143916188.png" alt="image-20200614143916188" style="zoom:80%;" />
+<img src="编译原理（7）L-R分析程序及其自动构造\image-20200614143850915.png" alt="image-20200614143850915" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614143850915.png" class="" title="This is image_c">
+
+<img src="编译原理（7）L-R分析程序及其自动构造\image-20200614143916188.png" alt="image-20200614143916188" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614143916188.png" class="" title="This is image_d">
 
 <h3 id="构造LR分析表的预备知识"><a href="#构造LR分析表的预备知识" class="headerlink" title="构造LR分析表的预备知识"></a>构造LR分析表的预备知识</h3><p><strong>ＬＲ文法</strong></p>
 <ul>
@@ -300,11 +240,15 @@
 <li>LR(0)分析表的构造</li>
 </ul>
 <p><strong>活前缀</strong></p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614145819899.png" alt="image-20200614145819899" style="zoom:80%;" />
+<img src="编译原理（7）L-R分析程序及其自动构造\image-20200614145819899.png" alt="image-20200614145819899" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614145819899.png" class="" title="This is image_e">
 
 <p><strong>LR分析需要构造识别活前缀的有穷自动机</strong></p>
 <p>​        我们可以把文法的终结符和非终结符都看成有穷自动机的输入符号，每次把一个符号进栈看成已识别过了该符号，同时状态进行转换，当识别到可归前缀时，相当于在栈中形成句柄，认为达到了识别句柄的终态。</p>
-<p>![image-20200614150627057](C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614150627057.png)</p>
+<p><img src="%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0%5Cimage-20200614150627057.png" alt="f"></p>
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614150627057.png" class="" title="This is image_f">
+
 <h3 id="构造识别文法活前缀DFA的三种方法"><a href="#构造识别文法活前缀DFA的三种方法" class="headerlink" title="构造识别文法活前缀DFA的三种方法"></a>构造识别文法活前缀DFA的三种方法</h3><ol>
 <li>根据形式定义求出活前缀的正规表达式，然后由此正规表达式构造NFA再确定化为DFA</li>
 <li>求出文法的所有项目，按一定规则构造识别活前缀的NFA再确定化为DFA</li>
@@ -341,11 +285,15 @@
 <p><strong>例子：</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">例：文法G:</span><br><span class="line">（0）S&#96;→E     (1) E→aA     (2) E→bB</span><br><span class="line"> (3) A→cA    (4) A→d      (5) B→cB</span><br><span class="line"> (7) B→d</span><br></pre></td></tr></table></figure>
 
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614153148449.png" alt="image-20200614153148449" style="zoom:40%;" />
+<img src="编译原理（7）L-R分析程序及其自动构造\image-20200614153148449.png" alt="image-20200614153148449" style="zoom:50%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614153148449.png" class="" title="This is image_g">
 
 <h3 id="LR（0）分析表的构造"><a href="#LR（0）分析表的构造" class="headerlink" title="LR（0）分析表的构造"></a>LR（0）分析表的构造</h3><p>如果每个入口不含多重定义，则称它为文法G的一张LR(0)表。具有LR(0)表的文法G称为一个LR（0）文法。</p>
 <p>LR(0)文法是无二义的。</p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614153440192.png" alt="image-20200614153440192" style="zoom:90%;" />
+<img src="编译原理（7）L-R分析程序及其自动构造\image-20200614153440192.png" alt="image-20200614153440192" style="zoom:90%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614153440192.png" class="" title="This is image_h">
 
 <p>若含有移进/归约冲突，则文法不是LR(0)的</p>
 <h2 id="7-3-SLR（1）分析"><a href="#7-3-SLR（1）分析" class="headerlink" title="7.3 SLR（1）分析"></a>7.3 SLR（1）分析</h2><p>若 LR(0) 项目集规范族中有项目集IK含 移进/归约、 归约/归约冲突：</p>
@@ -362,7 +310,9 @@
 </ul>
 <p><strong>SLR(1)文法是无二义的。</strong></p>
 <p>数字1的意思是，在分析过程中顶多只要向前看一个符号。</p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614154824752.png" alt="image-20200614154824752" style="zoom:50%;" />
+<img src="编译原理（7）L-R分析程序及其自动构造\image-20200614154824752.png" alt="image-20200614154824752" style="zoom:50%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/image-20200614154824752.png" class="" title="This is image_i">
 
 
 
@@ -426,7 +376,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-14 11:56:56" itemprop="dateModified" datetime="2020-06-14T11:56:56+08:00">2020-06-14</time>
+                <time title="修改时间：2020-08-01 09:55:29" itemprop="dateModified" datetime="2020-08-01T09:55:29+08:00">2020-08-01</time>
               </span>
 
           
@@ -446,12 +396,16 @@
 <li>自下而上语法分析比自顶向下语法分析更有效率，对语法的限制更少</li>
 <li>“移进-归约”：从输入字符串开始，逐步进行归约直到归约到文法的开始符号。</li>
 </ul>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613225725172.png" alt="image-20200613225725172" style="zoom:50%;" />
+<img src="F:\blog\source\_posts\编译原理（6）自底向上的优先分析法\image-20200613225725172.png" alt="image-20200613225725172" style="zoom:50%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%886%EF%BC%89%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9A%84%E4%BC%98%E5%85%88%E5%88%86%E6%9E%90%E6%B3%95/image-20200613225725172.png" class="" title="This is image_a">
 
 <ul>
 <li>归约过程恰好是最右推导（规范推导）的逆过程：</li>
 </ul>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613225824198.png" alt="image-20200613225824198" style="zoom:60%;" />
+<img src="编译原理（6）自底向上的优先分析法\image-20200613225824198.png" alt="image-20200613225824198" style="zoom:60%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%886%EF%BC%89%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9A%84%E4%BC%98%E5%85%88%E5%88%86%E6%9E%90%E6%B3%95/image-20200613225824198.png" class="" title="This is image_b">
 
 <ul>
 <li><p>规范归约定义：</p>
@@ -469,7 +423,9 @@
 <p>例：</p>
 <p>文法G[E]：<br> E → T + E | T</p>
 <p>T → int * T | int | (E)</p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613231423602.png" alt="image-20200613231423602" style="zoom:70%;" />
+<img src="F:\blog\source\_posts\编译原理（6）自底向上的优先分析法\image-20200613231423602.png" alt="image-20200613231423602" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%886%EF%BC%89%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9A%84%E4%BC%98%E5%85%88%E5%88%86%E6%9E%90%E6%B3%95/image-20200613231423602.png" class="" title="This is image_c">
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">|int * int + int		移进</span><br><span class="line">int | * int + int	    移进</span><br><span class="line">int  * | int + int	    移进</span><br><span class="line">int * int | + int       规约 T→int</span><br><span class="line">int * T | + int			规约 T→int * T</span><br><span class="line">T | + int				移进</span><br><span class="line">T + | int				移进</span><br><span class="line">T + int | 				规约T → int</span><br><span class="line">T + T |					规约E → T</span><br><span class="line">T + E |					规约E → T + E</span><br><span class="line">E |</span><br></pre></td></tr></table></figure>
 
@@ -477,7 +433,9 @@
 <li>按照文法符号（包括终结符和非终结符）的优先关系确定句柄。</li>
 <li>例：</li>
 </ul>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613235831008.png" alt="image-20200613235831008" style="zoom:80%;" />
+<img src="编译原理（6）自底向上的优先分析法\image-20200613235831008.png" alt="image-20200613235831008" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%886%EF%BC%89%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9A%84%E4%BC%98%E5%85%88%E5%88%86%E6%9E%90%E6%B3%95/image-20200613235831008.png" class="" title="This is image_d">
 
 <h4 id="优先关系"><a href="#优先关系" class="headerlink" title="优先关系"></a>优先关系</h4><p>•优先关系</p>
 <p>​    –X=Y <img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613235957826.png" alt="image-20200613235957826" style="zoom:70%;" /> 文法G中存在产生式A<strong>→</strong>…XY…</p>
@@ -503,7 +461,9 @@
 <li><p>只考虑算符之间的优先关系</p>
 </li>
 </ul>
-<p>![image-20200602175422247](C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200602175422247.png)</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%886%EF%BC%89%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9A%84%E4%BC%98%E5%85%88%E5%88%86%E6%9E%90%E6%B3%95%5Cimage-20200602175422247.png" alt="image-20200602175422247"></p>
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%886%EF%BC%89%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9A%84%E4%BC%98%E5%85%88%E5%88%86%E6%9E%90%E6%B3%95/image-20200602175422247.png" class="" title="This is image_e">
+
 <h4 id="如何确定算符优先关系"><a href="#如何确定算符优先关系" class="headerlink" title="如何确定算符优先关系"></a>如何确定算符优先关系</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">（1）i的优先级最高</span><br><span class="line">（1）↑优先级次于i，右结合</span><br><span class="line">（2）*和&#x2F;优先级次之，左结合</span><br><span class="line">（3）+和-优先级最低，左结合</span><br><span class="line">（4）括号‘(’,‘)’的优先级大于括号外的运算符，小于括号内的运算符，内括号的优先性大于外括号</span><br><span class="line">（5）#的优先性低于与其相邻的算符</span><br></pre></td></tr></table></figure>
 
 <h4 id="算符文法的定义"><a href="#算符文法的定义" class="headerlink" title="算符文法的定义"></a>算符文法的定义</h4><ul>
@@ -535,7 +495,9 @@
 <li>由关系图法构造算符优先关系表</li>
 </ul>
 <p><strong>FIRSTVT</strong> 和 <strong>LASTVT</strong></p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614112149299.png" alt="image-20200614112149299" style="zoom:40%;" />
+<img src="编译原理（6）自底向上的优先分析法\image-20200614112149299.png" alt="image-20200614112149299" style="zoom:40%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%886%EF%BC%89%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9A%84%E4%BC%98%E5%85%88%E5%88%86%E6%9E%90%E6%B3%95/image-20200614112149299.png" class="" title="This is image_f">
 
 <p><strong>如何计算算符优先关系</strong></p>
 <p>（1） ‘=‘关系</p>
@@ -549,7 +511,9 @@
 <p>例：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">文法G[E]：(0) E’→#E#                         FIRSTVT(E’)&#x3D;&#123;#&#125;</span><br><span class="line">		 (1) E→E+T							FIRSTVT(E)&#x3D;&#123;+,*,↑,(,i&#125;</span><br><span class="line">		 (2) E→T							FIRSTVT(T)&#x3D;&#123;*,↑,(,i&#125;</span><br><span class="line">		 (3) T→T*F							FIRSTVT(F)&#x3D;&#123;↑,(,i&#125;</span><br><span class="line">		 (4) T→F							FIRSTVT(P)&#x3D;&#123;(,i&#125;</span><br><span class="line">		 (5) F→P↑F|P						LASTVT(E’)&#x3D;&#123;#&#125;</span><br><span class="line">		 (6) P→(E)							LASTVT(E)&#x3D;&#123;+,*,↑,),i&#125;   LASTVT(F)&#x3D;&#123;↑,),i&#125;</span><br><span class="line">		 (7) P→i							LASTVT(T)&#x3D;&#123;*,↑,),i&#125;     LASTVT(P)&#x3D;&#123;),i&#125;</span><br><span class="line"></span><br><span class="line">1)‘&#x3D;’关系</span><br><span class="line">	由产生式(0)和(6),得#&#x3D;#，（&#x3D;）</span><br><span class="line">2）‘&lt;’关系</span><br><span class="line">    找形如：A→…aB…的产生式</span><br><span class="line">    #E：则#&lt;FIRSTVT(E)</span><br><span class="line">    +T: 则+&lt;FIRSTVT(T)  </span><br><span class="line">    *F: 则*&lt;FIRSTVT(F)</span><br><span class="line">    ↑F: 则↑&lt;FIRSTVT(F)</span><br><span class="line">    (E: 则(&lt;FIRSTVT(E)</span><br><span class="line">3)‘&gt;’关系</span><br><span class="line">    找形如：A→…Bb…的产生式</span><br><span class="line">    E# ,则 LASTVT(E)&gt;#</span><br><span class="line">    E+ ,则 LASTVT(E)&gt;+ </span><br><span class="line">    T* ,则 LASTVT(T)&gt;* </span><br><span class="line">    P↑ ,则 LASTVT(P)&gt;↑ </span><br><span class="line">    E) ,则 LASTVT(E)&gt;)</span><br></pre></td></tr></table></figure>
 
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614113542961.png" alt="image-20200614113542961" style="zoom:70%;" />
+<img src="编译原理（6）自底向上的优先分析法\image-20200614113542961.png" alt="image-20200614113542961" style="zoom:75%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%886%EF%BC%89%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9A%84%E4%BC%98%E5%85%88%E5%88%86%E6%9E%90%E6%B3%95/image-20200614113542961.png" class="" title="This is image_g">
 
 <h4 id="算符优先分析算法"><a href="#算符优先分析算法" class="headerlink" title="算符优先分析算法"></a>算符优先分析算法</h4><ul>
 <li>归约过程中，只考虑终结符之间的优先关系来确定句柄，而与非终结符无关。这样去掉了对非终结符的归约，所以用算符优先分析法的规约过程与规范归约是不同的，P110.</li>
@@ -560,7 +524,9 @@
 <p>定义  </p>
 <p>cfg G 的句型的素短语是一个短语，它<strong>至少包含一个终结符</strong>，且除自身外<strong>不再包含其他素短语</strong>。处于句型最左边的素短语为<strong>最左素短语</strong>。</p>
 <p>例如：</p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614114837340.png" alt="image-20200614114837340" style="zoom:80%;" />
+<img src="编译原理（6）自底向上的优先分析法\image-20200614114837340.png" alt="image-20200614114837340" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%886%EF%BC%89%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9A%84%E4%BC%98%E5%85%88%E5%88%86%E6%9E%90%E6%B3%95/image-20200614114837340.png" class="" title="This is image_h">
 
 <h4 id="优先函数"><a href="#优先函数" class="headerlink" title="优先函数"></a>优先函数</h4><ul>
 <li>优先函数比优先矩阵节省空间</li>
@@ -570,12 +536,16 @@
 <li>若a&gt;b,则f(a)&gt;g(b)</li>
 </ul>
 <p>例如：</p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200614115252192.png" alt="image-20200614115252192" style="zoom:80%;" />
+<img src="编译原理（6）自底向上的优先分析法\image-20200614115252192.png" alt="image-20200614115252192" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%886%EF%BC%89%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9A%84%E4%BC%98%E5%85%88%E5%88%86%E6%9E%90%E6%B3%95/image-20200614115252192.png" class="" title="This is image_i">
 
 <p>​    f( * )&lt;g( i ) =&gt; *&lt;i，但f( i )&gt;g( i ) =&gt; i&gt;i是不存在的，所以错误检查能力损失。</p>
 <p>​    可通过检查栈顶和输入符号a来发现那些不可比较的情形。</p>
 <h4 id="构造优先函数"><a href="#构造优先函数" class="headerlink" title="构造优先函数"></a>构造优先函数</h4><p>（如果有环路则没有优先函数）</p>
-<p>![image-20200602185248232](C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200602185248232.png)</p>
+<p><img src="%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%886%EF%BC%89%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9A%84%E4%BC%98%E5%85%88%E5%88%86%E6%9E%90%E6%B3%95%5Cimage-20200602185248232.png" alt="j"></p>
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%886%EF%BC%89%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9A%84%E4%BC%98%E5%85%88%E5%88%86%E6%9E%90%E6%B3%95/image-20200602185248232.png" class="" title="This is image_j">
+
 <ol>
 <li>设a是一个终结符或#，对每一个a建立两个符号fa和ga.</li>
 <li>将所有fa和ga组成的集合分为若干组，办法是若a=b则fa和gb在同一组。</li>
@@ -633,7 +603,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-14 16:26:16" itemprop="dateModified" datetime="2020-06-14T16:26:16+08:00">2020-06-14</time>
+                <time title="修改时间：2020-08-01 09:36:41" itemprop="dateModified" datetime="2020-08-01T09:36:41+08:00">2020-08-01</time>
               </span>
 
           
@@ -691,7 +661,9 @@
 <p>这个程序由一组递归过程组成，每个过程对应文法的一个非终结符。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">例：G[ E]:    </span><br><span class="line">   (<span class="number">1</span>)   E → TE’    (<span class="number">2</span>)  E’ → +TE’| ε</span><br><span class="line">   (<span class="number">3</span>)   T → FT’    (<span class="number">4</span>)  T’ → *FT’ |ε</span><br><span class="line">   (<span class="number">5</span>)   F → (E)|i</span><br><span class="line"></span><br><span class="line">Procedure E;</span><br><span class="line">     Begin</span><br><span class="line">         T;E’</span><br><span class="line">     End;</span><br><span class="line">Procedure T;</span><br><span class="line">     Begin</span><br><span class="line">         F;T’</span><br><span class="line">     End;</span><br><span class="line">Procedure F;</span><br><span class="line">   IF sym=‘i’ then advance</span><br><span class="line">   <span class="keyword">else</span></span><br><span class="line">       IF sym=‘(’ then</span><br><span class="line">           Begin</span><br><span class="line">              advance;</span><br><span class="line">              E</span><br><span class="line">       IF sym=‘)’ then advance</span><br><span class="line">              <span class="keyword">else</span>  ERROR</span><br><span class="line">           End;</span><br><span class="line">    <span class="keyword">else</span> ERROR;</span><br><span class="line">Procedure E’;</span><br><span class="line">   IF sym=‘+’ then</span><br><span class="line">     Begin</span><br><span class="line">         advance;</span><br><span class="line">         T;E’</span><br><span class="line">     End;</span><br><span class="line">Procedure T’;</span><br><span class="line">   IF sym=‘*’ then</span><br><span class="line">     Begin</span><br><span class="line">         advance;</span><br><span class="line">         F;T’</span><br><span class="line">     End;</span><br></pre></td></tr></table></figure>
 
-<h2 id="5-3-非递归的预测分析方法（LL-1-）"><a href="#5-3-非递归的预测分析方法（LL-1-）" class="headerlink" title="5.3 非递归的预测分析方法（LL(1)）"></a>5.3 非递归的预测分析方法（LL(1)）</h2><h3 id="一、总控程序"><a href="#一、总控程序" class="headerlink" title="一、总控程序"></a>一、总控程序</h3><img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200601224211773.png" alt="image-20200601224211773" style="zoom:80%;" />
+<h2 id="5-3-非递归的预测分析方法（LL-1-）"><a href="#5-3-非递归的预测分析方法（LL-1-）" class="headerlink" title="5.3 非递归的预测分析方法（LL(1)）"></a>5.3 非递归的预测分析方法（LL(1)）</h2><h3 id="一、总控程序"><a href="#一、总控程序" class="headerlink" title="一、总控程序"></a>一、总控程序</h3><img src="编译原理（5）自顶向下语法分析方法\image-20200601224211773.png" alt="image-20200601224211773" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%885%EF%BC%89%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/image-20200601224211773.png" class="" title="This is image_a">
 
 <p>分析算法：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">   首先把‘#’，然后把文法开始符号推入栈；把第一个输入符号读进a;    FLAG：=TRUE；</span><br><span class="line">WHILE FLAG  DO      </span><br><span class="line">BEGIN</span><br><span class="line">   把栈顶符号上托出去并放在Ｘ中；</span><br><span class="line">   IF X ∈ Vt  </span><br><span class="line">   		THEN  </span><br><span class="line">       		IF X=a  </span><br><span class="line">       			THEN</span><br><span class="line">       				把下一个输入符号读进a</span><br><span class="line">　     	   ELSE ERROR      </span><br><span class="line">   ELSE  IF X=‘#’ </span><br><span class="line">   		THEN</span><br><span class="line">            IF X=a  </span><br><span class="line">       			 THEN  </span><br><span class="line">       				 FLAG:=FALSE</span><br><span class="line">            ELSE ERROR</span><br><span class="line">   ELSE IF M[X,a]=&#123;X-&gt;X1X2..XK&#125;</span><br><span class="line">          THEN   </span><br><span class="line">              把XK，X K<span class="number">-1</span>,..,X1一一推进栈 </span><br><span class="line">          ELSE　ERROR</span><br><span class="line">   END OF WHILE;</span><br><span class="line">STOP<span class="comment">/*分析成功，过程完毕*／</span></span><br><span class="line"><span class="comment">END</span></span><br></pre></td></tr></table></figure>
@@ -821,7 +793,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-14 16:18:34" itemprop="dateModified" datetime="2020-06-14T16:18:34+08:00">2020-06-14</time>
+                <time title="修改时间：2020-08-01 09:34:30" itemprop="dateModified" datetime="2020-08-01T09:34:30+08:00">2020-08-01</time>
               </span>
 
           
@@ -845,7 +817,9 @@
 <p>–逐个读入源程序字符并按照构词规则切分成一系列单词。   </p>
 <p>–单词是语言中具有独立意义的最小单位，包括保留字、标识符、运算符、标点符号和常量等。</p>
 <p>–词法分析是编译过程中的一个阶段，在语法分析前进行 。也可以和语法分析结合在一起作为一遍，由语法分析程序调用词法分析程序来获得当前单词供语法分析使用。</p>
-<p>![image-20200612210637695](C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200612210637695.png)</p>
+<p><img src="%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200612210637695.png" alt="a"></p>
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200612210637695.png" class="" title="This is image_a">
+
 <ul>
 <li><p>主要任务：</p>
 <p>–读源程序，产生单词符号，并转换为token表示</p>
@@ -874,7 +848,9 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">例： A:&#x3D;B+2                                                            </span><br><span class="line">(Id的整数码,指向A的符号表的入口指针）   ($28, Aaddr)       </span><br><span class="line">(运算符的整数码,’:&#x3D;’)                                                     </span><br><span class="line">(Id的整数码,指向B的符号表的入口指针)        </span><br><span class="line">(运算符的整数码,’+’)                                            </span><br><span class="line">(常数的整数码, 2)</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-1-3-以状态转换图为例设计词法分析器"><a href="#4-1-3-以状态转换图为例设计词法分析器" class="headerlink" title="4.1.3 以状态转换图为例设计词法分析器"></a>4.1.3 以状态转换图为例设计词法分析器</h3><img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613110111799.png" alt="image-20200613110111799" style="zoom:50%;" />
+<h3 id="4-1-3-以状态转换图为例设计词法分析器"><a href="#4-1-3-以状态转换图为例设计词法分析器" class="headerlink" title="4.1.3 以状态转换图为例设计词法分析器"></a>4.1.3 以状态转换图为例设计词法分析器</h3><img src="编译原理（4）词法分析/image-20200613110111799.png" alt="image-20200613110111799" style="zoom:60%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613110111799.png" class="" title="This is image_b">
 
 <h2 id="4-2-正规表达式与正规集（正规语言）"><a href="#4-2-正规表达式与正规集（正规语言）" class="headerlink" title="4.2 正规表达式与正规集（正规语言）"></a>4.2 正规表达式与正规集（正规语言）</h2><ul>
 <li><p>正规表达式（regular expression）是描述单词符号的一种方便工具，也是定义正规集的工具。</p>
@@ -885,7 +861,9 @@
 <p>–2) 任何a∈Σ，a是Σ上的一个正规式，它所表示的正规集为{a}；</p>
 <p>–3) 假定e1和e2都是Σ上的正规式，它们所表示的正规集分别为L(e1)和L(e2)，那么，(e1), e1| e2, e1·e2, e1* 也都是正规式，它们所表示的正规集分别为L(e1), L(e1)∪L(e2), L(e1)L(e2)和(L(e1))*。</p>
 <p>–4) 仅由有限次使用上述三步骤而定义的表达式才是Σ上的正规式，仅由这些正规式所表示的字集才是Σ上的正规集。</p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613112425500.png" alt="image-20200613112425500" style="zoom:75%;" />
+<img src="编译原理（4）词法分析/image-20200613112425500.png" alt="image-20200613112425500" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613112425500.png" class="" title="This is image_c">
 
 </li>
 </ul>
@@ -933,13 +911,19 @@
 <p>​    4、S∈K是唯一的一个初态；</p>
 <p>​    5、Z 包含于 K是一个终态集，终态也称可接受状态或结束状态。</p>
 <p><strong>DFA例：</strong></p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613160754459.png" alt="image-20200613160754459" style="zoom:70%;" />
+<img src="编译原理（4）词法分析/image-20200613160754459.png" alt="image-20200613160754459" style="zoom:75%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613160754459.png" class="" title="This is image_d">
 
 <p><strong>DFA的状态转换图表示：</strong></p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613160815782.png" alt="image-20200613160815782" style="zoom:67%;" />
+<img src="编译原理（4）词法分析\image-20200613160815782.png" alt="image-20200613160815782" style="zoom:75%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613160815782.png" class="" title="This is image_e">
 
 <p><strong>DFA</strong> <strong>的矩阵表示</strong></p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613160908110.png" alt="image-20200613160908110" style="zoom:67%;" />
+<img src="编译原理（4）词法分析\image-20200613160908110.png" alt="image-20200613160908110" style="zoom:70%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613160908110.png" class="" title="This is image_f">
 
 <p><strong>DFA M的作用：</strong></p>
 <p> 对于∑*中的任何字符串t，若存在一条从初态结到某一终态结的道路，且这条路上所有弧的标记符连接成的字符串等于t，则称t可为DFA M所接受（识别）。若M的初态结同时又是终态结，则空字可为M所识别（接受）。</p>
@@ -954,7 +938,9 @@
 </li>
 </ul>
 <p>例：证明t=baab被前例中的DFA所接受</p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613183717517.png" alt="image-20200613183717517" style="zoom:50%;" />
+<img src="编译原理（4）词法分析\image-20200613183717517.png" alt="image-20200613183717517" style="zoom:55%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613183717517.png" class="" title="This is image_g">
 
 <p>所识别的语言：含有相继两个a或相继两个b的串。</p>
 <p>DFA M所能接受的符号串的全体记为 L(M)(语言)</p>
@@ -973,7 +959,9 @@
 <p>状态图表示：</p>
 </li>
 </ul>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613184408840.png" alt="image-20200613184408840" style="zoom:80%;" />
+<img src="编译原理（4）词法分析\image-20200613184408840.png" alt="image-20200613184408840" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613184408840.png" class="" title="This is image_h">
 
 <ul>
 <li>∑*上的符号串t在NFA N上运行</li>
@@ -988,11 +976,13 @@
 <li>状态集合 I 的a弧转换，表示为 move(I,a) 定义为状态集合 J，其中 J 是所有那些可从 I 的某一状态经过一条a弧而到达的状态的全体。定义 Ia = ε-closure(J)</li>
 </ol>
 <p>例：</p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613190857433.png" alt="image-20200613190857433" style="zoom:80%;" />
+<img src="编译原理（4）词法分析\image-20200613190857433.png" alt="image-20200613190857433" style="zoom:80%;" />
 
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613190857433.png" class="" title="This is image_i">
 
+<img src="编译原理（4）词法分析\image-20200613190905154.png" alt="image-20200613190905154" style="zoom:90%;" />
 
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613190905154.png" alt="image-20200613190905154" style="zoom:80%;" />
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613190905154.png" class="" title="This is image_j">
 
 <p>假设NFA N=(K, Σ, f, K0, Kt)按如下办法构造一个DFA M=(S, Σ, d, S0, St)，使得L(M)=L(N)：</p>
 <ol>
@@ -1009,11 +999,17 @@
 </li>
 </ol>
 <p><strong>NFA确定化例子：</strong></p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613192154391.png" alt="image-20200613192154391" style="zoom:80%;" />
+<img src="编译原理（4）词法分析\image-20200613192154391.png" alt="image-20200613192154391" style="zoom:80%;" />
 
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613192229903.png" alt="image-20200613192229903" style="zoom:80%;" />
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613192154391.png" class="" title="This is image_k">
 
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613205712090.png" alt="image-20200613205712090" style="zoom:80%;" />
+<img src="编译原理（4）词法分析\image-20200613192229903.png" alt="image-20200613192229903" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613192229903.png" class="" title="This is image_l">
+
+<img src="编译原理（4）词法分析\image-20200613205712090.png" alt="image-20200613205712090" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613205712090.png" class="" title="This is image_m">
 
 <h2 id="4-4-有穷自动机和正规表达式"><a href="#4-4-有穷自动机和正规表达式" class="headerlink" title="4.4 有穷自动机和正规表达式"></a>4.4 有穷自动机和正规表达式</h2><p><strong>有穷自动机和正规表达式的等价性：</strong>   </p>
 <ul>
@@ -1022,19 +1018,19 @@
 </ul>
 <p><strong>正规式 =&gt;有穷自动机</strong></p>
 <p>设给定正规式W，则构造相应自动机的方法如下：</p>
-<p>若W=ø，则对应的NFA为<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613210019996.png" alt="image-20200613210019996" style="zoom:50%;" /></p>
-<p>若W&lt;&gt;ø，则对应的NFA为<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613210048337.png" alt="image-20200613210048337" style="zoom:50%;" /></p>
+<p><img src="%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image_20200801092900.png" alt="n"></p>
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image_20200801092900.png" class="" title="This is image_n">
+
 <p>然后利用以下规则加入结点和箭弧，直到得到自动机为止。</p>
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613210135127.png" alt="image-20200613210135127" style="zoom:70%;" />
-
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613210145552.png" alt="image-20200613210145552" style="zoom:70%;" />
-
-<img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613210156741.png" alt="image-20200613210156741" style="zoom:70%;" />
+<p><img src="%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image_20200801093105.png" alt="o"></p>
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image_20200801093105.png" class="" title="This is image_o">
 
 <p><strong>有穷自动机=&gt;正规式</strong></p>
 <p>首先检查是否只有一个终态结点，若有多个，则引入新结点T，从所有终态结点引ε边到T结点，并令T为唯一的终态结点。</p>
 <p>然后按以下规则消除结点与箭弧：</p>
-<p>![image-20200613223618156](C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200613223618156.png)</p>
+<p><img src="%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613223618156.png" alt="p"></p>
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/image-20200613223618156.png" class="" title="This is image_p">
+
 <h2 id="4-5-有穷自动机和正规文法"><a href="#4-5-有穷自动机和正规文法" class="headerlink" title="4.5 有穷自动机和正规文法"></a>4.5 有穷自动机和正规文法</h2><p><strong>有穷自动机和正规文法的等价性：</strong>     </p>
 <ul>
 <li>对于一个NFA M，都存在 一个正规文法G，使得L(G)=L(M).               </li>
@@ -1105,7 +1101,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-14 16:47:13" itemprop="dateModified" datetime="2020-06-14T16:47:13+08:00">2020-06-14</time>
+                <time title="修改时间：2020-08-01 09:04:12" itemprop="dateModified" datetime="2020-08-01T09:04:12+08:00">2020-08-01</time>
               </span>
 
           
@@ -1137,7 +1133,9 @@
 </ul>
 <p>⑤ 集合的乘积：AB={xy|x∈A且y∈B}。</p>
 <p>⑥ 集合A的闭包A*和正闭包A+：</p>
-<img src="F:\blog\source\_posts\编译原理（2）文法和语言\微信截图_20200614164611.png" alt="微信截图_20200614164611" style="zoom:80%;" />
+<img src="编译原理（2）文法和语言/a.png" alt="a" style="zoom:80%;" />
+
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%882%EF%BC%89%E6%96%87%E6%B3%95%E5%92%8C%E8%AF%AD%E8%A8%80/a.png" class="" title="This is image_a">
 
 <h2 id="2-2-文法的直观概念"><a href="#2-2-文法的直观概念" class="headerlink" title="2.2 文法的直观概念"></a>2.2 文法的直观概念</h2><p>文法的定义∶对语言结构的描述和定义，即在形式上用来描述和规定语言结构的称为“文法”(或“语法”)。</p>
 <p><strong>规则</strong></p>
@@ -1315,7 +1313,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-01 08:40:55" itemprop="dateModified" datetime="2020-08-01T08:40:55+08:00">2020-08-01</time>
+                <time title="修改时间：2020-08-01 09:00:35" itemprop="dateModified" datetime="2020-08-01T09:00:35+08:00">2020-08-01</time>
               </span>
 
           
@@ -1338,7 +1336,7 @@
 <p>source program —–&gt;  Translator  ——&gt;  target program</p>
 <p>翻译程序和解释程序的区别：</p>
 <p><img src="%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0/image-20200531170908968.png" alt="1"></p>
-<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0/image-20200531170908968.png" class="" title="This is an example image">
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0/image-20200531170908968.png" class="" title="This is image1">
 
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">解释方式最终不生成目标程序，这是编译方式和解释方式的根本区别。</span><br><span class="line">编译方式：是将源程序经编译得到可执行文件后，就可脱离源程序和编译程序单独执行，所以编译方式的效率高，执行速度快；</span><br><span class="line">解释方式：在执行时，必须源程序和解释程序同时参与才能运行，其不产生可执行程序文件，效率低，执行速度慢。</span><br></pre></td></tr></table></figure>
 
@@ -1351,7 +1349,9 @@
 <p>（4）运行效率一般相对比较低，依赖解释器，跨平台性好；</p>
 <p>（5）Java是编译性-解释性语言，因为其同时具备编译性和解释性两种特性。</p>
 <h3 id="1-3-编译程序的组成"><a href="#1-3-编译程序的组成" class="headerlink" title="1.3 编译程序的组成"></a>1.3 编译程序的组成</h3><p>一个典型的编译程序应具有以下的组成：</p>
-<p><img src="F:%5Cblog%5Csource_posts%5C%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0%5Cimage-20200531200636454.png" alt="image-20200531200636454"></p>
+<p><img src="%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0/image-20200531200636454.png" alt="2"></p>
+<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0/image-20200531200636454.png" class="" title="This is image2">
+
 <p>编译程序的两个主要任务：</p>
 <p>一是分析，二是综合。</p>
 <p>编译程序结构(components)</p>
@@ -1530,63 +1530,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://artemisaturn.github.io/2020/05/25/first-md/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Daphne Wang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/25/first-md/" class="post-title-link" itemprop="url">first.md</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-05-25 17:02:24" itemprop="dateCreated datePublished" datetime="2020-05-25T17:02:24+08:00">2020-05-25</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://artemisaturn.github.io/2020/05/25/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1730,7 +1673,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
