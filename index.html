@@ -145,6 +145,352 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://artemisaturn.github.io/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Daphne Wang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/" class="post-title-link" itemprop="url">交互式应用中基于粒子的流体模拟</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-13 09:52:09" itemprop="dateCreated datePublished" datetime="2020-08-13T09:52:09+08:00">2020-08-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-16 16:20:14" itemprop="dateModified" datetime="2020-08-16T16:20:14+08:00">2020-08-16</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Realistically animated fluids can add substantial realism to interactive applications such as virtual surgery simulators or computer games. In this paper we propose an interactive method based on Smoothed Particle Hydrodynamics(SPH) to simulate fluids with free surfaces. The method is an extension of the SPH-based technique by Desbrun to animate highly deformable bodies. We gear the method towards fluid simulation by deriving the force density fields directly from the Navier-Stokes equation and by adding a term to model surface tension effects. In contrast to Eulerian grid-based approaches, the particle-based approach makes mass conservation equations and convection terms dispensable which reduces the complexity of the simulation. In addition, the particles can directly be used to render the surface of the fluid. We propose methods to track and visualize the free surface using point splatting and marching cubes-based surface reconstruction. Our animation method is fast enough to be used in interactive systems and to allow for user interaction with models consisting of up to 5000 particles.</span><br></pre></td></tr></table></figure>
+
+<p><strong>Smoothed Particle Hydrodynamics (SPH)</strong></p>
+<p>​        光滑粒子流体动力学。拉格朗日视角，一种无网格方法。该方法的基本思想是将连续的流体(或固体)用相互作用的质点组来描述，各个物质点上承载各种物理量，包括质量、速度等，通过求解质点组的动力学方程和跟踪每个质点的运动轨道，求得整个系统的力学行为。</p>
+<p>​        对于流体的研究，有两种不同的坐标系，分别是欧拉法和拉格朗日法。欧拉视角的坐标系是固定的，如同站在河边观察河水的流动一样，用这种视角分析流体需要建立网格单元，还会涉及到有限元等复杂的工程方法，一般用在离线的应用中。而拉格朗日视角则将流体视为流动的单元，例如将一片羽毛放入风中，那么羽毛的轨迹可以帮我们指示空气的流动规律。SPH算法是典型的拉格朗日视角，它的基本原理就是通过粒子模拟流体的运动规律，然后再转换成网格进行流体渲染。</p>
+<p><strong>force density</strong></p>
+<p>​        力密度</p>
+<p><strong>Navier-Stokes equation</strong></p>
+<p>​        纳维-斯托克斯方程，描述粘性不可压缩流体动量守恒的运动方程。简称N-S方程。粘性流体的运动方程首先由Navier在1827年提出，只考虑了不可压缩流体的流动。Poisson在1831年提出可压缩流体的运动方程。Saint-Venant在1845年，Stokes在1845年独立提出粘性系数为一常数的形式，都称为Navier-Stokes方程，简称N-S方程。</p>
+<p><strong>surface tension</strong></p>
+<p>​        表面张力。水等液体会产生使表面尽可能缩小的力，这个力称为“表面张力”。液体具有内聚性和吸附性，这两者都是分子引力的表现形式。内聚性使液体能抵抗拉伸应力，而吸附性则使液体可以黏附在其他物体上面。在液体和气体的分界处，即液体表面及两种不能混合的液体之间的界面处，由于分子之间的吸引力，产生了极其微小的拉力。假想在表面处存在一个薄膜层，它承受着此表面的拉伸力，液体的这一拉力称为表面张力。</p>
+<p><strong>Eulerian</strong></p>
+<p>​        欧拉法。是以流体质点流经流场中各空间点的运动即以流场作为描述对象研究流动的方法——流场法。它不直接追究质点的运动过程，而是以充满运动液体质点的空间——流场为对象。研究各时刻质点在流场中的变化规律。将个别流体质点运动过程置之不理，而固守于流场各空间点。通过观察在流动空间中的每一个空间点上运动要素随时间的变化，把足够多的空间点综合起来而得出的整个流体的运动情况。</p>
+<p>​        拉格朗日法着眼于研究各个流体质点的运动，描述的流体质点至始至终的运动过程以及它们的物理量随时间t的变化规律。</p>
+<p>​        欧拉法着眼于空间点，描述的是各个时刻，各个空间点（场论的概念）中流体质点物理量的变化情况。物理量在空间中的分布称为物理场，如速度场、压力场、密度场等，这些所有的物理量场统称为流场。</p>
+<p><strong>mass conservation</strong></p>
+<p>​        质量守恒。</p>
+<p><strong>convection terms</strong></p>
+<p>​        对流项。速度运输动量。</p>
+<h2 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1. Introduction"></a>1. Introduction</h2><p><strong>1.1 Motivation</strong></p>
+<p>​        实施方法有助于在设计阶段测试某个概念是否有前途。流体实时模拟技术的其他应用包括医学模拟器、计算机游戏或任何类型的虚拟环境。</p>
+<p><strong>1.2 Related Work</strong></p>
+<p>​        Computational Fluid Dynamics (CFD) 计算流体力学 历史：</p>
+<p>​        1822年Claude Navier和1845年George Stokes建立了著名的Navier-Stokes方程，描述了流体动力学；</p>
+<p>​        描述质量守恒的连续性方程和描述能量守恒的状态方程；</p>
+<p>​        1983年，T. Reeves引入了粒子系统作为一种建模一类模糊对象的技术。从那时起，基于粒子的拉格朗日方法和基于网格的欧拉方法被用于计算机图形学中流体的模拟；</p>
+<p>​        Desbrun和Cani和Tonnesen使用粒子使软物体产生动画效果；</p>
+<p>​        本文提出了一种基于光滑粒子流体动力学的基于质点的方法来实现任意流体运动的动画。</p>
+<p><strong>1.3. Our Contribution</strong></p>
+<p>​        提出了一种基于光滑粒子流体动力学(SPH)的方法来模拟具有自由表面的流体。Stam和Fiume首先将SPH引入图形界，以描述火和其他气体现象。后来，德斯布伦使用SPH动画高度可变形的物体。我们将他的方法扩展到流体的模拟上。为此，我们直接从Navier-Stokes方程推导出粘性力场和压力场，并提出了一种表面张力的建模方法。为了实现交互性，我们设计了新的专用光滑核。在交互速率下的表面跟踪和表面绘制是一个困难的问题，我们描述了可能的解决方案。</p>
+<h2 id="2-Smoothed-Particle-Hydrodynamics"><a href="#2-Smoothed-Particle-Hydrodynamics" class="headerlink" title="2. Smoothed Particle Hydrodynamics"></a>2. Smoothed Particle Hydrodynamics</h2><p>​        SPH是粒子系统的一种插值方法。有了SPH，仅在离散粒子位置定义的场量可以在空间的任何地方计算。为此，SPH在每个粒子的局部邻域分布数量使用径向对称光滑核。</p>
+<p>​        “光滑核”可以这样理解这个概念，粒子的属性都会“扩散”到周围，并且随着距离的增加影响逐渐变小，这种随着距离而衰减的函数被称为“光滑核”函数，最大影响半径为“光滑核半径”。</p>
+<p>​        根据SPH，在<strong>r</strong>位置用所有粒子贡献的加权和插值标量A:</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F1.png" alt="公式1"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F1.png" class="" title="This is image1">
+
+<p><em>其中A<sub>j</sub>是在r<sub>j</sub>位置要迭代的某种属性，m<sub>j</sub>和ρ<sub>j</sub>是粒子j的质量和密度，r<sub>j</sub>是该粒子的位置，h是光滑核半径。函数W就是光滑核函数。</em></p>
+<p>​        函数W(r,h)称为核半径为h的光滑核，由于我们只使用有限支撑点的核，因此在公式中我们使用h作为支撑点半径。如果W为偶数(即W(r,h) =W(−r,h))并归一化，插值具有二阶精度。内核是标准化的：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F2.png" alt="公式2"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F2.png" class="" title="This is image2">
+
+<p>​        粒子质量和密度出现在公式(1)中，每个粒子i的体积V<sub>i</sub> = m<sub>i</sub> /ρ<sub>i</sub> ，在整个模拟过程中质量m<sub>i</sub> 是恒定的，密度ρ<sub>i</sub> 是变化的，并且需要在每个时间步长进行评估。通过代入公式(1)得到位置r处的密度:</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F3.png" alt="公式3"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F3.png" class="" title="This is image3">
+
+<p>​        在大多数流体方程中，出现了场量的导数，并需要计算。在SPH方法中，这些导数只影响光滑核。A的斜率：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F4.png" alt="公式4"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F4.png" class="" title="This is image4">
+
+<p>​        A的拉普拉斯式求值是：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F5.png" alt="公式5"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F5.png" class="" title="This is image5">
+
+<p>​        SPH存在一些固有的问题。当用SPH推导粒子的流体方程时，这些方程不能保证满足某些物理原理，如力的对称性和动量守恒。</p>
+<h2 id="3-Modelling-Fluids-with-Particles"><a href="#3-Modelling-Fluids-with-Particles" class="headerlink" title="3. Modelling Fluids with Particles"></a>3. Modelling Fluids with Particles</h2><p>​        这部分介绍基于SPH的模型和技术，以解决这些SPH相关的问题。</p>
+<p>​        在基于网格的欧拉公式中，等温流体由速度场v、密度场ρ和压力场p来描述。这些量随时间的变化由两个方程给出。第一个方程保证了质量守恒：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F6.png" alt="公式6"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F6.png" class="" title="This is image6">
+
+<p>​        Navier-Stokes方程则表示动量守恒：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F7.png" alt="公式7"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F7.png" class="" title="This is image7">
+
+<p><em>g为重力加速度，μ为流体的粘度。公式(7)表示不可压缩流体的简化形式。</em></p>
+<p>​        使用粒子而不是静止网格大大简化了这两个方程。首先，因为粒子的数量是恒定的，每个粒子的质量恒定，质量守恒是有保证的，公式(6)可以完全省略。第二，公式(7)左边的 <u>∂v/∂t+v·∇v</u> 可以用物质导数Dv/Dt代替。由于粒子随流体运动，速度的物质导数仅仅是粒子速度的时间导数，这意味着粒子系统不需要对流项v·∇v。</p>
+<p>​        在公式(7)的右边有三个力密度场。建模压力(−∇p)、外力(ρ<strong>g</strong>)、粘度(μ∇<sup>2</sup><strong>v</strong>)。这些力密度场<strong>f</strong> =−∇p+ρ<strong>g</strong>+μ∇<sup>2</sup><strong>v</strong>的和决定了左边粒子的动量变化量ρDv/Dt。对于粒子i的加速度，则有:</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F8.png" alt="公式8"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F8.png" class="" title="This is image8">
+
+
+
+<p>下面使用SPH来建模力密度项</p>
+<h3 id="3-1-Pressure"><a href="#3-1-Pressure" class="headerlink" title="3.1 Pressure"></a>3.1 Pressure</h3><p>​        将SPH规则应用到压力项−∇p：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F9.png" alt="公式9"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F9.png" class="" title="This is image9">
+
+<p>​        不幸的是，当只有两个粒子相互作用时，这种力是不对称的。由于核函数在中心的梯度为零，粒子i只使用粒子j的压力来计算其压力，反之亦然。由于两个粒子位置上的压力一般不相等，所以压力不会是对称的。文献中提出了公式(9)不同的对称方法。我们建议了一个非常简单的解决方案，发现它最适合我们的速度和稳定的目的：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F10.png" alt="公式10"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F10.png" class="" title="This is image10">
+
+<p>​        这样计算出来的压力是对称的，因为它使用了相互作用粒子压力的算术平均值。</p>
+<p>​        由于粒子只有质量、位置和速度这三个量，所以首先计算粒子位置的压力。这需要两个步骤。公式(3)产生粒子所在位置的密度。然后，通过理想气体状态方程计算压强：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F11.png" alt="公式11"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F11.png" class="" title="This is image11">
+
+<p><em>k是一个气体常数，它依赖于温度</em></p>
+<p>​        改进：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F12.png" alt="公式12"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F12.png" class="" title="This is image12">
+
+<p>​        ρ<sub>0</sub>是静止密度。由于压力依赖于压力场的梯度，从数学上讲，偏移量对压力没有影响。然而，偏移量对SPH平滑场的梯度有一定的影响，使数值模拟更加稳定。</p>
+<h3 id="3-2-Viscosity"><a href="#3-2-Viscosity" class="headerlink" title="3.2 Viscosity"></a>3.2 Viscosity</h3><p>​        将SPH规则应用到粘度项μ∇<sup>2</sup><strong>v</strong>，得到不对称的作用力：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F13.png" alt="公式13"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F13.png" class="" title="This is image13">
+
+<p><em>速度因粒子而异。</em></p>
+<p>​        由于粘滞力只依赖于速度差而不依赖于绝对速度，因此有一种利用速度差来对称粘滞力的自然方法:</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F14.png" alt="公式14"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F14.png" class="" title="This is image14">
+
+<p>​        公式(14)的一种可能的解释是从粒子i自身的运动参照系观察粒子i的邻居。那么粒子i就会朝着它周围环境的相对速度方向加速。</p>
+<h3 id="3-3-Surface-Tension"><a href="#3-3-Surface-Tension" class="headerlink" title="3.3 Surface Tension"></a>3.3 Surface Tension</h3><p>​        基于Morris的思想模拟表面张力。流体中的分子受到邻近分子的引力。在流体内部，这些分子间的力在各个方向上是相等的，并且相互平衡。相反，作用在自由表面分子上的力是不平衡的。净力(即表面张力)作用于表面垂直于流体的方向。他们也倾向于最小化表面的曲率。曲率越大，力就越大。表面张力还取决于张力系数σ，该系数取决于形成表面的两种流体。</p>
+<p>​        流体的表面可以通过使用一个附加的场量来找到，这个场量在粒子位置为1，在其他位置为0。这个场称为颜色场。对于平滑的颜色场，我们得到:</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F15.png" alt="公式15"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F15.png" class="" title="This is image15">
+
+<p>​        平滑的颜色场的梯度：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F16.png" alt="公式16"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F16.png" class="" title="This is image16">
+
+<p>​        产生指向流体的表面法向场，n的散度测量表面的曲率：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F17.png" alt="公式17"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F17.png" class="" title="This is image17">
+
+<p>​        对于凸流体体积，负曲率是得到正曲率的必要条件。综上所述，我们得到了表面牵引力:</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F18.png" alt="公式18"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F18.png" class="" title="This is image18">
+
+<p>​        为了在表面附近的粒子之间分配表面牵引力，并获得力密度，我们乘以一个归一化标量场δs=| n |，该场仅在表面附近是非零的。对于作用在表面附近的力密度，我们得到：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F19.png" alt="公式19"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F19.png" class="" title="This is image19">
+
+<p>​        在|n|较小的位置计算n/|n|会造成数值问题。我们只在|n|超过某个阈值时计算力。</p>
+<h3 id="3-4-External-Forces"><a href="#3-4-External-Forces" class="headerlink" title="3.4 External Forces"></a>3.4 External Forces</h3><p>​        我们的模拟器支持外力，如重力，碰撞力和用户交互引起的力。这些力直接施加在粒子上，而不使用SPH。在我们的例子中，当粒子与固体物体（如玻璃）碰撞时，我们只需将它们推出物体，并反射垂直于物体表面的速度分量。</p>
+<h3 id="3-5-Smoothing-Kernels"><a href="#3-5-Smoothing-Kernels" class="headerlink" title="3.5 Smoothing Kernels"></a>3.5 Smoothing Kernels</h3><p>​        SPH方法的稳定性、精度和速度在很大程度上取决于光滑核的选择。由于核都是偶数且归一化的，所以我们使用的核有二阶插值误差（见图1）。</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%9B%BE1.png" alt="图1"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%9B%BE1.png" class="" title="This is image_1">
+
+<p><em>我们在模拟中使用的三个平滑核W<sub>poly6</sub>、W<sub>spiky</sub>和W<sub>viscosity</sub>（从左到右）。粗线表示核，细线表示向中心方向的梯度，虚线表示拉普拉斯函数。请注意，这些图的比例不同。曲线显示沿一个轴通过平滑长度h=1的中心的三维核。</em></p>
+<p>​        此外，在边界处导数为零的核有利于稳定性。除了这些约束，人们还可以自由地为特殊目的设计内核。我们设计了下面的内核：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F20.png" alt="公式20"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F20.png" class="" title="This is image20">
+
+<p>​        除了两种情况外，所有情况下都使用它。这个简单核函数的一个重要特征是r只出现平方，这意味着在距离计算中不需要计算平方根。然而，如果用这个核来计算压力，粒子往往会在高压下形成团簇。当粒子彼此非常接近时，斥力消失，因为核的梯度在中心趋于零。Desbrun通过使用一个尖的内核来解决这个问题，该内核在中心附近有一个非消失的梯度。对于压力的计算，我们使用Debrun的尖核：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F21.png" alt="公式21"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F21.png" class="" title="This is image21">
+
+<p>​        这产生了必要的斥力。在边界处，一阶导数和二阶导数都为零。</p>
+<p>​        粘性是一种由摩擦引起的现象，因此，通过将流体加热来降低流体的动能。因此，粘性只对速度场有平滑作用。然而，如果用一个标准核来计算粘度，则产生的粘性力并不总是具有这种性质。对于两个相互靠近的粒子，平滑速度场的拉普拉斯系数（粘性力依赖于此）可能会变为负值，从而导致力增加其相对速度。在粗采样的速度场中会出现伪影。在粒子数相对较少的实时应用中，这种影响会导致稳定性问题。因此，为了计算粘性力，我们设计了第三个核函数：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F22.png" alt="公式22"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F22.png" class="" title="This is image22">
+
+<p>​        它的拉普拉斯方程处处为正，并具有以下附加性质:</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5Cproperties.png" alt="properties"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/properties.png" class="" title="This is image_2">
+
+<p>​        使用此核来进行黏度计算，大大提高了模拟的稳定性，可以省略任何类型的附加阻尼。</p>
+<h3 id="3-6-Simulation"><a href="#3-6-Simulation" class="headerlink" title="3.6 Simulation"></a>3.6 Simulation</h3><p>​        对于公式(8)的整合，我们采用蛙跳格式。作为一个只需计算一次力的二阶方案，它最适合我们的目的，在我们的例子中允许时间步长达10毫秒。对于这些例子，我们使用恒定的时间步长。如果基于Courant-Friedrichs-Lewy条件使用自适应时间步长，我们预计会有更好的性能。</p>
+<p><strong>蛙跳差分格式</strong></p>
+<p>​        蛙跳格式是一个很常用的差分格式，它在时间和空间上都采用中心差分。（通过解差分方程来求微分方程的近似解，是连续问题离散化）假设离散化如下图所示：</p>
+<img src="F:\blog\source\_posts\交互式应用中基于粒子的流体模拟\leap_frog1.png" alt="leap_frog1" style="zoom:80%;" />
+
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/leap_frog1.png" class="" title="This is image_3">
+
+<img src="F:\blog\source\_posts\交互式应用中基于粒子的流体模拟\leap_frog2.png" alt="leap_frog2" style="zoom:80%;" />
+
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/leap_frog2.png" class="" title="This is image_4">
+
+<p>​        蛙跳格式是时间和空间上均为二阶精度的，三层一步显式差分格式。因而，为了计算(n+1)层的值，需要(n-1)层和n层的已知值。另外，还可以看出，后一偶数层的值实际上等于前一偶数层的值加上一个变化量，而跳过其间的奇数层，这就是蛙跳式这个名称的来历。</p>
+<img src="F:\blog\source\_posts\交互式应用中基于粒子的流体模拟\leap_frog3.png" alt="leap_frog3" style="zoom:80%;" />
+
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/leap_frog3.png" class="" title="This is image_5">
+
+<p><strong>CFL收敛条件判断数</strong></p>
+<p>​        CFL数是计算流体力学中，判断计算的收敛条件，具体是差分方程的依赖域必须包含相应微分方程的依赖域，最简单可以理解为时间推进求解的速度必须大于物理扰动传播的速度，只有这样才能将物理上所有的扰动俘获到。Time stepping technique是指时间推进技术，一般有统一时间步长和当地时间步长，而选择当地时间步长也就是当地CFL条件允许的最大时间步长，采用这种方法能够加速收敛，节省计算时间。</p>
+<h2 id="4-Surface-Tracking-and-Visualization"><a href="#4-Surface-Tracking-and-Visualization" class="headerlink" title="4. Surface Tracking and Visualization"></a>4. Surface Tracking and Visualization</h2><p>​        第3.3节中定义的颜色场c<sub>S</sub>及其梯度场<strong>n</strong>=∇c<sub>S</sub>可用于识别表面粒子和计算表面法线。</p>
+<p>​        我们把粒子i定义为表面粒子，如果：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F23.png" alt="公式23"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F23.png" class="" title="This is image23">
+
+<p>​        其中l是阈值参数。粒子i位置处的表面法线方向由下式给出：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5C%E5%85%AC%E5%BC%8F24.png" alt="公式24"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/%E5%85%AC%E5%BC%8F24.png" class="" title="This is image24">
+
+<h3 id="4-1-Point-Splatting"><a href="#4-1-Point-Splatting" class="headerlink" title="4.1 Point Splatting"></a>4.1 Point Splatting</h3><p>​        我们现在有一组法线但没有连通性信息的点。这正是point splatting（把点变成有面积的简单几何形状渲染）所需的信息类型。然而，这些方法被设计用于处理从通常至少包含10,000到100,000个点的扫描仪获得的点云。我们只使用了几千个粒子，其中一小部分被确定存在于表面。如结果部分所示，静止表面飞溅会产生似乎合理的结果。我们目前正在研究提高液体表面采样率的方法。因此，插值表面粒子的颜色场信息，在仅用于渲染的表面上寻找附加粒子的位置。</p>
+<h3 id="4-2-Marching-Cubes"><a href="#4-2-Marching-Cubes" class="headerlink" title="4.2 Marching Cubes"></a>4.2 Marching Cubes</h3><p>​        另一种可视化自由表面的方法是绘制色场c<sub>S</sub>的等值面。我们使用移动立方体算法对等值面进行三角剖分。在空间固定的网格中，首先识别包含表面的单元格。我们从包含表面粒子的所有单元格开始搜索，然后沿着表面递归地遍历网格。使用哈希表，我们可以确保单元格不会被访问超过一次。对于识别出包含表面的每个单元格，三角形是通过快速查表生成的。</p>
+<p><strong>Marching Cubes算法</strong></p>
+<p>​        Marching Cubes算法是三维离散数据场中提取等值面的经典算法。算法主要的思想是在三维离散数据场中通过线性插值来逼近等值面，具体如下：三维离散数据场中每个栅格单元作为一个体素，体素的每个顶点都存在对应的标量值。如果体素顶点上的值大于或等于等值面值，则定义该顶点位于等值面之外，标记为“0”；而如果体素顶点上的值小于等值面值，则定义该顶点位于等值面之内，标记为“1”。由于每个体素单元有8个顶点，那么共存在2<sup>8</sup> = 256种情形。但由于反转状态不变，所以可以减少一半，为128种。再根据旋转不变形，又可以减少到14种情况。</p>
+<h2 id="5-Implementation"><a href="#5-Implementation" class="headerlink" title="5. Implementation"></a>5. Implementation</h2><p>​        由于SPH中使用的平滑核具有有限的支持h，降低计算复杂度的一种常用方法是使用h大小的网格，然后只需在粒子自己的单元和所有相邻的单元中搜索粒子i的潜在交互伙伴。该技术将力计算步骤的时间复杂度从O（n<sup>2</sup>）降低到O（nm），m是每个网格单元的平均粒子数。</p>
+<p>​        通过一个简单的附加技巧，我们可以将模拟速度提高10倍。我们将粒子对象的副本存储在网格单元中(使内存消耗加倍)，而不是存储对粒子的引用。加速的原因是内存中接近插值所需的信息，这大大提高了cash命中率。通过使用希尔伯特空间填充曲线进行更好的聚类，可能进一步加速。快速近邻搜索的数据结构也用于曲面跟踪和渲染。</p>
+<h2 id="6-Results"><a href="#6-Results" class="headerlink" title="6. Results"></a>6. Results</h2><p>​        图R1所示，用2200个粒子对玻璃中的水进行采样。外部旋转力使流体形成漩涡。第一张图（a）显示了单个粒子。对于第二幅图像（b），仅用point splatting渲染自由表面。在这两种模式下，动画以每秒20帧的速度在1.8GHz的Pentium  IV PC上运行，并带有Gforce4显卡。当使用marching  cubes算法将颜色场的等值面可视化时，会产生最令人信服的结果，如图（c）所示。但是，在这种模式下，帧速率下降到每秒5帧。尽管如此，这种帧速率仍然明显高于大多数离线流体模拟技术，而且随着下一代图形硬件的发展，实时性能将成为可能。</p>
+<p>​        图R2所示的图像序列演示了与流体的交互作用。通过鼠标移动，用户产生一个使水飞溅的外力场。自由表面使用point splatting进行渲染，而孤立的粒子绘制为单个液滴。对1300个粒子的模拟以每秒25帧的速度运行。</p>
+<p>​        对于图R3中所示的动画，我们使用了3000个粒子，并以每秒5帧的速度用marching  cubes技术渲染了表面。</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5Cresult1.png" alt="result1"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/result1.png" class="" title="This is image_result1">
+
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5Cresult2.png" alt="result2"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/result2.png" class="" title="This is image_result2">
+
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5Cresult3.png" alt="result3"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/result3.png" class="" title="This is image_result3">
+
+<h2 id="7-Conclusions-and-FutureWork"><a href="#7-Conclusions-and-FutureWork" class="headerlink" title="7. Conclusions and FutureWork"></a>7. Conclusions and FutureWork</h2><p>​        提出了一种基于粒子的交互式流体模拟与绘制方法。物理模型基于平滑粒子流体力学，并使用特殊用途的核来提高稳定性和速度。我们介绍了跟踪和渲染流体自由表面的技术。结果还不如离线计算的动画那样逼真。然而，考虑到仿真模拟是以交互速率运行的，而不是像今天的离线方法那样每帧花费几分钟或几小时，结果是相当有希望的。</p>
+<p>​        在满足物理模型要求的前提下，流体表面的实时跟踪与渲染仍然是一个有待研究的课题。在未来，我们将研究上采样技术以及提高基于marching  cubes算法性能的方法。</p>
+<h2 id="公式推导"><a href="#公式推导" class="headerlink" title="公式推导"></a>公式推导</h2><p>​        <strong>哈密顿算子𝛁</strong></p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5CNabla.png" alt="Nabla"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/Nabla.png" class="" title="This is Hamiltonian">
+
+<p>​        𝛁在运算中既有微分又有矢量的双重运算性质。</p>
+<p>​        与梯度、散度、旋度的关系：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5Ct2.png" alt="t2"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/t2.png" class="" title="This is image_t2">
+
+<p>​        把它作用在一个标量场A=f(x,y,z)上，那么：</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5Cgrad.png" alt="grad"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/grad.png" class="" title="This is image_grad">
+
+<p>​        这个运算可以视为一个矢量和标量的乘法，得到的∇A是一个矢量场，称为A的“梯度”，表示标量场A在某处的变化快慢和方向。</p>
+<p>​        而如果把哈密顿算子作用在一个矢量场<img src="https://private.codecogs.com/gif.latex?%5Coverrightarrow%7BA%7D" alt="\overrightarrow{A}"> 上，得到的∇·A称为矢量场A的“散度”，散度的计算和矢量的点积运算相似，得到的是一个标量场。</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5Cdiv.png" alt="div"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/div.png" class="" title="This is image_div">
+
+<p>​        <strong>拉普拉斯算子</strong></p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5Ct3.png" alt="t3"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/t3.png" class="" title="This is image_t3">
+
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5Ct4.png" alt="t4"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/t4.png" class="" title="This is image_t4">
+
+<p>​        </p>
+<p>​        在一个时空连续变化的物理场φ(<strong>r</strong>,t)中，运动的观察点观察到的物理量φ的时间变化可以写</p>
+<p>为（式中 𝜹𝒓为观察点在微元时间 𝛿𝑡中的矢量位移， 𝜹𝒓=𝛿𝑡 𝒗<sub>𝑂</sub> ，𝛁是哈密顿算子）</p>
+<p><img src="F:%5Cblog%5Csource_posts%5C%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F%5Ct1.png" alt="t1"></p>
+<img src="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/t1.png" class="" title="This is image_t1">
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://artemisaturn.github.io/2020/08/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Daphne Wang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-title-link" itemprop="url">数据结构</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-12 15:58:49" itemprop="dateCreated datePublished" datetime="2020-08-12T15:58:49+08:00">2020-08-12</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1673,7 +2019,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
