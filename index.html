@@ -176,7 +176,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-30 17:35:36" itemprop="dateModified" datetime="2020-08-30T17:35:36+08:00">2020-08-30</time>
+                <time title="修改时间：2020-09-02 22:26:02" itemprop="dateModified" datetime="2020-09-02T22:26:02+08:00">2020-09-02</time>
               </span>
 
           
@@ -281,19 +281,98 @@
 <p>m<sub>i</sub>: the mass of particle i. (<strong>x<sub>i</sub></strong> − <strong>x<sub>j</sub></strong>): direction vector from particle j to particle i;</p>
 <h2 id="Time-integration"><a href="#Time-integration" class="headerlink" title="Time integration"></a>Time integration</h2><p><strong>1、Forward Euler</strong> (explicit)：</p>
 <p>​        前向欧拉法：根据现有的状态推测以后的状态：</p>
-<p><img src="F:%5Cblog%5Csource_posts%5CTaichi%5Cforward_euler.png" alt="forward_euler"></p>
-<p><strong>2、Semi-implicit Euler</strong> (aka. symplectic Euler, explicit)：</p>
-<p><img src="F:%5Cblog%5Csource_posts%5CTaichi%5CSemi-implicit_euler.png" alt="Semi-implicit_euler"></p>
+<p>$$<br>v_{t+1} = v_t + \Delta t\frac{f_t}{m}<br>$$</p>
+<p>$$<br>x_{t+1} = x_t + \Delta tv_t<br>$$</p>
+<p><strong>2、Semi-implicit Euler</strong> (aka. symplectic Euler, explicit)：<br>$$<br>v_{t+1} = v_t + \Delta t\frac{f_t}{m}<br>$$</p>
+<p>$$<br>x_{t+1} = x_t + \Delta tv_{t+1}<br>$$</p>
 <p><strong>3、Backward Euler</strong> (often with Newton’s method, implicit)：</p>
 <h3 id="Implementing-a-mass-spring-system-with-symplectic-Euler"><a href="#Implementing-a-mass-spring-system-with-symplectic-Euler" class="headerlink" title="Implementing a mass-spring system with symplectic Euler"></a>Implementing a mass-spring system with symplectic Euler</h3><ol>
-<li>Compute new velocity using<br>$$<br>v_{t+1} = v_t + \Delta t\frac{f_t}{m}<br>$$</li>
-</ol>
-<ol start="2">
+<li><p>Compute new velocity using<br>$$<br>v_{t+1} = v_t + \Delta t\frac{f_t}{m}<br>$$</p>
+</li>
 <li><p>Collision with ground</p>
 </li>
 <li><p>Compute new position using<br>$$<br>x_{t+1} = x_t + \Delta tv_{t+1}<br>$$</p>
 </li>
 </ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mass_spring.py</span></span><br><span class="line"><span class="meta">@ti.kernel</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">substep</span><span class="params">()</span>:</span></span><br><span class="line">    n = num_particles[<span class="literal">None</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># Compute force and new velocity</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        v[i] *= ti.exp(-dt * damping[<span class="literal">None</span>]) <span class="comment"># damping</span></span><br><span class="line">        total_force = ti.Vector(gravity) * particle_mass</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(n):</span><br><span class="line">            <span class="keyword">if</span> rest_length[i, j] != <span class="number">0</span>:</span><br><span class="line">                x_ij = x[i] - x[j]</span><br><span class="line">                total_force += -spring_stiffness[<span class="literal">None</span>] * (x_ij.norm() - rest_length[i, j]) * x_ij.normalized()</span><br><span class="line">        v[i] += dt * total_force / particle_mass</span><br><span class="line">        </span><br><span class="line">    <span class="comment"># Collide with ground</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        <span class="keyword">if</span> x[i].y &lt; bottom_y:</span><br><span class="line">            x[i].y = bottom_y</span><br><span class="line">            v[i].y = <span class="number">0</span></span><br><span class="line">            </span><br><span class="line">    <span class="comment"># Compute new position</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        x[i] += v[i] * dt</span><br></pre></td></tr></table></figure>
+
+<h3 id="Explicit-v-s-implicit-time-integrators"><a href="#Explicit-v-s-implicit-time-integrators" class="headerlink" title="Explicit v.s. implicit time integrators"></a>Explicit v.s. implicit time integrators</h3><p>Explicit (forward Euler, symplectic Euler, RK, …)：</p>
+<ul>
+<li><p>Future depends only on past</p>
+</li>
+<li><p>Easy to implement</p>
+</li>
+<li><p>Easy to explode: （从材料的刚度考虑时间步长的限制）<br>$$<br>\Delta t \leq c\sqrt{\frac{m}{k}} \quad\quad(c-1)<br>$$</p>
+</li>
+<li><p>Bad for stiff materials</p>
+</li>
+</ul>
+<p>Implicit (backward Euler, middle-point, …):</p>
+<ul>
+<li>Future depends on both future and past</li>
+<li>Chicken-egg problem: need to solve a system of (linear) equations</li>
+<li>In general harder to implement</li>
+<li>Each step is more expensive but time steps are larger</li>
+<li>Numerical damping and locking</li>
+</ul>
+<h3 id="Mass-spring-systems"><a href="#Mass-spring-systems" class="headerlink" title="Mass-spring systems"></a>Mass-spring systems</h3><p>Implicit time integration:<br>$$<br>x_{t+1} = x_t + \Delta tv_{t+1} \quad\quad (1)<br>$$</p>
+<p>$$<br>v_{t+1} = v_t + \Delta tM^{-1}f(x_{t+1}) \quad\quad (2)<br>$$</p>
+<p>Eliminate x<sub>t+1</sub>:<br>$$<br>v_{t+1} = v_t + \Delta tM^{-1}f(x_t + \Delta tv_{t+1}) \quad\quad (3)<br>$$<br>Linearize (one step of Newton’s method):<br>$$<br>v_{t+1} = v_t + \Delta tM^{-1}[f(x_t) + \frac{∂f}{∂x}(x_t)\Delta tv_{t+1}] \quad\quad (4)<br>$$<br>Clean up:<br>$$<br>[I - \Delta t^2M^{-1}\frac{∂f}{∂x}(x_t)] v_{t+1} = v_t + \Delta tM^{-1}f(x_t) \quad\quad (5)<br>$$<br>How to solve it?</p>
+<ul>
+<li>Jacobi/Gauss-Seidel iterations (easy to implement!)</li>
+<li>Conjugate gradients (later in this course)</li>
+</ul>
+<p>$$<br>A = [I - \Delta t^2M^{-1}\frac{∂f}{∂x}(x_t)]<br>$$</p>
+<p>$$<br>b = v_t + \Delta tM^{-1}f(x_t)<br>$$</p>
+<p>$$<br>Av_{t+1} = b<br>$$</p>
+<h3 id="Solving-linear-systems-with-Jacobi-iterations"><a href="#Solving-linear-systems-with-Jacobi-iterations" class="headerlink" title="Solving linear systems with Jacobi iterations"></a>Solving linear systems with Jacobi iterations</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> taichi <span class="keyword">as</span> ti</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">ti.init()</span><br><span class="line"></span><br><span class="line">n = <span class="number">20</span></span><br><span class="line"></span><br><span class="line">A = ti.var(dt=ti.f32, shape=(n, n))</span><br><span class="line">x = ti.var(dt=ti.f32, shape=n)</span><br><span class="line">new_x = ti.var(dt=ti.f32, shape=n)</span><br><span class="line">b = ti.var(dt=ti.f32, shape=n)</span><br><span class="line"></span><br><span class="line"><span class="meta">@ti.kernel</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">iterate</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        r = b[i]</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(n):</span><br><span class="line">            <span class="keyword">if</span> i != j:</span><br><span class="line">                r -= A[i, j] * x[j]</span><br><span class="line">                </span><br><span class="line">        new_x[i] = r / A[i, i]</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        x[i] = new_x[i]</span><br><span class="line"></span><br><span class="line"><span class="meta">@ti.kernel</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">residual</span><span class="params">()</span> -&gt; ti.f32:</span></span><br><span class="line">    res = <span class="number">0.0</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        r = b[i] * <span class="number">1.0</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(n):</span><br><span class="line">            r -= A[i, j] * x[j]</span><br><span class="line">        res += r * r</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(n):</span><br><span class="line">        A[i, j] = random.random() - <span class="number">0.5</span></span><br><span class="line"></span><br><span class="line">    A[i, i] += n * <span class="number">0.1</span></span><br><span class="line">    </span><br><span class="line">    b[i] = random.random() * <span class="number">100</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">    iterate()</span><br><span class="line">    print(<span class="string">f'iter <span class="subst">&#123;i&#125;</span>, residual=<span class="subst">&#123;residual():<span class="number">0.10</span>f&#125;</span>'</span>)</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">    lhs = <span class="number">0.0</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(n):</span><br><span class="line">        lhs += A[i, j] * x[j]</span><br><span class="line">    <span class="keyword">assert</span> abs(lhs - b[i]) &lt; <span class="number">1e-4</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Unifying-explicit-and-implicit-integrators"><a href="#Unifying-explicit-and-implicit-integrators" class="headerlink" title="Unifying explicit and implicit integrators"></a>Unifying explicit and implicit integrators</h3><p>$$<br>[I - \beta\Delta t^2M^{-1}\frac{∂f}{∂x}(x_t)] v_{t+1} = v_t + \Delta tM^{-1}f(x_t)<br>$$</p>
+<ol>
+<li>β = 0: forward/semi-implicit Euler (explicit)</li>
+<li>β = 1/2: middle-point (implicit)</li>
+<li>β = 1: backward Euler (implicit)</li>
+</ol>
+<h2 id="Lagrangian-fluid-simulation-SPH"><a href="#Lagrangian-fluid-simulation-SPH" class="headerlink" title="Lagrangian fluid simulation: SPH"></a>Lagrangian fluid simulation: SPH</h2><p><strong>High-level idea:</strong> use particles carrying samples of physical quantities, and a kernel function W, to approximate continuous fields: (<em>A</em> can be almost any spatially varying physical attributes: density, pressure, etc. Derivatives: different story)<br>$$<br>A(x) = \sum{A_i}\frac{m_i}{ρ_i}W(||x-x_j||_2, h)<br>$$</p>
+<ol>
+<li>Originally proposed for astrophysical problems</li>
+<li>No meshes. Very suitable for free-surface flows!</li>
+<li>Easy to understand intuitively: just imagine each particle is a small parcel of water (although strictly not the case!)</li>
+</ol>
+<h3 id="Implementing-SPH-using-the-Equation-of-States"><a href="#Implementing-SPH-using-the-Equation-of-States" class="headerlink" title="Implementing SPH using the Equation of States"></a>Implementing SPH using the Equation of States</h3><p>Also known as Weakly Compressible SPH (WCSPH).</p>
+<p>Momentum equation: ( ρ: density;  B: bulk modulus;  γ : constant, usually ∼ 7 )<br>$$<br>\frac{Dv}{Dt} = -\frac{1}{ρ}\nabla p + g, \quad\quad p = B((\frac{ρ}{ρ_0})^\gamma - 1)<br>$$</p>
+<p>$$<br>A(x) = \sum{A_i}\frac{m_i}{ρ_i}W(||x-x_j||_2,h)<br>$$</p>
+<p>$$<br>ρ_i = \sum{m_j}W(||x_i-x_j||_2,h)<br>$$</p>
+<p>Extras: surface tension, viscosity</p>
+<p>Note: the WCSPH paper should have used material derivatives.</p>
+<h3 id="Gradients-in-SPH"><a href="#Gradients-in-SPH" class="headerlink" title="Gradients in SPH"></a>Gradients in SPH</h3><p>$$<br>\nabla A_i = ρ<em>i \sum{m_j}(\frac{A_i}{ρ_i^2} + \frac{A_j}{ρ_j^2}) \nabla</em>{x_i}W(||x_i-x_j||_2,h)<br>$$</p>
+<p>Not really accurate.</p>
+<p>But at least symmetric and momentum conserving!</p>
+<h3 id="SPH-Simulation-Cycle"><a href="#SPH-Simulation-Cycle" class="headerlink" title="SPH Simulation Cycle"></a>SPH Simulation Cycle</h3><p>$$<br>\frac{Dv}{Dt} = -\frac{1}{ρ}\nabla p + g, \quad\quad p = B((\frac{ρ}{ρ_0})^\gamma - 1)<br>$$</p>
+<ol>
+<li>For each particle i, compute $ρ_i = \sum{m_j}W(||x_i-x_j||_2,h)$</li>
+<li>For each particle i, compute $\nabla p_i$ using the gradient operator</li>
+<li>Symplectic Euler step (again…):</li>
+</ol>
+<p>$$<br>v_{t+1} = v_t + \Delta t\frac{D_v}{D_t}<br>$$</p>
+<p>$$<br>x_{t+1} = x_t + \Delta tv_{t+1}<br>$$</p>
+<h3 id="Variants-of-SPH"><a href="#Variants-of-SPH" class="headerlink" title="Variants of SPH"></a>Variants of SPH</h3><p>Predictive-Corrective Incompressible SPH (PCI-SPH)：隐式的时间积分（不完全隐式），采用预测矫正的格式，每次先预测一下粒子的位置/速度，然后根据预测做出矫正，得到一个散度比较小的速度场–&gt;更加接近不可压缩</p>
+<p>Position-based fluids (PBF) Demo: ti example pbf2d</p>
+<p>Divergence-free SPH (DFSPH)</p>
+<h3 id="Courant–Friedrichs–Lewy-CFL-condition"><a href="#Courant–Friedrichs–Lewy-CFL-condition" class="headerlink" title="Courant–Friedrichs–Lewy (CFL) condition"></a>Courant–Friedrichs–Lewy (CFL) condition</h3><p>显示时间积分：从粒子运动的速度考虑时间步长的限制：<br>$$<br>C = \frac{u \Delta t}{\Delta x} \leq C_{max} - 1<br>$$</p>
+<ul>
+<li>C:  CFL number (Courant number, or simple the CFL)</li>
+<li>$\Delta t$:  time step</li>
+<li>$\Delta x$:  length interval (e.g. particle radius and grid size)</li>
+<li>u: maximum (velocity)     $u\Delta t$  –&gt; 一个时间步之内粒子移动的最大距离</li>
+</ul>
+<p>Application: estimating allowed time step in (explicit) time integrations. Typical C<sub>max</sub> in graphics:</p>
+<ul>
+<li>SPH: ∼ 0.4</li>
+<li>MPM: 0.3 ∼ 1</li>
+<li>FLIP fluid (smoke): 1 ∼ 5+</li>
+</ul>
+<h3 id="Accelerating-SPH-Neighborhood-search"><a href="#Accelerating-SPH-Neighborhood-search" class="headerlink" title="Accelerating SPH: Neighborhood search"></a>Accelerating SPH: Neighborhood search</h3><p>So far, per substep complexity of SPH is $O(n^2)$ . This is too costly to be practical. In practice, people build spatial data structure such as voxel grids to accelerate neighborhood search. This reduces time complexity to O(n).</p>
 
       
     </div>
