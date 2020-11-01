@@ -145,6 +145,366 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://artemisaturn.github.io/2020/09/20/%E9%87%8D%E7%87%83project/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Daphne Wang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/20/%E9%87%8D%E7%87%83project/" class="post-title-link" itemprop="url">重燃project</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-20 09:34:14" itemprop="dateCreated datePublished" datetime="2020-09-20T09:34:14+08:00">2020-09-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-29 18:17:07" itemprop="dateModified" datetime="2020-10-29T18:17:07+08:00">2020-10-29</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><em>没接触过diango啊，从零开始学起吧，边解决问题边学习。</em></p>
+<h3 id="部署时连不到数据库"><a href="#部署时连不到数据库" class="headerlink" title="部署时连不到数据库"></a>部署时连不到数据库</h3><p>把MySQL服务关掉可以解决。猜测是127.0.0.1连接问题。</p>
+<h2 id="task1：前端用户注册改为手机号验证"><a href="#task1：前端用户注册改为手机号验证" class="headerlink" title="task1：前端用户注册改为手机号验证"></a>task1：前端用户注册改为手机号验证</h2><h3 id="源代码学习"><a href="#源代码学习" class="headerlink" title="源代码学习"></a>源代码学习</h3><p><em>urls.py</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">'login'</span>, views.LoginView.as_view()),</span><br><span class="line">    path(<span class="string">'register'</span>, views.RegisterView.as_view()),</span><br><span class="line">    path(<span class="string">'index'</span>, views.IndexView.as_view()),</span><br><span class="line">    path(<span class="string">'mypage'</span>, views.UpdateView.as_view()),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p><strong>urlpatterns</strong> 在url文件中是一个url映射列表。系统会自动遍历url文件中的urlpatterns列表然后进行对应的处理函数查找。当url有重复的情况则以找到的第一个为准。</p>
+<p><strong>Django怎么处理请求：</strong></p>
+<ul>
+<li>一旦生成url页面请求，请求传递到urls.py；</li>
+<li>Django去urlpatterns中匹配链接（Django会在匹配到的第一个就停下来）；</li>
+<li>一旦匹配成功，就会去执行，path后面的方法，Django便会给出相应的view页面（该页面可以为一个Python的函数，或者基于view（Django内置的）的类），也就是用户看到的页面；</li>
+<li>若匹配失败，则出现错误的页面。</li>
+</ul>
+<p><strong>as_view()方法：</strong></p>
+<ol>
+<li>前端发送请求，方法可能是post或get</li>
+<li>url()定位到类(view)方法as_view()</li>
+<li>as_view()返回一个view方法，view转到dispatch()</li>
+<li>dispatch()会自动判断当前的请求方式</li>
+</ol>
+<p><em>models.py</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WebUser</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="string">"""网站用户表，主要用于衡量职工是否可以注册自己的账户并访问数据库网站"""</span></span><br><span class="line">    nickname = models.CharField(max_length=<span class="number">64</span>, verbose_name=<span class="string">'昵称'</span>, null=<span class="literal">True</span>, blank=<span class="literal">True</span>)</span><br><span class="line">    realname = models.CharField(max_length=<span class="number">32</span>, verbose_name=<span class="string">'真实姓名'</span>, help_text=<span class="string">'员工的名字'</span>, db_index=<span class="literal">True</span>)</span><br><span class="line">    gender_choices = (</span><br><span class="line">        (<span class="number">0</span>, <span class="string">'未知'</span>),</span><br><span class="line">        (<span class="number">1</span>, <span class="string">'男'</span>),</span><br><span class="line">        (<span class="number">2</span>, <span class="string">'女'</span>),</span><br><span class="line">    )</span><br><span class="line">    gender = models.IntegerField(choices=gender_choices, verbose_name=<span class="string">'性别'</span>, default=<span class="number">0</span>)</span><br><span class="line">    idcard = models.CharField(max_length=<span class="number">18</span>, verbose_name=<span class="string">'身份证号'</span>, help_text=<span class="string">'18位的身份证号码'</span>)</span><br><span class="line">    phone = models.CharField(max_length=<span class="number">11</span>, verbose_name=<span class="string">'手机号'</span>, null=<span class="literal">True</span>, blank=<span class="literal">True</span>)</span><br><span class="line">    password = models.CharField(max_length=<span class="number">64</span>, verbose_name=<span class="string">'密码'</span>, null=<span class="literal">True</span>, blank=<span class="literal">True</span>)</span><br><span class="line">    email = models.EmailField(max_length=<span class="number">64</span>, verbose_name=<span class="string">'邮箱'</span>, null=<span class="literal">True</span>, blank=<span class="literal">True</span>)</span><br><span class="line">    birthday = models.DateField(verbose_name=<span class="string">'生日'</span>, null=<span class="literal">True</span>, blank=<span class="literal">True</span>)</span><br><span class="line">    department = models.ForeignKey(to=Department, on_delete=models.CASCADE, blank=<span class="literal">False</span>, null=<span class="literal">True</span>, verbose_name=<span class="string">'部门'</span>, db_index=<span class="literal">True</span>)</span><br><span class="line">    enable = models.BooleanField(verbose_name=<span class="string">'状态'</span>, default=<span class="literal">True</span>)</span><br><span class="line">    create_time = models.DateTimeField(verbose_name=<span class="string">'创建时间'</span>, auto_now_add=<span class="literal">True</span>)</span><br><span class="line">    update_time = models.DateTimeField(verbose_name=<span class="string">'更新时间'</span>, auto_now=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        verbose_name = <span class="string">"员工"</span></span><br><span class="line">        verbose_name_plural = <span class="string">"员工管理"</span></span><br><span class="line">        db_table = <span class="string">"T_WebUser"</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.realname</span><br></pre></td></tr></table></figure>
+
+<p><strong>表字段及说明</strong></p>
+<table>
+<thead>
+<tr>
+<th>表字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>models.AutoField</td>
+<td>默认会生成一个名为id的字段并未int类型</td>
+</tr>
+<tr>
+<td>models.CharField</td>
+<td>字符串类型</td>
+</tr>
+<tr>
+<td>models.BooleanField</td>
+<td>布尔类型</td>
+</tr>
+<tr>
+<td>models.DateField</td>
+<td>日期（Date）类型</td>
+</tr>
+<tr>
+<td>models.DateTimeField</td>
+<td>日期（datetime）类型</td>
+</tr>
+<tr>
+<td>models.EmailField</td>
+<td>字符串类型（正则表达式邮箱）</td>
+</tr>
+<tr>
+<td>models.FloatField</td>
+<td>浮点类型</td>
+</tr>
+<tr>
+<td>models.IntegerField</td>
+<td>整数类型</td>
+</tr>
+<tr>
+<td>models.TextField</td>
+<td>长文本类型</td>
+</tr>
+<tr>
+<td>models. TimeField</td>
+<td>时间类型， 显示时分秒HH:MM[:ss[ .uuuuuu]]</td>
+</tr>
+<tr>
+<td>models. URLField</td>
+<td>字符串， 地址为正则表达式</td>
+</tr>
+<tr>
+<td>models.FilePathField</td>
+<td>Django Admin以及ModelForm中提供读取文件夹下文件的功能<br />参数：<br />        path：文件夹路径<br />        match=None：正则匹配<br />        recursive=False：递归下面的文件夹<br />        allow_files=True：允许文件<br />        allow_folders=False：允许文件夹</td>
+</tr>
+<tr>
+<td>models.FileField</td>
+<td>路径保存在数据库，文件上传到指定目录<br />参数：<br />        upload_to = “”          上传文件的保存路径<br />        storage = None         存储组件，默认django.core.files.storage.FileSystemStorage</td>
+</tr>
+<tr>
+<td>models.ForeignKey(other_table)</td>
+<td>创建外键(即创建一对多的表的关联)<br />参数:<br />        to=:          要进行关联的表名<br />        to_field=:     要关联的表中的字段名称<br />        on_delete=:   当删除关联表中的数据时，当前表与其关联的行的行为<br />        on_delete的参数:<br />               - models.CASCADE          删除关联数据，与之关联也删除<br />               - models.DO_NOTHING       删除关联数据，引发错误IntegrityError<br />               - models.PROTECT          删除关联数据，引发错误ProtectedError<br />               - models.SET_NULL          删除关联数据，与之关联的值设置为null（前提FK字段需要设置为可空）<br />               - models.SET_DEFAULT      删除关联数据，与之关联的值设置为默认值（前提FK字段需要设置默认值）<br />               - models.SET               删除关联数据</td>
+</tr>
+</tbody></table>
+<p><strong>表字段参数及说明</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Null</td>
+<td>数据库中字段是否可以为空</td>
+</tr>
+<tr>
+<td>db_column</td>
+<td>数据库中字段的列名</td>
+</tr>
+<tr>
+<td>db_tablespace</td>
+<td>表空间，如果该字段已经创建了索引，那么数据库表空间的名称将作为该字段的索引名。</td>
+</tr>
+<tr>
+<td>default</td>
+<td>数据库中字段的默认值</td>
+</tr>
+<tr>
+<td>primary_key</td>
+<td>数据库中字段是否为主键</td>
+</tr>
+<tr>
+<td>db_index</td>
+<td>数据库中字段是否可以建立索引</td>
+</tr>
+<tr>
+<td>unique</td>
+<td>数据库中字段是否可以建立唯一索引</td>
+</tr>
+<tr>
+<td>verbose_name</td>
+<td>Admin中显示的字段名称</td>
+</tr>
+<tr>
+<td>blank</td>
+<td>Admin中是否允许用户输入为空</td>
+</tr>
+<tr>
+<td>editable</td>
+<td>Admin中是否可以编辑</td>
+</tr>
+<tr>
+<td>help_text</td>
+<td>Admin中该字段的提示信息</td>
+</tr>
+<tr>
+<td>choices</td>
+<td>Admin中显示选择框的内容，用不变动的数据放在内存中从而避免跨表操作</td>
+</tr>
+<tr>
+<td>error_messages</td>
+<td>自定义错误信息(字典类型)从而,定制想要显示的错误信息</td>
+</tr>
+</tbody></table>
+<p><strong>class Meta</strong></p>
+<p>通过一个内嵌类 “class Meta” 给你的 model 定义元数据</p>
+<ul>
+<li>verbose_name：给你的模型类起一个更可读的名字</li>
+<li>verbose_name_plural：模型的复数形式</li>
+<li>db_table：用于指定自定义数据库表名</li>
+</ul>
+<p><em>views.py</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RegisterView</span><span class="params">(APIView)</span>:</span></span><br><span class="line">    <span class="string">"""注册"""</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self, request)</span>:</span></span><br><span class="line">        res = BaseResponse()</span><br><span class="line">        <span class="comment">#nickname = request.data.get('nickname')</span></span><br><span class="line">        realname = request.data.get(<span class="string">'realname'</span>)</span><br><span class="line">        idcard = request.data.get(<span class="string">'idcard'</span>)</span><br><span class="line">        <span class="comment">#password = request.data.get('password')</span></span><br><span class="line">        user_obj = models.WebUser.objects.filter(realname=realname)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> user_obj.exists():</span><br><span class="line">            <span class="comment">#返回错误信息</span></span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">10020</span>, <span class="string">'message'</span>: <span class="string">'您没有注册权限！请联系管理员申请！'</span>&#125;)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">for</span> user <span class="keyword">in</span> user_obj:</span><br><span class="line">                <span class="keyword">if</span> user.idcard[<span class="number">-6</span>:] == idcard:</span><br><span class="line">                    serializer = serializers.RegisterSerializer(user, data=request.data)</span><br><span class="line">                    <span class="keyword">if</span> serializer.is_valid():</span><br><span class="line">                        user = serializer.save()</span><br><span class="line">                    <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">200</span>, <span class="string">'message'</span>: <span class="string">''</span>, <span class="string">'data'</span>: res.data&#125;)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="comment">#返回错误信息</span></span><br><span class="line">                    <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">10050</span>, <span class="string">'message'</span>: <span class="string">'您的身份证后六位输入错误，请重新输入！'</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>先判断数据库中是否有该员工，是否有注册权限。</p>
+<p>然后根据身份证后6位验证。</p>
+<p>调用serializers.RegisterSerializer，update实例。</p>
+<p>判断serializer是否实例化，修改user实例。</p>
+<p><strong>表操作</strong></p>
+<p>增</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># method1</span></span><br><span class="line">models.Host.objects.create(hostname=<span class="string">'xx'</span>,ip=<span class="string">'xx'</span>,...)  <span class="comment">#增加一条数据，可以接受字典类型数据 **kwargs</span></span><br><span class="line"><span class="comment"># method2</span></span><br><span class="line">obj = models.Host(hostname=<span class="string">'xx'</span>,ip=<span class="string">'xx'</span>,...)</span><br><span class="line">obj.save()</span><br></pre></td></tr></table></figure>
+
+<p>删</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">models.Host.objects.filter(hostname=<span class="string">'xxx'</span>).delete()       <span class="comment">#删除指定条件的数据</span></span><br></pre></td></tr></table></figure>
+
+<p>改</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">models.Host.objects.filter(hostname=<span class="string">'xx'</span>).update(ip=<span class="string">'xxx'</span>)  <span class="comment">#将指定条件的数据更新，均支持 **kwargs</span></span><br><span class="line">obj = models.Host.objects.get(id=<span class="number">1</span>)</span><br><span class="line">obj.ip = <span class="string">'xx'</span></span><br><span class="line">obj.save()                                                  <span class="comment">#修改单条数据</span></span><br></pre></td></tr></table></figure>
+
+<p>查</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">models.Tb1.objects.get(id=<span class="number">1</span>)                         <span class="comment"># 获取单条数据，不存在则报错(不建议使用)</span></span><br><span class="line">models.Tb1.objects.all()                             <span class="comment"># 获取全部</span></span><br><span class="line">models.Tb1.objects.filter(name=<span class="string">'seven'</span>).first()      <span class="comment"># 获取指定条件的数据</span></span><br></pre></td></tr></table></figure>
+
+<p><em>serializers.py</em></p>
+<h3 id="改动"><a href="#改动" class="headerlink" title="改动"></a>改动</h3><p>首先修改前端</p>
+<p>后端：</p>
+<p><em>views.py</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idcard = request.data.get(<span class="string">'idcard'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>改为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">phone = request.data.get(<span class="string">'phone'</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> user.idcard[<span class="number">-6</span>:] == idcard:</span><br></pre></td></tr></table></figure>
+
+<p>改为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> user.phone[<span class="number">-4</span>:] == phone:</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.core.exceptions <span class="keyword">import</span> ValidationError</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证电话号码是否合法</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">validate_phone</span><span class="params">(value)</span>:</span></span><br><span class="line">    p = re.compile(<span class="string">r'^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d&#123;8&#125;$'</span>)</span><br><span class="line">    <span class="keyword">if</span> p.match(value) == <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">raise</span> ValidationError(message=<span class="string">"电话号码不合法"</span>)</span><br><span class="line">    exists = WebUser.objects.filter(phone=value).exists()</span><br><span class="line">    <span class="keyword">if</span> exists:</span><br><span class="line">        <span class="keyword">raise</span> ValidationError(message=<span class="string">"此手机号码已经被注册"</span>)</span><br><span class="line">        </span><br><span class="line">phone = models.CharField(max_length=<span class="number">11</span>, verbose_name=<span class="string">'手机号'</span>, validators=[validate_phone])</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> user.phone[<span class="number">-4</span>:] == phone:</span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    serializer = serializers.RegisterSerializer(user, data=request.data)</span></span><br><span class="line"><span class="string">    if serializer.is_valid():</span></span><br><span class="line"><span class="string">        user = serializer.save()</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    user.nickname = request.data.get(<span class="string">'nickname'</span>, user.nickname)</span><br><span class="line">    exists = models.WebUser.objects.filter(nickname=user.nickname).exists()</span><br><span class="line">    <span class="keyword">if</span> exists:</span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">10040</span>, <span class="string">'message'</span>: <span class="string">'该用户名已存在，请重新输入！'</span>&#125;)</span><br><span class="line">    hash_key = <span class="string">'password'</span></span><br><span class="line">    password = request.data.get(<span class="string">'password'</span>) + hash_key</span><br><span class="line">    password_md5 = hashlib.md5(password.encode()).hexdigest()</span><br><span class="line">    user.password = password_md5</span><br><span class="line">    user.save()</span><br><span class="line">    <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">200</span>, <span class="string">'message'</span>: <span class="string">''</span>, <span class="string">'data'</span>: res.data&#125;)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="comment">#返回错误信息</span></span><br><span class="line">    <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">10050</span>, <span class="string">'message'</span>: <span class="string">'您的电话号码后四位输入错误，请重新输入！'</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>前端：npm run dev 报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">you can run: npm install --save !!vue-styles-loader!css-loader?</span><br></pre></td></tr></table></figure>
+
+<p>解决方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install sass-loader --save</span><br><span class="line">npm install node-sass --save</span><br></pre></td></tr></table></figure>
+
+<p>意见反馈表models.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"><span class="keyword">from</span> extra_apps.DjangoUeditor.models <span class="keyword">import</span> UEditorField</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create your models here.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FeedbackTable</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="string">"意见反馈表"</span></span><br><span class="line">    feedback = UEditorField(verbose_name=<span class="string">"反馈意见"</span>, imagePath=<span class="string">"articles/images/"</span>+<span class="string">"/%(basename)s_%(basename)s_%(datetime)s.%(extname)s"</span>, width=<span class="number">1000</span>, height=<span class="number">300</span>,</span><br><span class="line">                            filePath=<span class="string">"articles/files/"</span>, default=<span class="string">''</span>)</span><br><span class="line">    username = models.CharField(max_length=<span class="number">32</span>, verbose_name=<span class="string">'留言人'</span>, blank=<span class="literal">True</span>, null=<span class="literal">True</span>)</span><br><span class="line">    ip_address = models.CharField(max_length=<span class="number">32</span>, verbose_name=<span class="string">'IP地址'</span>, blank=<span class="literal">True</span>, null=<span class="literal">True</span>)</span><br><span class="line">    time = models.DateTimeField(verbose_name=<span class="string">'留言时间'</span>, auto_now=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        verbose_name = <span class="string">"意见反馈"</span></span><br><span class="line">        verbose_name_plural = <span class="string">"意见反馈"</span></span><br><span class="line">        db_table = <span class="string">"T_Feedback"</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> str(self.id)</span><br></pre></td></tr></table></figure>
+
+<p>admin.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> FeedbackTable</span><br><span class="line"></span><br><span class="line"><span class="meta">@admin.register(FeedbackTable)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FeedbackAdmin</span><span class="params">(admin.ModelAdmin)</span>:</span></span><br><span class="line">    list_display = (<span class="string">'id'</span>, <span class="string">'feedback'</span>, <span class="string">'username'</span>, <span class="string">'ip_address'</span>, <span class="string">'time'</span>)</span><br><span class="line">    search_fields = (<span class="string">'feedback'</span>, <span class="string">'username'</span>)</span><br><span class="line">    list_per_page = <span class="number">20</span></span><br><span class="line">    list_filter = (<span class="string">'ip_address'</span>, <span class="string">'time'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>urls.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path</span><br><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> views</span><br><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">'feedback'</span>, views.FeedbackView.as_view()),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>views.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.views <span class="keyword">import</span> APIView</span><br><span class="line"><span class="keyword">from</span> rest_framework.response <span class="keyword">import</span> Response</span><br><span class="line"><span class="keyword">from</span> apps.Feedback <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create your views here.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FeedbackView</span><span class="params">(APIView)</span>:</span></span><br><span class="line">    <span class="string">"""意见反馈"""</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self, request)</span>:</span></span><br><span class="line">        feedback = request.POST.get(<span class="string">'feedback'</span>)</span><br><span class="line">        <span class="keyword">if</span> feedback <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">1010</span>, <span class="string">'message'</span>: <span class="string">'留言不能为空！'</span>&#125;)</span><br><span class="line">        username = request.POST.get(<span class="string">'username'</span>)</span><br><span class="line">        ip_address = self.get_ip(request)</span><br><span class="line">        models.FeedbackTable.objects.create(</span><br><span class="line">            feedback = feedback,</span><br><span class="line">            username = username,</span><br><span class="line">            ip_address = ip_address</span><br><span class="line">        )</span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">200</span>, <span class="string">'message'</span>: <span class="string">'留言成功！感谢您的建议'</span>&#125;)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_ip</span><span class="params">(request)</span>:</span></span><br><span class="line">        <span class="string">'''获取请求者的IP信息'''</span></span><br><span class="line">        x_forwarded_for = request.META.get(<span class="string">'HTTP_X_FORWARDED_FOR'</span>)  <span class="comment"># 判断是否使用代理</span></span><br><span class="line">        <span class="keyword">if</span> x_forwarded_for:</span><br><span class="line">            ip = x_forwarded_for.split(<span class="string">','</span>)[<span class="number">0</span>]  <span class="comment"># 使用代理获取真实的ip</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            ip = request.META.get(<span class="string">'REMOTE_ADDR'</span>)  <span class="comment"># 未使用代理获取IP</span></span><br><span class="line">        <span class="keyword">return</span> ip</span><br></pre></td></tr></table></figure>
+
+<p>Feedback</p>
+<p>models.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"><span class="keyword">from</span> extra_apps.DjangoUeditor.models <span class="keyword">import</span> UEditorField</span><br><span class="line"><span class="keyword">from</span> ckeditor_uploader.fields <span class="keyword">import</span> RichTextUploadingField</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create your models here.</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FeedbackTable</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="string">"意见反馈表"</span></span><br><span class="line">    title = models.CharField(max_length=<span class="number">100</span>, verbose_name=<span class="string">"标题"</span>, default=<span class="string">''</span>)</span><br><span class="line">    username = models.CharField(max_length=<span class="number">32</span>, verbose_name=<span class="string">'留言人'</span>, blank=<span class="literal">True</span>, null=<span class="literal">True</span>)</span><br><span class="line">    content = RichTextUploadingField(verbose_name=<span class="string">'反馈内容'</span>, default=<span class="string">''</span>)</span><br><span class="line">    <span class="comment"># files = models.ManyToManyField(Files, related_name='files')</span></span><br><span class="line">    status_choices = (</span><br><span class="line">        (<span class="number">0</span>, <span class="string">'已接收'</span>),</span><br><span class="line">        (<span class="number">1</span>, <span class="string">'已反馈'</span>),</span><br><span class="line">        (<span class="number">2</span>, <span class="string">'处理中'</span>),</span><br><span class="line">        (<span class="number">3</span>, <span class="string">'已完成'</span>),</span><br><span class="line">        (<span class="number">4</span>, <span class="string">'忽视'</span>)</span><br><span class="line">    )</span><br><span class="line">    status = models.IntegerField(choices=status_choices, verbose_name=<span class="string">'状态'</span>, default=<span class="number">0</span>)</span><br><span class="line">    time = models.DateTimeField(verbose_name=<span class="string">'留言时间'</span>, auto_now=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        verbose_name = <span class="string">"意见反馈"</span></span><br><span class="line">        verbose_name_plural = <span class="string">"意见反馈"</span></span><br><span class="line">        db_table = <span class="string">"T_Feedback"</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> str(self.id)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Files</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    file = models.FileField(upload_to=<span class="string">'feedback/file/%Y-%m-%d/'</span>, null=<span class="literal">True</span>, blank=<span class="literal">True</span>, verbose_name=<span class="string">"添加附件"</span>)</span><br><span class="line">    feedback = models.ForeignKey(to=FeedbackTable, on_delete=models.CASCADE, verbose_name=<span class="string">"feedback_id"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        verbose_name = <span class="string">"反馈附件"</span></span><br><span class="line">        verbose_name_plural = <span class="string">"反馈附件"</span></span><br><span class="line">        db_table = <span class="string">"T_FeedbackFiles"</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> str(self.id)</span><br></pre></td></tr></table></figure>
+
+<p>admin.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> FeedbackTable, Files</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FilesInline</span><span class="params">(admin.TabularInline)</span>:</span></span><br><span class="line">    model = Files</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_extra</span><span class="params">(self, request, obj=None, **kwargs)</span>:</span></span><br><span class="line">        extra = <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> extra</span><br><span class="line"></span><br><span class="line"><span class="meta">@admin.register(FeedbackTable)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FeedbackAdmin</span><span class="params">(admin.ModelAdmin)</span>:</span></span><br><span class="line">    list_display = (<span class="string">'id'</span>, <span class="string">'title'</span>, <span class="string">'content'</span>, <span class="string">'username'</span>, <span class="string">'status'</span>, <span class="string">'time'</span>)</span><br><span class="line">    search_fields = (<span class="string">'title'</span>, <span class="string">'content'</span>, <span class="string">'username'</span>)</span><br><span class="line">    list_per_page = <span class="number">20</span></span><br><span class="line">    list_filter = (<span class="string">'status'</span>, <span class="string">'time'</span>)</span><br><span class="line">    inlines = [FilesInline]</span><br><span class="line"></span><br><span class="line"><span class="meta">@admin.register(Files)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FilesAdmin</span><span class="params">(admin.ModelAdmin)</span>:</span></span><br><span class="line">    list_display = (<span class="string">'id'</span>, <span class="string">'file'</span>, <span class="string">'feedback'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>views.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render</span><br><span class="line"><span class="keyword">from</span> rest_framework.views <span class="keyword">import</span> APIView</span><br><span class="line"><span class="keyword">from</span> django.apps <span class="keyword">import</span> apps</span><br><span class="line"><span class="keyword">from</span> rest_framework.response <span class="keyword">import</span> Response</span><br><span class="line"><span class="keyword">from</span> apps.Feedback <span class="keyword">import</span> models, serializers</span><br><span class="line"><span class="keyword">from</span> django.http <span class="keyword">import</span> StreamingHttpResponse</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create your views here.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FeedbackView</span><span class="params">(APIView)</span>:</span></span><br><span class="line">    <span class="string">"""意见反馈"""</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self, request)</span>:</span></span><br><span class="line">        title = request.POST.get(<span class="string">'title'</span>)</span><br><span class="line">        <span class="comment">#if title is None:</span></span><br><span class="line">        <span class="comment">#    return Response(&#123;'code': 1010, 'message': '标题不能为空！'&#125;)</span></span><br><span class="line">        content = request.POST.get(<span class="string">'content'</span>)</span><br><span class="line">        <span class="comment">#if feedback is None:</span></span><br><span class="line">        <span class="comment">#    return Response(&#123;'code': 1011, 'message': '内容不能为空！'&#125;)</span></span><br><span class="line">        username = request.POST.get(<span class="string">'name'</span>, <span class="literal">None</span>)</span><br><span class="line">        files = request.FILES.getlist(<span class="string">'file'</span>)</span><br><span class="line">        <span class="comment"># ip_address = self.get_ip(request)</span></span><br><span class="line">        feedback = models.FeedbackTable()</span><br><span class="line">        feedback.title = title</span><br><span class="line">        feedback.content = content</span><br><span class="line">        feedback.username = username</span><br><span class="line">        feedback.save()</span><br><span class="line">        <span class="keyword">if</span> files <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">for</span> f <span class="keyword">in</span> files:</span><br><span class="line">                file = models.Files()</span><br><span class="line">                file.file = f</span><br><span class="line">                file.feedback = feedback.id</span><br><span class="line">                file.save()</span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">200</span>, <span class="string">'message'</span>: <span class="string">'提交成功！感谢您的建议'</span>&#125;)</span><br><span class="line"></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    def get_ip(request):</span></span><br><span class="line"><span class="string">        </span></span><br><span class="line"><span class="string">        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')  # 判断是否使用代理</span></span><br><span class="line"><span class="string">        if x_forwarded_for:</span></span><br><span class="line"><span class="string">            ip = x_forwarded_for.split(',')[0]  # 使用代理获取真实的ip</span></span><br><span class="line"><span class="string">        else:</span></span><br><span class="line"><span class="string">            ip = request.META.get('REMOTE_ADDR')  # 未使用代理获取IP</span></span><br><span class="line"><span class="string">        return ip</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GetBasicInformation</span><span class="params">(APIView)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    获取意见反馈表中的id，标题，用户名，时间，状态</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, request)</span>:</span></span><br><span class="line">        feedback = models.FeedbackTable.objects.all()</span><br><span class="line">        res = serializers.FeedbackSerializers(feedback, many=<span class="literal">True</span>)</span><br><span class="line">        <span class="keyword">return</span> Response(res.data)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GetContentAndFiles</span><span class="params">(APIView)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    获取详细内容和附件</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self, request)</span>:</span></span><br><span class="line">        id = request.data.get(<span class="string">'id'</span>)</span><br><span class="line">        res = &#123;&#125;</span><br><span class="line">        filepath = []</span><br><span class="line">        filename = []</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 获取内容</span></span><br><span class="line">            feedback_obj = models.FeedbackTable.objects.get(id=id)</span><br><span class="line">            content = feedback_obj.content</span><br><span class="line">            res[<span class="string">'content'</span>] = content</span><br><span class="line">            <span class="comment"># 获取文件</span></span><br><span class="line">            file_obj = models.Files.objects.filter(feedback=feedback_obj)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> file_obj.exists():</span><br><span class="line">                <span class="comment"># 没有附件</span></span><br><span class="line">                res[<span class="string">'files'</span>] = <span class="literal">None</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="comment"># 存在附件</span></span><br><span class="line">                res[<span class="string">'files'</span>] = <span class="literal">True</span></span><br><span class="line">                <span class="keyword">for</span> f <span class="keyword">in</span> file_obj:</span><br><span class="line">                    file_path = str(f.file)</span><br><span class="line">                    file_name = file_path.split(<span class="string">'/'</span>)[<span class="number">-1</span>]</span><br><span class="line">                    filepath.append(file_path)</span><br><span class="line">                    filename.append(file_name)</span><br><span class="line">                    res[<span class="string">'filepath'</span>] = filepath</span><br><span class="line">                    res[<span class="string">'filename'</span>] = filename</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">200</span>, <span class="string">'message'</span>: <span class="string">''</span>, <span class="string">'data'</span>: res&#125;)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">10010</span>, <span class="string">'message'</span>: <span class="string">'该反馈意见不存在!'</span>&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileDown</span><span class="params">(APIView)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    下载文件</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self, request)</span>:</span></span><br><span class="line">        filename = request.data.get(<span class="string">'filename'</span>)</span><br><span class="line">        filepath = request.data.get(<span class="string">'filepath'</span>)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            response = StreamingHttpResponse(self.readFile(filepath))</span><br><span class="line">            response[<span class="string">'Content-Type'</span>] = <span class="string">'application/octet-stream'</span></span><br><span class="line">            response[<span class="string">'Content-Disposition'</span>] = <span class="string">'attachment;filename="&#123;0&#125;"'</span>.format(filename)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">201</span>, <span class="string">'message'</span>: <span class="string">'没有找到该附件'</span>&#125;)</span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">readFile</span><span class="params">(filepath, chunk_size=<span class="number">512</span>)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        缓冲流下载文件方法</span></span><br><span class="line"><span class="string">        :param filepath:</span></span><br><span class="line"><span class="string">        :param chunk_size:</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">with</span> open(filepath, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">            <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">                c = f.read(chunk_size)</span><br><span class="line">                <span class="keyword">if</span> c:</span><br><span class="line">                    <span class="keyword">yield</span> c</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<p>serializers.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> apps.Feedback <span class="keyword">import</span> models</span><br><span class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> serializers</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FeedbackSerializers</span><span class="params">(serializers.ModelSerializer)</span>:</span></span><br><span class="line">    <span class="string">"反馈意见基本信息"</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        model = models.FeedbackTable</span><br><span class="line">        fields = [<span class="string">'id'</span>, <span class="string">'title'</span>, <span class="string">'username'</span>, <span class="string">'status'</span>, <span class="string">'time'</span>]</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://artemisaturn.github.io/2020/09/14/Linear-Algebra/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Daphne Wang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/14/Linear-Algebra/" class="post-title-link" itemprop="url">Linear Algebra</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-14 10:41:08 / 修改时间：22:30:20" itemprop="dateCreated datePublished" datetime="2020-09-14T10:41:08+08:00">2020-09-14</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="1、向量是什么？"><a href="#1、向量是什么？" class="headerlink" title="1、向量是什么？"></a>1、向量是什么？</h1><p>向量（Vector）是线性代数中最基础、最根源的组成部分。<br>$$<br>\text{三种观点} = \begin{cases}<br>                \text{physics student perspective}\<br>                \text{computer science student perspective}\<br>                \text{mathematician’s perspective}<br>          \end{cases}<br>$$</p>
+<ul>
+<li>从物理专业学生的视角看：向量是空间中的箭头，决定一个向量的是它的长度和它所指的方向，只要以上两个特征相同，你可以自由移动一个向量而保持它不变。</li>
+<li>从计算机专业学生的视角看：向量是有序的数字列表。</li>
+<li>数学家试图去概括这两种观点：a vector can be anything，只要保证两个向量相加以及数字与向量相乘是有意义的即可。</li>
+</ul>
+<p><strong>几何含义：</strong></p>
+<p>向量相加：从第一个向量的起点出发，指向第二个向量的终点</p>
+<p>向量数乘：向量的缩放（scaling）</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://artemisaturn.github.io/2020/08/23/Taichi/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -506,10 +866,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-08-23 16:58:36 / 修改时间：23:05:31" itemprop="dateCreated datePublished" datetime="2020-08-23T16:58:36+08:00">2020-08-23</time>
+              <time title="创建时间：2020-08-23 16:58:36" itemprop="dateCreated datePublished" datetime="2020-08-23T16:58:36+08:00">2020-08-23</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-28 10:29:17" itemprop="dateModified" datetime="2020-10-28T10:29:17+08:00">2020-10-28</time>
+              </span>
 
           
 
@@ -522,7 +888,76 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2>
+          <h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>基于Tait方程，本文提出了一种弱可压缩光滑粒子流体动力学方法。与通常采用的严格执行不可压缩性的投影方法相比，通过允许用户定义小的密度波动，避免了泊松方程的耗时求解。我们还讨论了一个改进的表面张力模型，特别适合单相自由表面流动。通过与已有模型的比较，验证了该方法对自由表面流动的准确性。结合所提出的方法，可以有效地利用SPH模拟低粘度液体。该方法适用于中、小规模现象。喷溅和碎波等波浪效果是自然处理的。</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>​    在流体动画中，最理想的功能是模拟具有碎波和飞溅的湍流液体。像SPH这样的拉格朗日方法是捕捉这种性质的一个有前途的方法。</p>
+<p>​    Miller 和 Pearcy 提出了基于粒子的方法，这种早期的方法是基于简单的粒子-粒子力。</p>
+<p>​    Stam 和 Fiume 第一次将SPH应用于气体和火焰现象的模拟。</p>
+<p>​    Takeshita等人对爆炸火焰也采用了粒子法。</p>
+<p>​    除了这些可压缩现象，SPH还被用于模拟液体。</p>
+<p>​    这些方法采用理想气体方程来联系压力和密度。这导致高压缩性和振荡，与气体相反，这是不希望的，视觉上令人不快。增强粒子方法的不可压缩性是一个具有挑战性的问题。康明斯和鲁德曼为拉格朗日方法提出了一种投影方法，这种方法也用于欧拉方法。类似地，Premoze等人已经实现了移动粒子半隐式方法(MPS)的不可压缩性。在这种方法中，基于压力校正将速度估计投影到无发散子空间上。因此，泊松方程必须求解。虽然可以处理大的时间步长，但是用于求解泊松方程的共轭梯度解算器对于大系统来说是耗时的。对于100k粒子，Premoze注释是3分钟，而可压缩的SPH实现可以处理类似的复杂性5-10秒每时间步。</p>
+<p>​    在我们的SPH模拟中，我们建议使用Tait方程和一个高声速，这导致具有非常低密度波动的弱可压缩公式。该方法避免了由于可压缩性而导致的不可信的模拟结果。虽然与泊松方法相比，该方法需要更小的时间步长，但每时间步长的计算速度要快得多，而且实现很容易适应SPH框架。弱可压缩形式的计算时间与基于理想气体方程的可压缩形式所需的时间相对应。</p>
+<p>​    除了体积保持，表面张力在逼真的流体动画中也起着重要的作用。由于对小细节的处理主要受表面张力的控制，所以在自由表面流体的拉格朗日方法中通常会考虑到这一点。然而，这些方法最初是为多相流设计的。虽然在高动态环境中不可评估，但它们不能正确处理大曲率。这是因为粒子在这些区域的邻居太少。此外，[Mor99]要求计算颜色场的二阶导数，颜色场对粒子无序非常敏感，因此不适用于湍流环境。</p>
+<p>​    我们提出了一个基于内聚力的表面张力模型。该模型特别适合于单相流，但也可以处理多相流。避免了导数的计算，提高了方法的效率和稳定性。</p>
+<h2 id="Related-work"><a href="#Related-work" class="headerlink" title="Related work"></a>Related work</h2><p>​    受早期程序方法的启发，计算机图形学中的流体模拟主要由欧拉方法和拉格朗日方法组成。一般来说，欧拉方法显示出许多有用的特征。仅举几个例子，计算是在固定的网格上进行的，避免了拉格朗日方法所要求的耗时的邻居搜索。此外，通过设置适当的边界条件，可以容易地处理流入和流出。</p>
+<p>​    在[KM90]中，卡斯和米勒提出了一个基于浅水方程线性化的高度场模型(height-field model)。在[FM96]中，福斯特和梅塔克萨斯引入了三维纳维尔-斯托克斯方程组的有限差分解法。使用2D高度场和表面标记粒子来跟踪自由表面，并且实现了流体和刚性物体的单向耦合。在[FM97]中，2D标记粒子法被推广到三维，并提出了一种局部自适应阻尼方法来提高稳定性。斯塔姆[99]提出了三维不可压缩纳维尔-斯托克斯方程的无条件稳定解算器。福斯特和费迪基通过结合水平集和表面标记粒子来减轻质量耗散，使用改进的表面跟踪来增强流体的方法。这就是所谓的粒子水平集方法。埃尔科特等人提供了对[Sta99]的进一步扩展的全面概述。他们使用相同的半拉格朗日平流策略，但提出了一个保持循环的积分方案。</p>
+<p>​    其他作者引入了处理多相流的扩展，包括两种或多种流体，与运动刚性固体的双向耦合，可变形固体，以及局部细化。奥布莱恩和哈金斯通过使用粒子系统来模拟液滴来增强基于网格的方法，米哈利夫等人解决了欧拉流体模拟的碎波问题。最近，点阵玻尔兹曼方法已经被提出用于流体模拟。在这种基于网格的替代方法中，粒子分布是使用碰撞和传播规则在有限的网格上演化的。</p>
+<p>​    计算机图形学中拉格朗日方法的研究—至少在某种程度上—是由交互式应用推动的。拉格朗日方法在内存和计算时间方面是比较有效的。它们对于时变仿真域具有灵活性，易于实现。基于上述基本SPH方法，已经给出了各种扩展。SPH流体的应用范围从河流模拟、多相流体模拟和高粘性流体到流体控制。Desbrun和Cani 提出了一种用于可变形固体的弹性SPH方法。Hadap和Magnenat-Thalmann 使用SPH进行头发动力学。在[MST∗04]中，实现了基于sph的流体和可变形固体的双向耦合。Solenthaler等人[SSP07]提出了一种适用于液体、弹性和刚性物体的统一SPH方法。SPH也在虚拟手术中得到了应用。</p>
+<p>​    Bell等人提出了一种基于分子动力学的颗粒方法。Zhu和Bridson 将细胞内粒子法扩展到模拟水和颗粒物质。为了更好地介绍图形中的各种流体模拟技术，我们参考了Bridson、Fedkiw和MullerFischer的优秀SIGGRAPH课程笔记。</p>
+<h2 id="SPH-fluid-model"><a href="#SPH-fluid-model" class="headerlink" title="SPH fluid model"></a>SPH fluid model</h2><p>对于流体，插值公式如下：<br>$$<br>A(\mathbf{x}) = \sum_j m_j \frac{A_j}{ρ_j} W(\mathbf{x}-\mathbf{x}_j,h) \quad\quad (1)<br>$$</p>
+<h3 id="The-governing-equations-and-their-SPH-formulation"><a href="#The-governing-equations-and-their-SPH-formulation" class="headerlink" title="The governing equations and their SPH formulation"></a>The governing equations and their SPH formulation</h3><p>​    在我们的方法中，我们求解欧拉方程，它是无粘流的Navier-Stokes方程的简化。为了提高方法的数值稳定性，在模型中加入了动量守恒的人工粘度。在非守恒形式下，欧拉方程：<br>$$<br>\frac{dρ}{dt} = -ρ\nabla \cdot \mathbf{v} \quad\quad \text{(continuity equation)} \quad\quad (2)<br>$$</p>
+<p>$$<br>\frac{d\mathbf{v}}{dt} = -\frac{1}{ρ}\nabla P + \mathbf{g} \quad\quad \text{(momentum equation)} \quad\quad (3)<br>$$</p>
+<p>​    v表示速度，P表示压力，g表示外力</p>
+<p><strong>Continuity equation</strong></p>
+<p>​    最初的SPH方法使用求和公式来计算密度:<br>$$<br>ρ<em>a = \sum_b m_b W</em>{ab}  \quad\quad (W_{ab} = W(\mathbf{x}_a - \mathbf{x}_b))  \quad\quad (4)<br>$$<br>​    由于质量是由粒子携带的，这种形式正好保持了质量。然而，由于自由表面中的表面粒子具有较少的邻居，因此公式(4)为等间距粒子计算了表面附近的错误(较低)密度。</p>
+<p>​    有几种方法可以解决这个问题。例如，[SDD06]使用自适应的核半径h，在表面强制执行恒定密度，并在表面模拟小规模效果。莫纳汉[Mon94]引入了另一种方法，并在[SAC*99]中通过求解连续性方程来使用，这导致了SPH形式：<br>$$<br>\frac{dρ<em>a}{dt} = \sum_b m_b \mathbf{v}</em>{ab} \nabla_a W_{ab} \quad\quad (5)<br>$$<br>with $\mathbf{v}_{ab} = \mathbf{v}_a - \mathbf{v}_b$ </p>
+<p>​    每个粒子都以密度ρ0初始化，密度变化只是由于粒子的相对运动。微分更新(5)保证了自由表面的正确密度。虽然使用(5)初始化更容易，但求和方法(4)更稳定，并已在我们的实验中使用。</p>
+<p><strong>Momentum equation</strong></p>
+<p>在SPH形式中，动量方程写成：<br>$$<br>\frac{d\mathbf{v}<em>a}{dt} = -\sum_b m_b \left( \frac{P_a}{ρ_a^2} + \frac{P_b}{ρ_b^2} \right) \nabla_a W</em>{ab} + \mathbf{g} \quad\quad (6)<br>$$<br>这个对称的版本保持了线动量和角动量。<br>$$<br>\frac{Dv}{Dt} = \frac{dv}{dt}|_{v_0=v}=\frac{∂v}{∂t}+v\cdot \nabla v=\frac{∂v}{∂t} + u\frac{∂v}{∂x}+v\frac{∂v}{∂y}+w\frac{∂v}{∂z}<br>$$<br><strong>Equation of state</strong></p>
+<p>​    压力和密度有不同的联系形式。如果需要不可压缩性，泊松方程$\nabla^2 P = ρ\frac{\nabla \mathbf{v}}{∆t}$通常在欧拉方法中求解。然而，求解泊松方程是耗时的。相比之下，使用理想气体方程 $P = k_p ρ$ 或 $P = k_p(ρ - ρ_0)$ ，压力常数kp用于SPH，这导致相当高的可压缩性。</p>
+<p>​    与这两种方法相比，我们使用泰特方程，该方程强制要求非常低的密度变化，并且计算效率高。忽略可以简单地作为恒压项添加的大气压力，泰特方程具有以下形式：<br>$$<br>P = B \left( \left(\frac{ρ}{ρ_0} \right)^{\gamma} -1 \right) \quad\quad (7)<br>$$<br>with γ = 7</p>
+<p>​    压力常数B控制相对密度波动 $\frac{|∆ρ|}{ρ_0}$，其中 ∆ρ=ρ - ρ<sub>0</sub> 。为了确定B的值，我们考虑可压缩性效应与$O(M^2)$成比例，M表示流动的马赫数。这导致以下关系：<br>$$<br>\frac{|∆ρ|}{ρ_0} \sim \frac{|\mathbf{v}_f|^2}{c_s^2} \quad\quad (8)<br>$$<br>​    马赫数：流体力学中表征流体可压缩程度的一个重要的无量纲参数，记为Ma，定义为流场中某点的速度<em>v</em>同该点的当地声速c之比，即Ma=v/c。</p>
+<p>​    因此，如果假设声速足够大，使得 $\frac{\mathbf{v}_f}{c_s} &lt; \sqrt{\eta}$，我们可以保证 $\frac{|∆ρ|}{ρ_0} \sim \eta$。通常，η设置为0.01，即允许1%数量级的密度变化。为了实施这一条件，选择B作为：<br>$$<br>B = \frac{ρ_0 c_s^2}{\gamma} \quad\quad (9)<br>$$<br>​    假设声速很高以保持低密度波动，与不可压缩粒子方法相比，泰特方程需要更小的时间步长。但是我们避免了求解泊松方程，每个时间步长需要的计算时间要少得多。对于100k粒子，一个时间步长的计算速度可以比MPS快二十倍。</p>
+<h3 id="Viscosity"><a href="#Viscosity" class="headerlink" title="Viscosity"></a>Viscosity</h3><p>​    为了提高数值稳定性并考虑到冲击现象，采用了人工粘度：<br>$$<br>\frac{d\mathbf{v}<em>a}{dt} =<br>        \begin{cases}<br>        -\sum_b m_b \Pi</em>{ab}\nabla_a W_{ab} &amp; \mathbf{v}<em>{ab}^T\mathbf{x}</em>{ab}&lt;0\<br>        0 &amp; \mathbf{v}<em>{ab}^T\mathbf{x}</em>{ab}\geq 0<br>        \end{cases} \quad\quad(10)<br>$$</p>
+<p>$$<br>\Pi_{ab} = -v \left(\frac{\mathbf{v}<em>{ab}^T \mathbf{x}</em>{ab}}{|\mathbf{x}_{ab}^2| + \varepsilon h^2} \right) \quad\quad (11)<br>$$</p>
+<p>​    粘性项：$v = \frac{2αhc_s}{ρ_a + ρ_b}$ ，粘性常数α，对于我们的实验，α在0.08和0.5之间。线动量和角动量在(11)中是守恒的。</p>
+<h3 id="Surface-Tension"><a href="#Surface-Tension" class="headerlink" title="Surface Tension"></a>Surface Tension</h3><p>​    当前的表面张力模型通常基于分配给粒子a的颜色值ca，一个相位的所有粒子都具有相同的颜色值，根据颜色值进行插值：<br>$$<br>c = \sum_b \frac{m_b c_b}{ρ<em>b} W</em>{ab} \quad\quad (12)<br>$$<br>​    表面法线计算为：$\mathbf{n} = \nabla c$  ，表面张力计算：<br>$$<br>\mathbf{f}^{tension} = -k \nabla^2 c \frac{\mathbf{n}}{|\mathbf{n}|} \quad\quad(13)<br>$$<br>​    k是表面张力系数。</p>
+<p>​    由于归一化，法线只有在它们的长度超过某个阈值时才会被考虑。</p>
+<p>​    这种模式有几个缺点。在粒子只有几个邻居的表面附近，计算曲率 $-\nabla^2c$ 容易出错。此外，计算二阶导数对粒子无序很敏感。</p>
+<p>​    胡和亚当斯提出了修改版本。将表面张力表示为应力张量π的散度，应力张量π由颜色场c唯一定义:<br>$$<br>\Pi = k \frac{1}{|\nabla c|} \left(\frac{1}{3} \mathbf{I} |\nabla c|^2 - \nabla c \nabla c^T \right) \quad\quad (14)<br>$$<br>​    这个表达式得出加速度方程：<br>$$<br>\frac{d\mathbf{v}<em>a}{dt} = \frac{1}{m_a} \sum_b \nabla W</em>{ab} \left(\frac{\Pi_a}{\sigma_a^2} + \frac{\Pi_b}{\sigma_b^2} \right) \quad\quad (15)<br>$$<br>​    with $\sigma_a = \sum_b W(r_a -r_b)$ ，此方法解决了上述问题，因为他们没有明确计算曲率，对于|∇c| → 0，张量自然趋于零。</p>
+<p>​    虽然上述两种方法已经应用于自由表面问题，但这两种方法最初都是针对多相场景的。因此，在没有第二相的情况下，它们无法计算出正确的表面张力。它们缺少适当数量的相邻粒子，特别是在高曲率的表面区域。</p>
+<p>​    本文提出了一个新的表面张力模型，它依赖于内聚力。由于以前的方法采用了模型的宏观视角，本文的方法受到微观视角的启发，因为在分子水平上，表面张力是由于分子之间的吸引力而产生的。本文使用光滑核W作为加权函数来缩放吸引力:<br>$$<br>\frac{d\mathbf{v}_a}{dt} = -\frac{κ}{m_a}\sum_b{m_b}W(\mathbf{x}_a - \mathbf{x}_b) \quad\quad (16)<br>$$<br>​    此方法不依赖于第二相，适用于高曲率的自由表面问题。吸引力可以有效地计算出来。通过只对同相粒子施加吸引力，所提出的方法可以很容易地推广到多相问题。</p>
+<h2 id="Visualization"><a href="#Visualization" class="headerlink" title="Visualization"></a>Visualization</h2><p>​    粒子方法的一些可视化技术基于显式表面重建。使用移动立方体(Marching Cubes)，从特征函数重建等值面。然而，捕捉小细节需要对底层空间进行非常精细或自适应的离散化。</p>
+<p>​    粒子水平集不仅使用等值面，而且还引入了与速度场平流的示踪粒子。它们可以使用示踪粒子处理小液滴。然而，这些液滴不一定能捕捉模拟的分辨率。对于大变形，必须重新播种示踪粒子。在[KCC * 06]中，示踪粒子是用拉格朗日方法平流的。</p>
+<p>​    受Zwicker等人[ZPvBG01]和Adams等人[ALD06]的表面喷溅算法启发，我们采用了一种光线追踪方法。小水花和单滴的可视化受到[KCC * 06]和[TRS06]的启发。该方法保证了适当地捕捉到小到单个粒子大小的特征。每个像素的法线计算类似于[Mor99]如下：<br>$$<br>\mathbf{n}_a = \sum_b\frac{m_b}{ρ_b}\nabla W(\mathbf{x}_a - \mathbf{x}_b) \quad\quad(17)<br>$$<br>​    我们对所有被射线击中的粒子求和。在3.4GHz的奔腾4上，可视化130k粒子大约需要1-2秒。</p>
+<h2 id="Results"><a href="#Results" class="headerlink" title="Results"></a>Results</h2><p>​    在本节中，我们将说明SPH实现的一些属性。我们首先讨论模拟时间步长、边界条件和方法的初始化。随后，说明使用泰特方程与理想气体方程相比的效果，并讨论我们的表面张力模型的性质。最后，我们给出了一个带有碎波的示例场景。</p>
+<p>​    邻域搜索通过均匀的空间细分来实现。集成是通过蛙跳方案实现的。所有实验均采用水的密度ρ<sub>0</sub>=  1000kg/m<sup>3</sup>进行。</p>
+<h3 id="Time-step"><a href="#Time-step" class="headerlink" title="Time step"></a>Time step</h3><p>​    时间步长的适当选择对于稳定性和收敛性至关重要。在我们的例子中，时间步长由CFL条件、粘性项和力项[Mon92]导出:<br>$$<br>∆t = min\left(0.25\cdot \min\limits_a\ \left(\frac{h}{|\mathbf{f}_a|}\right), 0.4\cdot \frac{h}{c_s\cdot(1+0.6α)}\right) \quad\quad(18)<br>$$<br>​    尽管就数值稳定性而言，时间步长可能更大，但我们使用建议的时间步长来确保收敛。</p>
+<h3 id="Boundary-conditions"><a href="#Boundary-conditions" class="headerlink" title="Boundary conditions"></a>Boundary conditions</h3><p>​    在流体粒子与边界碰撞的地方插入边界粒子。根据[Mon05]，计算流体粒子a与边界粒子k碰撞的力$\mathbf{f}<em>{ak}$为：<br>$$<br>\mathbf{f}</em>{ak} = \frac{m_k}{m_a + m_k}\Gamma(\mathbf{x}_a,\mathbf{x}_b)\frac{\mathbf{x}_a - \mathbf{x}_k}{|\mathbf{x}_a-\mathbf{x}_k|} \quad\quad(19)<br>$$<br>​    函数$\Gamma$定义为：<br>$$<br>\Gamma(\mathbf{x}_a,\mathbf{x}_b) = 0.02\frac{c_s^2}{|\mathbf{x}_a-\mathbf{x}_b|}<br>        \begin{cases}<br>            \frac{2}{3} &amp; 0&lt;q&lt;\frac{2}{3}\<br>            (2q-\frac{3}{2}q^2) &amp; \frac{2}{3}&lt;q&lt;1\<br>            \frac{1}{2}(2-q)^2 &amp; 1&lt;q&lt;2\<br>            0 &amp; otherwise<br>        \end{cases} \quad\quad (20)<br>$$<br>with $q = \frac{|\mathbf{x}_a - \mathbf{x}_b|}{h}$</p>
+<h3 id="Initialization"><a href="#Initialization" class="headerlink" title="Initialization"></a>Initialization</h3><p>​    为了获得近似恒定密度的有效状态我们使用求和方法(4)，用(6)的强阻尼版本将粒子演化一百步。在简单的初始几何图形的情况下，这种初始化可能会导致小的视觉伪影。</p>
+<h3 id="Volume-preservation"><a href="#Volume-preservation" class="headerlink" title="Volume preservation"></a>Volume preservation</h3><p>​    为了比较基于Tait方程和理想气体方程的实现，我们进行了两个实验。在这两个实验中，我们测量最大密度和初始密度的比率，以评估体积保持。</p>
+<p>​    在第一个实验中，我们用130k个粒子模拟了一个溃坝场景。大坝的高度是H =5。对于Tait方程，密度波动η设置为0.01。对于气体方程，压力常数Kp设置为300。密度波动和压力常数分别最小化和最大化，以便在两种方法中使用相同的时间步长。在两个版本中，粒子半径和初始间距为0.1，粘性项α为0.1，计算时间约为每时间步4.5s。气体方程测得的密度比是4.06，泰特方程测得的密度比是1.01，如图1所示。</p>
+<img src="F:\blog\source\_posts\Weakly-compressible-SPH-for-free-surface-flows\Figure_1.png" alt="Figure_1" style="zoom:80%;" />
+
+<p>​    the Tait equation (left) and the ideal gas equation (right). The gas equation  leads to high compressibility.</p>
+<p>​    在第二个实验中，我们模拟了两个高度为H = 2、总粒子数为16k、粘度为α = 0.5的溃坝在一个矩形盆地中相互碰撞。气体方程的压力常数Kp设置为200，密度波动参数η设置为0.01。使用气体方程测得的最大密度比是1.2。由参数确定，对于泰特方程，测得的密度比是1.01。</p>
+<p>​    两个实验都是以相同的密度和相同的粒子质量初始化。实验表明，对于恒定的初始密度和粒子半径，气体方程的密度比随着模拟流体的体积而增加，即随着粒子的数量而增加。与弱可压缩方法相比，气体方程观察到相当大的体积变化。当大坝坍塌时，这一点尤其明显。使用我们的弱可压缩方法，密度波动可以对越来越多的粒子保持不变。就体积保持而言，泰特方程因此适用于处理大型粒子系统。</p>
+<h3 id="Surface-tension"><a href="#Surface-tension" class="headerlink" title="Surface tension"></a>Surface tension</h3><p>​    为了将我们的表面张力方法与[HA06]进行比较，我们使用了一个具有27k粒子的流体立方体，假设它在失重情况下会变形成一个水滴。对于可比结果，我们的方法的表面张力为0.8，而[HA06]的表面张力为30.6。可选参数设置主要影响收敛到平衡状态的速度。只要参数在合理范围内，定性结果不受影响。结果如图2所示。</p>
+<img src="F:\blog\source\_posts\Weakly-compressible-SPH-for-free-surface-flows\Figure_2.png" alt="Figure_2" style="zoom:80%;" />
+
+<p>​    The effect of surface tension. Initial state (left), resulting equilibrium using [HA06] (middle) and our surface tension approach (right).</p>
+<p>​    由于[HA06]最初用于多相情况，它不太适合自由表面情况下的高曲率。与我们的方法相反，初始状态的高曲率基本上被保留。</p>
+<p>​    在另一个实验中，我们研究了表面张力模型的参数设置。因此，我们模拟了具有两种不同表面张力的溃坝。表面张力0.01接近水，值3.4是此设定中最大的稳定值。如图3所示，选择较大的表面张力值会导致液体飞溅较大。</p>
+<img src="F:\blog\source\_posts\Weakly-compressible-SPH-for-free-surface-flows\Figure_3.png" alt="Figure_3" style="zoom:80%;" />
+
+<p>​    Two corner-breaking dams using a surface tension of 0.01 (left) and 3.4 (right).</p>
+<h3 id="Breaking-waves"><a href="#Breaking-waves" class="headerlink" title="Breaking waves"></a>Breaking waves</h3><p>​    我们设计了一个场景来说明碎波的处理。我们在一个26×5的水池中使用了200k个粒子，其地面坡度为12°。半径和初始间距设置为0.1。密度波动设置为0.01。粘度项为α = 0.08。为了产生波，我们使用平面波发生器。计算时间为每个时间步长7.5s。从图4中可以看出，飞溅和碎波可以用我们的方法来模拟。</p>
+<img src="F:\blog\source\_posts\Weakly-compressible-SPH-for-free-surface-flows\Figure_4.png" alt="Figure_4" style="zoom:80%;" />
+
+<p>​    A breaking wave is generated using a wave generator</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>​    我们提出了一种用于自由表面流体的弱可压缩SPH方法。通过允许小的用户定义的密度波动，与严格执行不可压缩性的方法相比，Tait方程是一种有效的替代方法。与气体方程相比，即使有大量粒子，密度波动仍然很小。已经在各种场景中说明了体积保持。使用我们的方法可以模拟具有飞溅的低粘性流体的碎波等自然现象。</p>
+<p>​    此外，我们还提出了一种基于内聚力的表面张力改进算法。与以前的方法相比，我们的模型可以处理单相自由表面流体的高曲率。</p>
+<p>​    目前正在进行的工作重点是多相表面张力和自适应粘度方案，如[MM97]中所建议的。</p>
+
       
     </div>
 
@@ -1841,374 +2276,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%882%EF%BC%89%E6%96%87%E6%B3%95%E5%92%8C%E8%AF%AD%E8%A8%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Daphne Wang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%882%EF%BC%89%E6%96%87%E6%B3%95%E5%92%8C%E8%AF%AD%E8%A8%80/" class="post-title-link" itemprop="url">编译原理（2）文法和语言</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-05-31 22:38:54" itemprop="dateCreated datePublished" datetime="2020-05-31T22:38:54+08:00">2020-05-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-01 09:04:12" itemprop="dateModified" datetime="2020-08-01T09:04:12+08:00">2020-08-01</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>[TOC]</p>
-<h2 id="2-1-符号、符号串及其集合的运算"><a href="#2-1-符号、符号串及其集合的运算" class="headerlink" title="2.1 符号、符号串及其集合的运算"></a>2.1 符号、符号串及其集合的运算</h2><p>任何一种语言都是由该语言的基本符号组成的符号串的集合。</p>
-<ul>
-<li>​    基本符号集</li>
-<li>​    任何语言的单词符号就是定义在它的字符集上的字符串</li>
-<li>​    该语言的任何语句就是定义在其单词符号集上的单词串(符号串)</li>
-</ul>
-<h3 id="2-1-1-字母表和符号串"><a href="#2-1-1-字母表和符号串" class="headerlink" title="2.1.1 字母表和符号串"></a>2.1.1 字母表和符号串</h3><p>字母表：是元素的非空有穷集合，把字母表中的元素称为符号，因此字母表也称符号集。</p>
-<p>符号串：字母表中的符号串组成的任何有穷序列。</p>
-<h3 id="2-1-2-符号串及其集合的运算"><a href="#2-1-2-符号串及其集合的运算" class="headerlink" title="2.1.2 符号串及其集合的运算"></a>2.1.2 符号串及其集合的运算</h3><p>① 符号串的长度：如果某符号串x中有m个符号，则其长度为m，记为|x|=m。例</p>
-<p>② 符号串的联接：设x和y是符号串，它们的联接xy是把y的符号写在x的符号之后得到的符号串。</p>
-<p>③ 符号串的方幂：设x是符号串，把x自身连接n次得到符号串z，即z=xxx….xx，称为符号串x的方幂。</p>
-<p>④ 符号串集合：若集合A中的一切元素都是某字母表上的符号串，则称A为字母表上的符号串集合。</p>
-<ul>
-<li>语言：表示某个确定的字母表上的符号串的任何集合。</li>
-</ul>
-<p>⑤ 集合的乘积：AB={xy|x∈A且y∈B}。</p>
-<p>⑥ 集合A的闭包A*和正闭包A+：</p>
-<img src="编译原理（2）文法和语言/a.png" alt="a" style="zoom:80%;" />
-
-<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%882%EF%BC%89%E6%96%87%E6%B3%95%E5%92%8C%E8%AF%AD%E8%A8%80/a.png" class="" title="This is image_a">
-
-<h2 id="2-2-文法的直观概念"><a href="#2-2-文法的直观概念" class="headerlink" title="2.2 文法的直观概念"></a>2.2 文法的直观概念</h2><p>文法的定义∶对语言结构的描述和定义，即在形式上用来描述和规定语言结构的称为“文法”(或“语法”)。</p>
-<p><strong>规则</strong></p>
-<p>​    句子的语法结构，可以用一组规则来描述。</p>
-<p>​    规则也称为“产生式”，规则中的“∷=”也常用“→”表示。</p>
-<p>​    注意∶文法中，描述某个特定的语法成分的规则可能不只一条。</p>
-<p><strong>由规则推导句子</strong></p>
-<p>如果用一组规则来描述句子的结构，就可以利用这组规则按照一定的方式去推导产生句子。</p>
-<p>推导方法∶使用一条规则，代替=&gt;左边的某个符号，产生=&gt;右端的符号串</p>
-<h2 id="2-3-文法和语言的形式定义"><a href="#2-3-文法和语言的形式定义" class="headerlink" title="2.3 文法和语言的形式定义"></a>2.3 文法和语言的形式定义</h2><h3 id="2-3-1-文法的形式定义"><a href="#2-3-1-文法的形式定义" class="headerlink" title="2.3.1 文法的形式定义"></a>2.3.1 文法的形式定义</h3><p>① 规则、产生式(或重写规则)∶形如α→β或α∷=β的（α，β）有序对，且α∈V+，β∈V* ， V为某字母表。</p>
-<ul>
-<li>α称为规则的左部(或产生式的左部)。</li>
-<li>β称为规则的右部(或产生式的右部)。</li>
-</ul>
-<p>②文法的定义</p>
-<p>（1）文法G定义为四元组（VN，VT，P，S）</p>
-<p>​        –VN：非终结符集</p>
-<p>​        –VT ：终结符集</p>
-<p>​        –P：产生式（规则）集合</p>
-<p>​        –S：开始符号</p>
-<p>​    VN ∩ VT = φ，S∈VN</p>
-<p>​    V=VN∪VT，称为文法G的文法符号集合</p>
-<p>（2）习惯上只将产生式写出。并有如下约定：</p>
-<p>​        –第一条产生式的左部是开始符号</p>
-<p>​        –用尖括号括起的是非终结符，否则为终结符。或者大写字母表示非终结符，小写字母表示终结符</p>
-<p>​        –G可写成G[S]，S是开始符号</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">G：S→aAb      A→ab    A→aAb    A→ε </span><br><span class="line">G[S]： A→ab    A→aAb    A→ε  S→aSb </span><br><span class="line">缩写形式 G[S]：A→ab|aAb|ε      S→aSb</span><br><span class="line">注意：元符号“|”读作“或”</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-3-2-推导的形式定义"><a href="#2-3-2-推导的形式定义" class="headerlink" title="2.3.2 推导的形式定义"></a>2.3.2 推导的形式定义</h3><p>直接推导“=&gt;”</p>
-<p>​         α→β是文法G的产生式，若有v,w满足：</p>
-<p>​         v=γ α δ, w= γ β δ, 其中 γ∈V* , δ∈V*</p>
-<pre><code> 则称v直接推导出w, 记作 v =&gt; w
-
-或w直接归约到v</code></pre><p>若存在v=&gt;w0=&gt;w1 =&gt;… =&gt;wn=w, (n&gt;0)，则称v  <img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200608220954013.png" alt="image-20200608220954013" style="zoom:50%;" /> w，v推导出w，或w归约到v。</p>
-<p>若有v <img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200608220954013.png" alt="image-20200608220954013" style="zoom:50%;" />  w，或v=w，则记为v <img src="C:\Users\KinKi Kids\AppData\Roaming\Typora\typora-user-images\image-20200608221128579.png" alt="image-20200608221128579" style="zoom:50%;" />  w</p>
-<p><strong>句型</strong></p>
-<p>​    – 有文法G，若S =*&gt;  x，则称x是文法G的句型。</p>
-<p>​    一个句型中既可以包含终结符，又可以包含非终结符，也可能是空串。</p>
-<p><strong>句子</strong></p>
-<p>​    – 有文法G，若S =+&gt; x，且x∈VT*，则称x是文法G的句子。</p>
-<p>​    句子是不包含非终结符的句型。</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">如：有下列文法：</span><br><span class="line">　　S→AB</span><br><span class="line">　　A→aA|a</span><br><span class="line">　　B→bB|b</span><br><span class="line">用上述文法推导字符串aaabbb过程如下：</span><br><span class="line">　　S→AB→aAB→aaAB→aaaB→aaabB→aaabbB→aaabbb</span><br><span class="line">AB、aAB、aaAB、aaaB、aaabB、aaabbB和aaabbb都是上述文法的一个句型</span><br><span class="line">只有终结符的句型为句子。</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">例：G[E]：E→E+T|T          </span><br><span class="line">	T→T*F|F          </span><br><span class="line">	F→(E)|a</span><br><span class="line">E&#x3D;&gt;E+T&#x3D;&gt;T+T&#x3D;&gt;F+T&#x3D;&gt;a+T&#x3D;&gt;a+T*F&#x3D;&gt;a+F*F&#x3D;&gt;a+a*F&#x3D;&gt;a+a*a</span><br><span class="line">表示一切能用符号a，+，*，(和)构成的算术表达式</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-3-3-语言的形式定义"><a href="#2-3-3-语言的形式定义" class="headerlink" title="2.3.3 语言的形式定义"></a>2.3.3 语言的形式定义</h3><p>由文法G生成的语言记为L(G),它是文法G的一切句子的集合:                    </p>
-<p>​        L(G)={x|S =+&gt; x，其中S为文法的开始符号，且x ∈VT*}</p>
-<p><strong>文法的等价</strong></p>
-<p>若L（G1）=L（G2），则称文法G1和G2是等价的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">如文法G1[A]：A→0R    与   G2[S]：S→0S1 等价</span><br><span class="line">           A→01                S→01</span><br><span class="line">           R→A1</span><br></pre></td></tr></table></figure>
-
-<p>练习：已知语言描述，写出文法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">例：若语言由0、1符号串组成，串中0和1的个数相同，构造其文法。</span><br><span class="line"> A → 0B|1C</span><br><span class="line"> B → 1|1A|0BB</span><br><span class="line"> C → 0|0A|1CC</span><br></pre></td></tr></table></figure>
-
-<p>练习：已知文法，写出语言描述</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">例：G[E]：E→E+T|T</span><br><span class="line">         T→T*F|F</span><br><span class="line">         F→(E)|a</span><br><span class="line">表示一切能用符号a，+，*，(和)构成的算术表达式</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-4-文法的类型"><a href="#2-4-文法的类型" class="headerlink" title="2.4 文法的类型"></a>2.4 文法的类型</h2><p><strong>Chomsky</strong> <strong>将文法分为四种类型：</strong></p>
-<p>（1）0型文法（短语文法）：G=(VN,VT,P,S)对任一产生式α→β，都有α∈(VN∪VT) *，且至少含有一个非终结符， β∈(VN∪VT) *</p>
-<p>（2）1型文法（上下文有关文法）：对任一产生式α→β，都有|β|≥|α|， 仅仅 S→ε除外，1型文法也可描述为α1Aα2→α1βα2</p>
-<p>（3）2型文法（上下文无关文法）：对任一产生式α→β，都有α∈VN ， β∈(VN∪VT)*</p>
-<p>（4）3型文法（正规文法）：任一产生式α→β的形式都为A→aB或A→a，其中A∈VN，B∈VN，a∈VT</p>
-<p>例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">1型（上下文有关）文法：</span><br><span class="line">   文法G[S]：	 S→CD		Ab→bA</span><br><span class="line">			   C→aCA	  Ba→aB</span><br><span class="line">			   C→bCB	  Bb→bB</span><br><span class="line">			   AD→aD	  C→ε</span><br><span class="line">			   BD→bD	  D→ε</span><br><span class="line">			   Aa→bD</span><br><span class="line">L(G)&#x3D;&#123;w|w∈&#123;a,b&#125;*&#125;</span><br><span class="line"></span><br><span class="line">2型（上下文无关）文法：</span><br><span class="line">   文法G[S]：	S→aB|bA</span><br><span class="line">			  A→a|aS|bAA</span><br><span class="line">			  B→b|bS|aBB</span><br><span class="line">   文法G[S]：	S→0A|1B|0</span><br><span class="line">			  A→0A|1B|0S</span><br><span class="line">			  B→1B|1|0</span><br><span class="line"></span><br><span class="line">定义标识符的3型（正规）文法：</span><br><span class="line">   文法G[I]：	I → iT</span><br><span class="line">			 I → i</span><br><span class="line">			 T → iT</span><br><span class="line">			 T → dT</span><br><span class="line">			 T → i</span><br><span class="line">             T → d</span><br></pre></td></tr></table></figure>
-
-<p><strong>文法和语言</strong></p>
-<p>0型文法产生的语言称为0型语言</p>
-<p>1型文法或上下文有关文法（ CSG ）产生的语言称为1型语言或上下文有关语言（CSL）</p>
-<p>2型文法或上下文无关文法（ CFG ）产生的语言称为2型语言或上下文无关语言（ CF L ） </p>
-<p>3型文法或正则（正规）文法（ RG ）产生的语言称为3型语言正则（正规）语言（ RL ）</p>
-<p><strong>文法和识别系统</strong></p>
-<p>0型文法（短语文法）的能力相当于图灵机，可以表征任何递归可枚举集，而且任何0型语言都是递归可枚举的</p>
-<p>1型文法（上下文有关文法）：产生式的形式为α1Aα2→α1βα2，即只有A出现在α1和α2的上下文中时，才允许β取代A。其识别系统是线性界限自动机。</p>
-<p>2型文法（上下文无关文法、CFG）：产生式的形式为A→β，β取代A时与A的上下文无关。其识别系统是不确定的下推自动机。</p>
-<p>3型文法（正规文法、右线性文法）：产生的语言是有穷自动机（FA）所接受的集合</p>
-<h2 id="2-5-上下文无关文法及其语法树"><a href="#2-5-上下文无关文法及其语法树" class="headerlink" title="2.5 上下文无关文法及其语法树"></a>2.5 上下文无关文法及其语法树</h2><h3 id="2-5-1-上下文无关文法的语法树"><a href="#2-5-1-上下文无关文法的语法树" class="headerlink" title="2.5.1 上下文无关文法的语法树"></a>2.5.1 上下文无关文法的语法树</h3><p>用于描述上下文无关文法的句型推导的直观方法</p>
-<p>叶子结点：树中没有子孙的结点。</p>
-<p>从左到右读出推导树的叶子标记，所得的句型为推导树的结果。也把该推导树称为该句型的语法树。</p>
-<p>定义：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">给定文法G，对于G的任何句型都能构造与之关联的语法树（推导树）。这棵树满足下列4个条件：</span><br><span class="line">1、每个结点都有一个V中的符号作标记</span><br><span class="line">2、根的标记是开始符号S</span><br><span class="line">3、若一结点n至少有一个它自己除外的子孙，并且n有标记A，则A∈VN</span><br><span class="line">4、如果结点n的直接子孙，从左到右的次序是结点n1,n2,…,nk，其标记分别为A1,A2,…,Ak，那么A→A1A2,…,Ak一定是P中的一个产生式</span><br></pre></td></tr></table></figure>
-
-<p>推导过程中使用产生式的顺序：</p>
-<ul>
-<li>最左（最右）推导：在推导的任何一步α=&gt;β，其中α、β是句型，都是对α中的最左（右）非终结符进行替换</li>
-<li><strong>最右推导被称为规范推导</strong>。 <strong>最左归约–&gt;规范规约</strong></li>
-<li>由规范推导所得的句型称为规范句型</li>
-</ul>
-<h3 id="2-5-2-二义性"><a href="#2-5-2-二义性" class="headerlink" title="2.5.2 二义性"></a>2.5.2 二义性</h3><p><strong>二义文法</strong></p>
-<p>若一个文法存在某个句子对应两棵不同的语法树，则称这个文法是<em>二义</em> 的。</p>
-<p>或者，若一个文法存在某个句子有两个不同的最左（右）推导，则称这个文法是<em>二义</em> 的。</p>
-<p>产生某上下文无关语言的每一个文法都是二义的，则称此语言是<em>先天二义</em>的。</p>
-<p>二义文法改造为无二义文法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">G[E]: E → i         G[E]：E → T|E+T</span><br><span class="line">	  E → E+E             T → F|T*F</span><br><span class="line">	  E → E*E             F →（E）|i</span><br><span class="line">	  E → (E)       规定优先顺序和结合律</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-6-句型的分析"><a href="#2-6-句型的分析" class="headerlink" title="2.6 句型的分析"></a>2.6 句型的分析</h2><p><strong>句型分析</strong> 就是识别一个符号串是否为某文法的句型，是某个推导的构造过程。</p>
-<p>在语言的编译实现中，把完成句型分析的程序称为<em>分析程序</em> 或<em>识别程序</em>。分析算法又称<em>识别算法</em>。</p>
-<p><em>从左到右的分析算法</em> ，即总是从左到右地识别输入符号串，首先识别符号串中的最左符号，进而依次识别右边的一个符号。</p>
-<p><strong>分析算法可分为：</strong></p>
-<p><strong><em>自上而下分析法</em>：</strong> </p>
-<p>从文法的开始符号出发，反复使用各种产生式，寻找与输入符号匹配的推导。</p>
-<p><strong><em>自下而上分析法</em>：</strong></p>
-<p> 从输入符号串开始，逐步进行归约，直至归约到文法的开始符号。</p>
-<p>两种方法反映了两种不同的语法树的构造过程</p>
-<p><strong>句型分析的有关问题</strong></p>
-<p>1）如何选择使用哪个产生式进行推导？</p>
-<p>2）如何识别可归约的串？</p>
-<p><strong>句型分析</strong></p>
-<p>短语、直接短语、句柄的定义：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">概念：</span><br><span class="line">如果 S⇒* αAβ 且 A ⇒+ γ，则称γ是句型αγβ的相对于非终结符A的&#96;短语&#96; 。</span><br><span class="line">如果 S⇒* αAβ 且 A ⇒ γ，则称γ是句型αγβ的相对于规则A→γ的&#96;直接(简单)短语&#96;。</span><br><span class="line">直接短语中的最左直接短语为该句型的句柄。</span><br><span class="line"></span><br><span class="line">理解：</span><br><span class="line">短语：</span><br><span class="line">一个句型的分析树中的每一棵子树的边缘(所有叶节点)所组成的符号串称为该句型的一个短语(phrase)。 </span><br><span class="line">直接短语：</span><br><span class="line">如果子树只有父子两代结点，那么这棵子树的边缘称为该句型的一个直接短语(immediate phrase)；</span><br><span class="line">所有子树中，深度为2的子树的叶子节点串就是直接短语（因为直接短语必须是由子树根节点用一步推出来的，所以深度为2）；</span><br><span class="line">即如果子树中不再包含其他的子树，即A只能推导出b，而b不能再推出其他的式子，则b为此句型的直接短语。</span><br><span class="line"></span><br><span class="line">句柄：</span><br><span class="line">“可规约串”，句柄对应某个产生式的右部，是某个，但不是任意一个。</span><br><span class="line">作为一种规约对象，句柄表示最左直接短语。</span><br><span class="line">语法树： 在语法树上，则表示为最左边的只包含相邻父子节点的短语（最左直接短语）</span><br></pre></td></tr></table></figure>
-
-<p>素短语和最左素短语</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">概念：</span><br><span class="line">素短语：</span><br><span class="line">是指一个短语至少包含一个终结符，并且除它自身之外不再包含其他素短语。</span><br><span class="line"></span><br><span class="line">最左素短语：</span><br><span class="line">最左素短语就是句型最左边的素短语，是算符优先分析法的规约对象。</span><br><span class="line">语法树：通过语法树分析时，要注意先判断是否为素短语，再找相对最左端的素短语。</span><br><span class="line"></span><br><span class="line">理解：</span><br><span class="line">素短语 ：</span><br><span class="line">指一个短语至少包含一个终结符，并且除它自身之外不再包含其他素短语。</span><br><span class="line">从短语集合中找出所有含有终结符的短语，然后选出除它自身之外不再含更小的素短语。</span><br><span class="line">（这个小的概念是集合中没有被包含的元素，如有两个短语aAA和aAAA，aAA含于aAAA，所以aAA比aAAA小）</span><br><span class="line"></span><br><span class="line">最左素短语：</span><br><span class="line">从素短语集合中找出最左边的素短语。</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-7文法实用中的一些说明"><a href="#2-7文法实用中的一些说明" class="headerlink" title="2.7文法实用中的一些说明"></a>2.7文法实用中的一些说明</h2><h3 id="2-7-1-有关文法的实用限制"><a href="#2-7-1-有关文法的实用限制" class="headerlink" title="2.7.1 有关文法的实用限制"></a>2.7.1 有关文法的实用限制</h3><p>文法中不得含有<em>有害规则</em> 和<em>多余规则</em></p>
-<ul>
-<li><p>有害规则：形如U→U的产生式。会引起文法的二义性</p>
-</li>
-<li><p>多余规则：指文法中任何句子的推导都不会用到的规则</p>
-<p>1）文法中某些非终结符不在任何规则的右部出现，该非终结符称为不可到达</p>
-<p>2）文法中某些非终结符，由它不能推出终结符号串来，称为不可终止的</p>
-</li>
-</ul>
-<p>对于文法G[S]，为了保证任一非终结符A在句子推导中出现，必须满足如下两个条件：</p>
-<p>​        1）A必须在某句型中出现。</p>
-<p>​        2）必须能从A推出终结符号串t来。</p>
-<h3 id="2-7-2-上下文无关文法中的ε规则"><a href="#2-7-2-上下文无关文法中的ε规则" class="headerlink" title="2.7.2 上下文无关文法中的ε规则"></a>2.7.2 上下文无关文法中的ε规则</h3><p>具有形式A→ε的规则称为ε规则，其中A∈VN</p>
-<p>某些著作和讲义中限制这种规则的出现。因为ε规则会使有关文法的一些讨论和证明变得复杂</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://artemisaturn.github.io/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Daphne Wang">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0/" class="post-title-link" itemprop="url">编译原理（1）编译概述</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-05-31 11:05:01" itemprop="dateCreated datePublished" datetime="2020-05-31T11:05:01+08:00">2020-05-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-01 09:00:35" itemprop="dateModified" datetime="2020-08-01T09:00:35+08:00">2020-08-01</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>[TOC]</p>
-<h3 id="1-1-程序设计语言"><a href="#1-1-程序设计语言" class="headerlink" title="1.1 程序设计语言"></a>1.1 程序设计语言</h3><p>Machine Code</p>
-<p>Assembly Language</p>
-<p>High-level Language</p>
-<p>如Algol, Fortran, Pascal, C语言等。</p>
-<h3 id="1-2-什么叫编译程序"><a href="#1-2-什么叫编译程序" class="headerlink" title="1.2 什么叫编译程序"></a>1.2 什么叫编译程序</h3><p>翻译程序：就是将源程序转换成目标程序的程序。</p>
-<p>source program —–&gt;  Translator  ——&gt;  target program</p>
-<p>翻译程序和解释程序的区别：</p>
-<p><img src="%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0/image-20200531170908968.png" alt="1"></p>
-<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0/image-20200531170908968.png" class="" title="This is image1">
-
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">解释方式最终不生成目标程序，这是编译方式和解释方式的根本区别。</span><br><span class="line">编译方式：是将源程序经编译得到可执行文件后，就可脱离源程序和编译程序单独执行，所以编译方式的效率高，执行速度快；</span><br><span class="line">解释方式：在执行时，必须源程序和解释程序同时参与才能运行，其不产生可执行程序文件，效率低，执行速度慢。</span><br></pre></td></tr></table></figure>
-
-<p>编译程序和汇编程序的区别：</p>
-<p>​        如果源语言是诸如C、C++、Java等“高级语言”，而目标语言是诸如汇编语言或机器语言之类的“低级语言”，这样的一个翻译程序称为编译程序。如果源语言是汇编语言，而目标语言是机器语言，这样的一个翻译程序称为汇编程序。</p>
-<p>解释性语言：</p>
-<p>（1）源代码不能直接翻译成机器语言，而是先翻译成中间代码，再由解释器对中间代码进行解释运行：  源代码—&gt;中间代码—&gt;机器语言</p>
-<p>（2）程序不需要编译，程序在运行时才翻译成机器语言，每执行一次都要翻译一次；</p>
-<p>（3）解释性语言代表：Python、JavaScript、Shell、Ruby、MATLAB等；</p>
-<p>（4）运行效率一般相对比较低，依赖解释器，跨平台性好；</p>
-<p>（5）Java是编译性-解释性语言，因为其同时具备编译性和解释性两种特性。</p>
-<h3 id="1-3-编译程序的组成"><a href="#1-3-编译程序的组成" class="headerlink" title="1.3 编译程序的组成"></a>1.3 编译程序的组成</h3><p>一个典型的编译程序应具有以下的组成：</p>
-<p><img src="%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0/image-20200531200636454.png" alt="2"></p>
-<img src="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0/image-20200531200636454.png" class="" title="This is image2">
-
-<p>编译程序的两个主要任务：</p>
-<p>一是分析，二是综合。</p>
-<p>编译程序结构(components)</p>
-<ul>
-<li>词法分析程序</li>
-<li>语法分析程序</li>
-<li>语义分析程序</li>
-<li>中间代码生成程序</li>
-<li>代码优化程序</li>
-<li>目标代码生成程序</li>
-<li>符号表管理程序</li>
-<li>出错处理程序</li>
-</ul>
-<p>（1）Scanner （词法分析）</p>
-<p>任务：识别单词符号，是最初级的语法分析。</p>
-<p>依循的规则：语言的构词规则。</p>
-<p>（2）Parser （语法分析）</p>
-<p>任务∶对词法分析的输出即单词符号串进行分析，识别出一个个语法成分，并进行语法检查。</p>
-<p>依循的规则：语法规则。</p>
-<p>（语法单位：算术表达式、短语、句子、子程序……）</p>
-<p>（3）Semantic Analyzer （语义分析）</p>
-<p>任务：对语法分析所识别的各种语法成分的意义(即语义)进行确定并加以处理。</p>
-<p>依循的规则：语义规则</p>
-<p>（4）Intermediate Code Generator</p>
-<p>任务：从源程序的树形或其它形式，产生源程序的中间代码。</p>
-<p>中间代码：四元式、三元式……</p>
-<p>（5）Target Code Generator</p>
-<p>任务：将中间代码转换成汇编程序或者机器语言。</p>
-<p>（6）代码优化</p>
-<p>代码优化程序的功能是将中间代码中重复和冗余部分进行优化，提高目标程序的执行效率。</p>
-<p>（7）符号表管理</p>
-<ul>
-<li>符号表管理是一个贯穿编译全过程的工作。</li>
-<li>编译程序在分析源程序时，需要记录标识符的各种属性信息；</li>
-<li>在语义分析和代码生成阶段，还要对建立的符号表进行检索，提取相应的属性信息。–类型、作用域、分配存储信息</li>
-</ul>
-<p>（8）Error Handler （错误检测及处理）</p>
-<ul>
-<li>错误可发生在编译的各个阶段，错误处理也是贯穿编译全过程。</li>
-<li>词法分析阶段可查出的错误，如标识符的组成不符合词法规则； </li>
-<li>语句结构错误是在语法分析中可查出的错误；</li>
-<li>语义分析阶段可查出的错误，即结构正确，但所涉及的操作无意义或错误。</li>
-<li>在编译时查出的，叫Comple-time error，在运行时表现才表现出来的错误叫Run-time error。</li>
-</ul>
-<p>（9）前端和后端</p>
-<ul>
-<li>前端包括编译逻辑结构中的分析部分，即词法分析、语法分析、语义分析和中间代码生成，除此还包括符号表建造及相应分析中的错误处理以及与机器无关的优化部分。</li>
-<li>后端包括与目标机有关的部分，即综合部分，它包括目标代码生成及生成期间对符号表的相应检索操作和错误处理操作，以及与机器相关的代码优化部分。</li>
-<li>将编译系统划分为前后端，有利于移植编译系统和利用后端为同一目标机配置不同语言的编译系统。</li>
-</ul>
-<p>（10）遍（pass）</p>
-<p>​        对源程序(或其中间形式)从头至尾扫描一次并进行有关加工处理，生成新的中间形式或最终目标程序，称为一遍。</p>
-<p>分遍原则∶</p>
-<ul>
-<li>目标质量高低(高则多遍) </li>
-<li>机器内存大小(小则多遍)</li>
-<li>源语言简繁(繁则多遍)</li>
-<li>设计人员多少(多则多遍)</li>
-</ul>
-<p>多遍扫描编译程序的优缺点∶</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">优点：（1）可以减少内存容量的需求，分便后，以遍为单位分别调用编译的各个子程序，各遍程序可以相互覆盖；</span><br><span class="line">（2）可使各遍的编译程序相互独立，结构清晰；</span><br><span class="line">（3）能够进行充分的优化，产生高质量的目标程序；</span><br><span class="line">（4）可将编译程序分为“前端”和“后端”，有利于编译程序的移植。</span><br><span class="line">缺点：每遍都要读符号、送符号，增加了许多重复性工作，降低了编译效率。</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-4-编译程序的生成"><a href="#1-4-编译程序的生成" class="headerlink" title="1.4 编译程序的生成"></a>1.4 编译程序的生成</h3><p><strong>实现工具：</strong>Low-level Language；</p>
-<p>​                   High-level Language；</p>
-<p>​                   Automatic Builder。</p>
-<p><strong>生成方法：</strong>Self-compiler;</p>
-<p>​                   transplant</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -2278,7 +2345,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

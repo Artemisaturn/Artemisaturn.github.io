@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"artemisaturn.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="没接触过diango啊，从零开始学起吧，边解决问题边学习。 部署时连不到数据库把MySQL服务关掉可以解决。猜测是127.0.0.1连接问题。 task1：前端用户注册改为手机号验证源代码学习urls.py 123456urlpatterns &#x3D; [    path(&#39;login&#39;, views.LoginView.as_view()),    path(&#39;register&#39;, views.Reg">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重燃project">
+<meta property="og:url" content="https://artemisaturn.github.io/2020/09/20/%E9%87%8D%E7%87%83project/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="没接触过diango啊，从零开始学起吧，边解决问题边学习。 部署时连不到数据库把MySQL服务关掉可以解决。猜测是127.0.0.1连接问题。 task1：前端用户注册改为手机号验证源代码学习urls.py 123456urlpatterns &#x3D; [    path(&#39;login&#39;, views.LoginView.as_view()),    path(&#39;register&#39;, views.Reg">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-20T01:34:14.000Z">
+<meta property="article:modified_time" content="2020-10-29T10:17:07.897Z">
+<meta property="article:author" content="Daphne Wang">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://artemisaturn.github.io/2020/09/20/%E9%87%8D%E7%87%83project/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>重燃project | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://artemisaturn.github.io/2020/09/20/%E9%87%8D%E7%87%83project/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Daphne Wang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          重燃project
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-20 09:34:14" itemprop="dateCreated datePublished" datetime="2020-09-20T09:34:14+08:00">2020-09-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-29 18:17:07" itemprop="dateModified" datetime="2020-10-29T18:17:07+08:00">2020-10-29</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><em>没接触过diango啊，从零开始学起吧，边解决问题边学习。</em></p>
+<h3 id="部署时连不到数据库"><a href="#部署时连不到数据库" class="headerlink" title="部署时连不到数据库"></a>部署时连不到数据库</h3><p>把MySQL服务关掉可以解决。猜测是127.0.0.1连接问题。</p>
+<h2 id="task1：前端用户注册改为手机号验证"><a href="#task1：前端用户注册改为手机号验证" class="headerlink" title="task1：前端用户注册改为手机号验证"></a>task1：前端用户注册改为手机号验证</h2><h3 id="源代码学习"><a href="#源代码学习" class="headerlink" title="源代码学习"></a>源代码学习</h3><p><em>urls.py</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">'login'</span>, views.LoginView.as_view()),</span><br><span class="line">    path(<span class="string">'register'</span>, views.RegisterView.as_view()),</span><br><span class="line">    path(<span class="string">'index'</span>, views.IndexView.as_view()),</span><br><span class="line">    path(<span class="string">'mypage'</span>, views.UpdateView.as_view()),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p><strong>urlpatterns</strong> 在url文件中是一个url映射列表。系统会自动遍历url文件中的urlpatterns列表然后进行对应的处理函数查找。当url有重复的情况则以找到的第一个为准。</p>
+<p><strong>Django怎么处理请求：</strong></p>
+<ul>
+<li>一旦生成url页面请求，请求传递到urls.py；</li>
+<li>Django去urlpatterns中匹配链接（Django会在匹配到的第一个就停下来）；</li>
+<li>一旦匹配成功，就会去执行，path后面的方法，Django便会给出相应的view页面（该页面可以为一个Python的函数，或者基于view（Django内置的）的类），也就是用户看到的页面；</li>
+<li>若匹配失败，则出现错误的页面。</li>
+</ul>
+<p><strong>as_view()方法：</strong></p>
+<ol>
+<li>前端发送请求，方法可能是post或get</li>
+<li>url()定位到类(view)方法as_view()</li>
+<li>as_view()返回一个view方法，view转到dispatch()</li>
+<li>dispatch()会自动判断当前的请求方式</li>
+</ol>
+<p><em>models.py</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WebUser</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="string">"""网站用户表，主要用于衡量职工是否可以注册自己的账户并访问数据库网站"""</span></span><br><span class="line">    nickname = models.CharField(max_length=<span class="number">64</span>, verbose_name=<span class="string">'昵称'</span>, null=<span class="literal">True</span>, blank=<span class="literal">True</span>)</span><br><span class="line">    realname = models.CharField(max_length=<span class="number">32</span>, verbose_name=<span class="string">'真实姓名'</span>, help_text=<span class="string">'员工的名字'</span>, db_index=<span class="literal">True</span>)</span><br><span class="line">    gender_choices = (</span><br><span class="line">        (<span class="number">0</span>, <span class="string">'未知'</span>),</span><br><span class="line">        (<span class="number">1</span>, <span class="string">'男'</span>),</span><br><span class="line">        (<span class="number">2</span>, <span class="string">'女'</span>),</span><br><span class="line">    )</span><br><span class="line">    gender = models.IntegerField(choices=gender_choices, verbose_name=<span class="string">'性别'</span>, default=<span class="number">0</span>)</span><br><span class="line">    idcard = models.CharField(max_length=<span class="number">18</span>, verbose_name=<span class="string">'身份证号'</span>, help_text=<span class="string">'18位的身份证号码'</span>)</span><br><span class="line">    phone = models.CharField(max_length=<span class="number">11</span>, verbose_name=<span class="string">'手机号'</span>, null=<span class="literal">True</span>, blank=<span class="literal">True</span>)</span><br><span class="line">    password = models.CharField(max_length=<span class="number">64</span>, verbose_name=<span class="string">'密码'</span>, null=<span class="literal">True</span>, blank=<span class="literal">True</span>)</span><br><span class="line">    email = models.EmailField(max_length=<span class="number">64</span>, verbose_name=<span class="string">'邮箱'</span>, null=<span class="literal">True</span>, blank=<span class="literal">True</span>)</span><br><span class="line">    birthday = models.DateField(verbose_name=<span class="string">'生日'</span>, null=<span class="literal">True</span>, blank=<span class="literal">True</span>)</span><br><span class="line">    department = models.ForeignKey(to=Department, on_delete=models.CASCADE, blank=<span class="literal">False</span>, null=<span class="literal">True</span>, verbose_name=<span class="string">'部门'</span>, db_index=<span class="literal">True</span>)</span><br><span class="line">    enable = models.BooleanField(verbose_name=<span class="string">'状态'</span>, default=<span class="literal">True</span>)</span><br><span class="line">    create_time = models.DateTimeField(verbose_name=<span class="string">'创建时间'</span>, auto_now_add=<span class="literal">True</span>)</span><br><span class="line">    update_time = models.DateTimeField(verbose_name=<span class="string">'更新时间'</span>, auto_now=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        verbose_name = <span class="string">"员工"</span></span><br><span class="line">        verbose_name_plural = <span class="string">"员工管理"</span></span><br><span class="line">        db_table = <span class="string">"T_WebUser"</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.realname</span><br></pre></td></tr></table></figure>
+
+<p><strong>表字段及说明</strong></p>
+<table>
+<thead>
+<tr>
+<th>表字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>models.AutoField</td>
+<td>默认会生成一个名为id的字段并未int类型</td>
+</tr>
+<tr>
+<td>models.CharField</td>
+<td>字符串类型</td>
+</tr>
+<tr>
+<td>models.BooleanField</td>
+<td>布尔类型</td>
+</tr>
+<tr>
+<td>models.DateField</td>
+<td>日期（Date）类型</td>
+</tr>
+<tr>
+<td>models.DateTimeField</td>
+<td>日期（datetime）类型</td>
+</tr>
+<tr>
+<td>models.EmailField</td>
+<td>字符串类型（正则表达式邮箱）</td>
+</tr>
+<tr>
+<td>models.FloatField</td>
+<td>浮点类型</td>
+</tr>
+<tr>
+<td>models.IntegerField</td>
+<td>整数类型</td>
+</tr>
+<tr>
+<td>models.TextField</td>
+<td>长文本类型</td>
+</tr>
+<tr>
+<td>models. TimeField</td>
+<td>时间类型， 显示时分秒HH:MM[:ss[ .uuuuuu]]</td>
+</tr>
+<tr>
+<td>models. URLField</td>
+<td>字符串， 地址为正则表达式</td>
+</tr>
+<tr>
+<td>models.FilePathField</td>
+<td>Django Admin以及ModelForm中提供读取文件夹下文件的功能<br />参数：<br />        path：文件夹路径<br />        match=None：正则匹配<br />        recursive=False：递归下面的文件夹<br />        allow_files=True：允许文件<br />        allow_folders=False：允许文件夹</td>
+</tr>
+<tr>
+<td>models.FileField</td>
+<td>路径保存在数据库，文件上传到指定目录<br />参数：<br />        upload_to = “”          上传文件的保存路径<br />        storage = None         存储组件，默认django.core.files.storage.FileSystemStorage</td>
+</tr>
+<tr>
+<td>models.ForeignKey(other_table)</td>
+<td>创建外键(即创建一对多的表的关联)<br />参数:<br />        to=:          要进行关联的表名<br />        to_field=:     要关联的表中的字段名称<br />        on_delete=:   当删除关联表中的数据时，当前表与其关联的行的行为<br />        on_delete的参数:<br />               - models.CASCADE          删除关联数据，与之关联也删除<br />               - models.DO_NOTHING       删除关联数据，引发错误IntegrityError<br />               - models.PROTECT          删除关联数据，引发错误ProtectedError<br />               - models.SET_NULL          删除关联数据，与之关联的值设置为null（前提FK字段需要设置为可空）<br />               - models.SET_DEFAULT      删除关联数据，与之关联的值设置为默认值（前提FK字段需要设置默认值）<br />               - models.SET               删除关联数据</td>
+</tr>
+</tbody></table>
+<p><strong>表字段参数及说明</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Null</td>
+<td>数据库中字段是否可以为空</td>
+</tr>
+<tr>
+<td>db_column</td>
+<td>数据库中字段的列名</td>
+</tr>
+<tr>
+<td>db_tablespace</td>
+<td>表空间，如果该字段已经创建了索引，那么数据库表空间的名称将作为该字段的索引名。</td>
+</tr>
+<tr>
+<td>default</td>
+<td>数据库中字段的默认值</td>
+</tr>
+<tr>
+<td>primary_key</td>
+<td>数据库中字段是否为主键</td>
+</tr>
+<tr>
+<td>db_index</td>
+<td>数据库中字段是否可以建立索引</td>
+</tr>
+<tr>
+<td>unique</td>
+<td>数据库中字段是否可以建立唯一索引</td>
+</tr>
+<tr>
+<td>verbose_name</td>
+<td>Admin中显示的字段名称</td>
+</tr>
+<tr>
+<td>blank</td>
+<td>Admin中是否允许用户输入为空</td>
+</tr>
+<tr>
+<td>editable</td>
+<td>Admin中是否可以编辑</td>
+</tr>
+<tr>
+<td>help_text</td>
+<td>Admin中该字段的提示信息</td>
+</tr>
+<tr>
+<td>choices</td>
+<td>Admin中显示选择框的内容，用不变动的数据放在内存中从而避免跨表操作</td>
+</tr>
+<tr>
+<td>error_messages</td>
+<td>自定义错误信息(字典类型)从而,定制想要显示的错误信息</td>
+</tr>
+</tbody></table>
+<p><strong>class Meta</strong></p>
+<p>通过一个内嵌类 “class Meta” 给你的 model 定义元数据</p>
+<ul>
+<li>verbose_name：给你的模型类起一个更可读的名字</li>
+<li>verbose_name_plural：模型的复数形式</li>
+<li>db_table：用于指定自定义数据库表名</li>
+</ul>
+<p><em>views.py</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RegisterView</span><span class="params">(APIView)</span>:</span></span><br><span class="line">    <span class="string">"""注册"""</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self, request)</span>:</span></span><br><span class="line">        res = BaseResponse()</span><br><span class="line">        <span class="comment">#nickname = request.data.get('nickname')</span></span><br><span class="line">        realname = request.data.get(<span class="string">'realname'</span>)</span><br><span class="line">        idcard = request.data.get(<span class="string">'idcard'</span>)</span><br><span class="line">        <span class="comment">#password = request.data.get('password')</span></span><br><span class="line">        user_obj = models.WebUser.objects.filter(realname=realname)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> user_obj.exists():</span><br><span class="line">            <span class="comment">#返回错误信息</span></span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">10020</span>, <span class="string">'message'</span>: <span class="string">'您没有注册权限！请联系管理员申请！'</span>&#125;)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">for</span> user <span class="keyword">in</span> user_obj:</span><br><span class="line">                <span class="keyword">if</span> user.idcard[<span class="number">-6</span>:] == idcard:</span><br><span class="line">                    serializer = serializers.RegisterSerializer(user, data=request.data)</span><br><span class="line">                    <span class="keyword">if</span> serializer.is_valid():</span><br><span class="line">                        user = serializer.save()</span><br><span class="line">                    <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">200</span>, <span class="string">'message'</span>: <span class="string">''</span>, <span class="string">'data'</span>: res.data&#125;)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="comment">#返回错误信息</span></span><br><span class="line">                    <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">10050</span>, <span class="string">'message'</span>: <span class="string">'您的身份证后六位输入错误，请重新输入！'</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>先判断数据库中是否有该员工，是否有注册权限。</p>
+<p>然后根据身份证后6位验证。</p>
+<p>调用serializers.RegisterSerializer，update实例。</p>
+<p>判断serializer是否实例化，修改user实例。</p>
+<p><strong>表操作</strong></p>
+<p>增</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># method1</span></span><br><span class="line">models.Host.objects.create(hostname=<span class="string">'xx'</span>,ip=<span class="string">'xx'</span>,...)  <span class="comment">#增加一条数据，可以接受字典类型数据 **kwargs</span></span><br><span class="line"><span class="comment"># method2</span></span><br><span class="line">obj = models.Host(hostname=<span class="string">'xx'</span>,ip=<span class="string">'xx'</span>,...)</span><br><span class="line">obj.save()</span><br></pre></td></tr></table></figure>
+
+<p>删</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">models.Host.objects.filter(hostname=<span class="string">'xxx'</span>).delete()       <span class="comment">#删除指定条件的数据</span></span><br></pre></td></tr></table></figure>
+
+<p>改</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">models.Host.objects.filter(hostname=<span class="string">'xx'</span>).update(ip=<span class="string">'xxx'</span>)  <span class="comment">#将指定条件的数据更新，均支持 **kwargs</span></span><br><span class="line">obj = models.Host.objects.get(id=<span class="number">1</span>)</span><br><span class="line">obj.ip = <span class="string">'xx'</span></span><br><span class="line">obj.save()                                                  <span class="comment">#修改单条数据</span></span><br></pre></td></tr></table></figure>
+
+<p>查</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">models.Tb1.objects.get(id=<span class="number">1</span>)                         <span class="comment"># 获取单条数据，不存在则报错(不建议使用)</span></span><br><span class="line">models.Tb1.objects.all()                             <span class="comment"># 获取全部</span></span><br><span class="line">models.Tb1.objects.filter(name=<span class="string">'seven'</span>).first()      <span class="comment"># 获取指定条件的数据</span></span><br></pre></td></tr></table></figure>
+
+<p><em>serializers.py</em></p>
+<h3 id="改动"><a href="#改动" class="headerlink" title="改动"></a>改动</h3><p>首先修改前端</p>
+<p>后端：</p>
+<p><em>views.py</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idcard = request.data.get(<span class="string">'idcard'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>改为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">phone = request.data.get(<span class="string">'phone'</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> user.idcard[<span class="number">-6</span>:] == idcard:</span><br></pre></td></tr></table></figure>
+
+<p>改为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> user.phone[<span class="number">-4</span>:] == phone:</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.core.exceptions <span class="keyword">import</span> ValidationError</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证电话号码是否合法</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">validate_phone</span><span class="params">(value)</span>:</span></span><br><span class="line">    p = re.compile(<span class="string">r'^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d&#123;8&#125;$'</span>)</span><br><span class="line">    <span class="keyword">if</span> p.match(value) == <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">raise</span> ValidationError(message=<span class="string">"电话号码不合法"</span>)</span><br><span class="line">    exists = WebUser.objects.filter(phone=value).exists()</span><br><span class="line">    <span class="keyword">if</span> exists:</span><br><span class="line">        <span class="keyword">raise</span> ValidationError(message=<span class="string">"此手机号码已经被注册"</span>)</span><br><span class="line">        </span><br><span class="line">phone = models.CharField(max_length=<span class="number">11</span>, verbose_name=<span class="string">'手机号'</span>, validators=[validate_phone])</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> user.phone[<span class="number">-4</span>:] == phone:</span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    serializer = serializers.RegisterSerializer(user, data=request.data)</span></span><br><span class="line"><span class="string">    if serializer.is_valid():</span></span><br><span class="line"><span class="string">        user = serializer.save()</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    user.nickname = request.data.get(<span class="string">'nickname'</span>, user.nickname)</span><br><span class="line">    exists = models.WebUser.objects.filter(nickname=user.nickname).exists()</span><br><span class="line">    <span class="keyword">if</span> exists:</span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">10040</span>, <span class="string">'message'</span>: <span class="string">'该用户名已存在，请重新输入！'</span>&#125;)</span><br><span class="line">    hash_key = <span class="string">'password'</span></span><br><span class="line">    password = request.data.get(<span class="string">'password'</span>) + hash_key</span><br><span class="line">    password_md5 = hashlib.md5(password.encode()).hexdigest()</span><br><span class="line">    user.password = password_md5</span><br><span class="line">    user.save()</span><br><span class="line">    <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">200</span>, <span class="string">'message'</span>: <span class="string">''</span>, <span class="string">'data'</span>: res.data&#125;)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="comment">#返回错误信息</span></span><br><span class="line">    <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">10050</span>, <span class="string">'message'</span>: <span class="string">'您的电话号码后四位输入错误，请重新输入！'</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>前端：npm run dev 报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">you can run: npm install --save !!vue-styles-loader!css-loader?</span><br></pre></td></tr></table></figure>
+
+<p>解决方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install sass-loader --save</span><br><span class="line">npm install node-sass --save</span><br></pre></td></tr></table></figure>
+
+<p>意见反馈表models.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"><span class="keyword">from</span> extra_apps.DjangoUeditor.models <span class="keyword">import</span> UEditorField</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create your models here.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FeedbackTable</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="string">"意见反馈表"</span></span><br><span class="line">    feedback = UEditorField(verbose_name=<span class="string">"反馈意见"</span>, imagePath=<span class="string">"articles/images/"</span>+<span class="string">"/%(basename)s_%(basename)s_%(datetime)s.%(extname)s"</span>, width=<span class="number">1000</span>, height=<span class="number">300</span>,</span><br><span class="line">                            filePath=<span class="string">"articles/files/"</span>, default=<span class="string">''</span>)</span><br><span class="line">    username = models.CharField(max_length=<span class="number">32</span>, verbose_name=<span class="string">'留言人'</span>, blank=<span class="literal">True</span>, null=<span class="literal">True</span>)</span><br><span class="line">    ip_address = models.CharField(max_length=<span class="number">32</span>, verbose_name=<span class="string">'IP地址'</span>, blank=<span class="literal">True</span>, null=<span class="literal">True</span>)</span><br><span class="line">    time = models.DateTimeField(verbose_name=<span class="string">'留言时间'</span>, auto_now=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        verbose_name = <span class="string">"意见反馈"</span></span><br><span class="line">        verbose_name_plural = <span class="string">"意见反馈"</span></span><br><span class="line">        db_table = <span class="string">"T_Feedback"</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> str(self.id)</span><br></pre></td></tr></table></figure>
+
+<p>admin.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> FeedbackTable</span><br><span class="line"></span><br><span class="line"><span class="meta">@admin.register(FeedbackTable)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FeedbackAdmin</span><span class="params">(admin.ModelAdmin)</span>:</span></span><br><span class="line">    list_display = (<span class="string">'id'</span>, <span class="string">'feedback'</span>, <span class="string">'username'</span>, <span class="string">'ip_address'</span>, <span class="string">'time'</span>)</span><br><span class="line">    search_fields = (<span class="string">'feedback'</span>, <span class="string">'username'</span>)</span><br><span class="line">    list_per_page = <span class="number">20</span></span><br><span class="line">    list_filter = (<span class="string">'ip_address'</span>, <span class="string">'time'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>urls.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path</span><br><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> views</span><br><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> url</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">'feedback'</span>, views.FeedbackView.as_view()),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>views.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> rest_framework.views <span class="keyword">import</span> APIView</span><br><span class="line"><span class="keyword">from</span> rest_framework.response <span class="keyword">import</span> Response</span><br><span class="line"><span class="keyword">from</span> apps.Feedback <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create your views here.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FeedbackView</span><span class="params">(APIView)</span>:</span></span><br><span class="line">    <span class="string">"""意见反馈"""</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self, request)</span>:</span></span><br><span class="line">        feedback = request.POST.get(<span class="string">'feedback'</span>)</span><br><span class="line">        <span class="keyword">if</span> feedback <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">1010</span>, <span class="string">'message'</span>: <span class="string">'留言不能为空！'</span>&#125;)</span><br><span class="line">        username = request.POST.get(<span class="string">'username'</span>)</span><br><span class="line">        ip_address = self.get_ip(request)</span><br><span class="line">        models.FeedbackTable.objects.create(</span><br><span class="line">            feedback = feedback,</span><br><span class="line">            username = username,</span><br><span class="line">            ip_address = ip_address</span><br><span class="line">        )</span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">200</span>, <span class="string">'message'</span>: <span class="string">'留言成功！感谢您的建议'</span>&#125;)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_ip</span><span class="params">(request)</span>:</span></span><br><span class="line">        <span class="string">'''获取请求者的IP信息'''</span></span><br><span class="line">        x_forwarded_for = request.META.get(<span class="string">'HTTP_X_FORWARDED_FOR'</span>)  <span class="comment"># 判断是否使用代理</span></span><br><span class="line">        <span class="keyword">if</span> x_forwarded_for:</span><br><span class="line">            ip = x_forwarded_for.split(<span class="string">','</span>)[<span class="number">0</span>]  <span class="comment"># 使用代理获取真实的ip</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            ip = request.META.get(<span class="string">'REMOTE_ADDR'</span>)  <span class="comment"># 未使用代理获取IP</span></span><br><span class="line">        <span class="keyword">return</span> ip</span><br></pre></td></tr></table></figure>
+
+<p>Feedback</p>
+<p>models.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"><span class="keyword">from</span> extra_apps.DjangoUeditor.models <span class="keyword">import</span> UEditorField</span><br><span class="line"><span class="keyword">from</span> ckeditor_uploader.fields <span class="keyword">import</span> RichTextUploadingField</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create your models here.</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FeedbackTable</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="string">"意见反馈表"</span></span><br><span class="line">    title = models.CharField(max_length=<span class="number">100</span>, verbose_name=<span class="string">"标题"</span>, default=<span class="string">''</span>)</span><br><span class="line">    username = models.CharField(max_length=<span class="number">32</span>, verbose_name=<span class="string">'留言人'</span>, blank=<span class="literal">True</span>, null=<span class="literal">True</span>)</span><br><span class="line">    content = RichTextUploadingField(verbose_name=<span class="string">'反馈内容'</span>, default=<span class="string">''</span>)</span><br><span class="line">    <span class="comment"># files = models.ManyToManyField(Files, related_name='files')</span></span><br><span class="line">    status_choices = (</span><br><span class="line">        (<span class="number">0</span>, <span class="string">'已接收'</span>),</span><br><span class="line">        (<span class="number">1</span>, <span class="string">'已反馈'</span>),</span><br><span class="line">        (<span class="number">2</span>, <span class="string">'处理中'</span>),</span><br><span class="line">        (<span class="number">3</span>, <span class="string">'已完成'</span>),</span><br><span class="line">        (<span class="number">4</span>, <span class="string">'忽视'</span>)</span><br><span class="line">    )</span><br><span class="line">    status = models.IntegerField(choices=status_choices, verbose_name=<span class="string">'状态'</span>, default=<span class="number">0</span>)</span><br><span class="line">    time = models.DateTimeField(verbose_name=<span class="string">'留言时间'</span>, auto_now=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        verbose_name = <span class="string">"意见反馈"</span></span><br><span class="line">        verbose_name_plural = <span class="string">"意见反馈"</span></span><br><span class="line">        db_table = <span class="string">"T_Feedback"</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> str(self.id)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Files</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    file = models.FileField(upload_to=<span class="string">'feedback/file/%Y-%m-%d/'</span>, null=<span class="literal">True</span>, blank=<span class="literal">True</span>, verbose_name=<span class="string">"添加附件"</span>)</span><br><span class="line">    feedback = models.ForeignKey(to=FeedbackTable, on_delete=models.CASCADE, verbose_name=<span class="string">"feedback_id"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        verbose_name = <span class="string">"反馈附件"</span></span><br><span class="line">        verbose_name_plural = <span class="string">"反馈附件"</span></span><br><span class="line">        db_table = <span class="string">"T_FeedbackFiles"</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> str(self.id)</span><br></pre></td></tr></table></figure>
+
+<p>admin.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"><span class="keyword">from</span> .models <span class="keyword">import</span> FeedbackTable, Files</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FilesInline</span><span class="params">(admin.TabularInline)</span>:</span></span><br><span class="line">    model = Files</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_extra</span><span class="params">(self, request, obj=None, **kwargs)</span>:</span></span><br><span class="line">        extra = <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> extra</span><br><span class="line"></span><br><span class="line"><span class="meta">@admin.register(FeedbackTable)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FeedbackAdmin</span><span class="params">(admin.ModelAdmin)</span>:</span></span><br><span class="line">    list_display = (<span class="string">'id'</span>, <span class="string">'title'</span>, <span class="string">'content'</span>, <span class="string">'username'</span>, <span class="string">'status'</span>, <span class="string">'time'</span>)</span><br><span class="line">    search_fields = (<span class="string">'title'</span>, <span class="string">'content'</span>, <span class="string">'username'</span>)</span><br><span class="line">    list_per_page = <span class="number">20</span></span><br><span class="line">    list_filter = (<span class="string">'status'</span>, <span class="string">'time'</span>)</span><br><span class="line">    inlines = [FilesInline]</span><br><span class="line"></span><br><span class="line"><span class="meta">@admin.register(Files)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FilesAdmin</span><span class="params">(admin.ModelAdmin)</span>:</span></span><br><span class="line">    list_display = (<span class="string">'id'</span>, <span class="string">'file'</span>, <span class="string">'feedback'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>views.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.shortcuts <span class="keyword">import</span> render</span><br><span class="line"><span class="keyword">from</span> rest_framework.views <span class="keyword">import</span> APIView</span><br><span class="line"><span class="keyword">from</span> django.apps <span class="keyword">import</span> apps</span><br><span class="line"><span class="keyword">from</span> rest_framework.response <span class="keyword">import</span> Response</span><br><span class="line"><span class="keyword">from</span> apps.Feedback <span class="keyword">import</span> models, serializers</span><br><span class="line"><span class="keyword">from</span> django.http <span class="keyword">import</span> StreamingHttpResponse</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create your views here.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FeedbackView</span><span class="params">(APIView)</span>:</span></span><br><span class="line">    <span class="string">"""意见反馈"""</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self, request)</span>:</span></span><br><span class="line">        title = request.POST.get(<span class="string">'title'</span>)</span><br><span class="line">        <span class="comment">#if title is None:</span></span><br><span class="line">        <span class="comment">#    return Response(&#123;'code': 1010, 'message': '标题不能为空！'&#125;)</span></span><br><span class="line">        content = request.POST.get(<span class="string">'content'</span>)</span><br><span class="line">        <span class="comment">#if feedback is None:</span></span><br><span class="line">        <span class="comment">#    return Response(&#123;'code': 1011, 'message': '内容不能为空！'&#125;)</span></span><br><span class="line">        username = request.POST.get(<span class="string">'name'</span>, <span class="literal">None</span>)</span><br><span class="line">        files = request.FILES.getlist(<span class="string">'file'</span>)</span><br><span class="line">        <span class="comment"># ip_address = self.get_ip(request)</span></span><br><span class="line">        feedback = models.FeedbackTable()</span><br><span class="line">        feedback.title = title</span><br><span class="line">        feedback.content = content</span><br><span class="line">        feedback.username = username</span><br><span class="line">        feedback.save()</span><br><span class="line">        <span class="keyword">if</span> files <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">for</span> f <span class="keyword">in</span> files:</span><br><span class="line">                file = models.Files()</span><br><span class="line">                file.file = f</span><br><span class="line">                file.feedback = feedback.id</span><br><span class="line">                file.save()</span><br><span class="line">        <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">200</span>, <span class="string">'message'</span>: <span class="string">'提交成功！感谢您的建议'</span>&#125;)</span><br><span class="line"></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    def get_ip(request):</span></span><br><span class="line"><span class="string">        </span></span><br><span class="line"><span class="string">        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')  # 判断是否使用代理</span></span><br><span class="line"><span class="string">        if x_forwarded_for:</span></span><br><span class="line"><span class="string">            ip = x_forwarded_for.split(',')[0]  # 使用代理获取真实的ip</span></span><br><span class="line"><span class="string">        else:</span></span><br><span class="line"><span class="string">            ip = request.META.get('REMOTE_ADDR')  # 未使用代理获取IP</span></span><br><span class="line"><span class="string">        return ip</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GetBasicInformation</span><span class="params">(APIView)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    获取意见反馈表中的id，标题，用户名，时间，状态</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, request)</span>:</span></span><br><span class="line">        feedback = models.FeedbackTable.objects.all()</span><br><span class="line">        res = serializers.FeedbackSerializers(feedback, many=<span class="literal">True</span>)</span><br><span class="line">        <span class="keyword">return</span> Response(res.data)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GetContentAndFiles</span><span class="params">(APIView)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    获取详细内容和附件</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self, request)</span>:</span></span><br><span class="line">        id = request.data.get(<span class="string">'id'</span>)</span><br><span class="line">        res = &#123;&#125;</span><br><span class="line">        filepath = []</span><br><span class="line">        filename = []</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 获取内容</span></span><br><span class="line">            feedback_obj = models.FeedbackTable.objects.get(id=id)</span><br><span class="line">            content = feedback_obj.content</span><br><span class="line">            res[<span class="string">'content'</span>] = content</span><br><span class="line">            <span class="comment"># 获取文件</span></span><br><span class="line">            file_obj = models.Files.objects.filter(feedback=feedback_obj)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> file_obj.exists():</span><br><span class="line">                <span class="comment"># 没有附件</span></span><br><span class="line">                res[<span class="string">'files'</span>] = <span class="literal">None</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="comment"># 存在附件</span></span><br><span class="line">                res[<span class="string">'files'</span>] = <span class="literal">True</span></span><br><span class="line">                <span class="keyword">for</span> f <span class="keyword">in</span> file_obj:</span><br><span class="line">                    file_path = str(f.file)</span><br><span class="line">                    file_name = file_path.split(<span class="string">'/'</span>)[<span class="number">-1</span>]</span><br><span class="line">                    filepath.append(file_path)</span><br><span class="line">                    filename.append(file_name)</span><br><span class="line">                    res[<span class="string">'filepath'</span>] = filepath</span><br><span class="line">                    res[<span class="string">'filename'</span>] = filename</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">200</span>, <span class="string">'message'</span>: <span class="string">''</span>, <span class="string">'data'</span>: res&#125;)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">10010</span>, <span class="string">'message'</span>: <span class="string">'该反馈意见不存在!'</span>&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileDown</span><span class="params">(APIView)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    下载文件</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self, request)</span>:</span></span><br><span class="line">        filename = request.data.get(<span class="string">'filename'</span>)</span><br><span class="line">        filepath = request.data.get(<span class="string">'filepath'</span>)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            response = StreamingHttpResponse(self.readFile(filepath))</span><br><span class="line">            response[<span class="string">'Content-Type'</span>] = <span class="string">'application/octet-stream'</span></span><br><span class="line">            response[<span class="string">'Content-Disposition'</span>] = <span class="string">'attachment;filename="&#123;0&#125;"'</span>.format(filename)</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> Response(&#123;<span class="string">'code'</span>: <span class="number">201</span>, <span class="string">'message'</span>: <span class="string">'没有找到该附件'</span>&#125;)</span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">readFile</span><span class="params">(filepath, chunk_size=<span class="number">512</span>)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        缓冲流下载文件方法</span></span><br><span class="line"><span class="string">        :param filepath:</span></span><br><span class="line"><span class="string">        :param chunk_size:</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">with</span> open(filepath, <span class="string">'rb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">            <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">                c = f.read(chunk_size)</span><br><span class="line">                <span class="keyword">if</span> c:</span><br><span class="line">                    <span class="keyword">yield</span> c</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<p>serializers.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> apps.Feedback <span class="keyword">import</span> models</span><br><span class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> serializers</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FeedbackSerializers</span><span class="params">(serializers.ModelSerializer)</span>:</span></span><br><span class="line">    <span class="string">"反馈意见基本信息"</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        model = models.FeedbackTable</span><br><span class="line">        fields = [<span class="string">'id'</span>, <span class="string">'title'</span>, <span class="string">'username'</span>, <span class="string">'status'</span>, <span class="string">'time'</span>]</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/14/Linear-Algebra/" rel="prev" title="Linear Algebra">
+      <i class="fa fa-chevron-left"></i> Linear Algebra
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#部署时连不到数据库"><span class="nav-number">1.</span> <span class="nav-text">部署时连不到数据库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#task1：前端用户注册改为手机号验证"><span class="nav-number"></span> <span class="nav-text">task1：前端用户注册改为手机号验证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#源代码学习"><span class="nav-number">1.</span> <span class="nav-text">源代码学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改动"><span class="nav-number">2.</span> <span class="nav-text">改动</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Daphne Wang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Daphne Wang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
