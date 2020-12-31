@@ -1,0 +1,578 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Wang Jiamin">
+  <meta name="keywords" content="">
+  <title>分类 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"artemisaturn.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 60vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="分类">
+              
+            </span>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div class="py-5" id="board"
+          >
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+
+
+
+
+
+<div class="category-list">
+  
+  
+  
+  
+    
+    
+    <div class="category row">
+      <a
+        class="category-item collapsed list-group-item category-item-action col-10 col-md-11"
+        id="heading-ckjchnkxr000qp8todqrrfvzu" role="tab" data-toggle="collapse" href="#collapse-ckjchnkxr000qp8todqrrfvzu"
+        aria-expanded="false"
+      >
+        computer theory
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      <a href="/categories/computer-theory/" class="category-count col-2 col-md-1">
+        <i class="iconfont icon-articles"></i>
+        <span>7</span>
+      </a>
+      <div class="category-collapse">
+        
+          
+  <div id="collapse-ckjchnkxr000qp8todqrrfvzu" class="collapse in" role="tabpanel"
+       aria-labelledby="heading-ckjchnkxr000qp8todqrrfvzu">
+    
+    
+    
+      
+      
+        <a href="/2020/08/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="list-group-item list-group-item-action">
+          <span class="category-post">数据结构</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%887%EF%BC%89L-R%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E5%8F%8A%E5%85%B6%E8%87%AA%E5%8A%A8%E6%9E%84%E9%80%A0/" class="list-group-item list-group-item-action">
+          <span class="category-post">编译原理（7）L R分析程序及其自动构造</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%886%EF%BC%89%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E7%9A%84%E4%BC%98%E5%85%88%E5%88%86%E6%9E%90%E6%B3%95/" class="list-group-item list-group-item-action">
+          <span class="category-post">编译原理（6）自底向上的优先分析法</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%885%EF%BC%89%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95/" class="list-group-item list-group-item-action">
+          <span class="category-post">编译原理（5）自顶向下语法分析方法</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%884%EF%BC%89%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90/" class="list-group-item list-group-item-action">
+          <span class="category-post">编译原理（4）词法分析</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%882%EF%BC%89%E6%96%87%E6%B3%95%E5%92%8C%E8%AF%AD%E8%A8%80/" class="list-group-item list-group-item-action">
+          <span class="category-post">编译原理（2）文法和语言</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2020/05/31/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%E7%BC%96%E8%AF%91%E6%A6%82%E8%BF%B0/" class="list-group-item list-group-item-action">
+          <span class="category-post">编译原理（1）编译概述</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    <div class="category row">
+      <a
+        class="category-item collapsed list-group-item category-item-action col-10 col-md-11"
+        id="heading-ckjchnkxg0003p8to968a4exa" role="tab" data-toggle="collapse" href="#collapse-ckjchnkxg0003p8to968a4exa"
+        aria-expanded="false"
+      >
+        scientific research
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      <a href="/categories/scientific-research/" class="category-count col-2 col-md-1">
+        <i class="iconfont icon-articles"></i>
+        <span>3</span>
+      </a>
+      <div class="category-collapse">
+        
+          
+  <div id="collapse-ckjchnkxg0003p8to968a4exa" class="collapse in" role="tabpanel"
+       aria-labelledby="heading-ckjchnkxg0003p8to968a4exa">
+    
+    
+    
+      
+      
+        <a href="/2020/12/15/neighbor-search/" class="list-group-item list-group-item-action">
+          <span class="category-post">neighbor_search</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2020/08/23/Weakly-compressible-SPH-for-free-surface-flows/" class="list-group-item list-group-item-action">
+          <span class="category-post">Weakly compressible SPH for free surface flows</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2020/08/13/%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BA%94%E7%94%A8%E4%B8%AD%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%AD%90%E7%9A%84%E6%B5%81%E4%BD%93%E6%A8%A1%E6%8B%9F/" class="list-group-item list-group-item-action">
+          <span class="category-post">交互式应用中基于粒子的流体模拟</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    <div class="category row">
+      <a
+        class="category-item collapsed list-group-item category-item-action col-10 col-md-11"
+        id="heading-ckjchnkxm000dp8togsx0080g" role="tab" data-toggle="collapse" href="#collapse-ckjchnkxm000dp8togsx0080g"
+        aria-expanded="false"
+      >
+        technology
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      <a href="/categories/technology/" class="category-count col-2 col-md-1">
+        <i class="iconfont icon-articles"></i>
+        <span>2</span>
+      </a>
+      <div class="category-collapse">
+        
+          
+  <div id="collapse-ckjchnkxm000dp8togsx0080g" class="collapse in" role="tabpanel"
+       aria-labelledby="heading-ckjchnkxm000dp8togsx0080g">
+    
+    
+    
+      
+      
+        <a href="/2020/11/20/ansys-learning/" class="list-group-item list-group-item-action">
+          <span class="category-post">ansys learning</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2020/09/20/%E9%87%8D%E7%87%83project/" class="list-group-item list-group-item-action">
+          <span class="category-post">重燃project</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    <div class="category row">
+      <a
+        class="category-item collapsed list-group-item category-item-action col-10 col-md-11"
+        id="heading-ckjchnkxp000lp8to9efjhkbq" role="tab" data-toggle="collapse" href="#collapse-ckjchnkxp000lp8to9efjhkbq"
+        aria-expanded="false"
+      >
+        language
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      <a href="/categories/language/" class="category-count col-2 col-md-1">
+        <i class="iconfont icon-articles"></i>
+        <span>2</span>
+      </a>
+      <div class="category-collapse">
+        
+          
+  <div id="collapse-ckjchnkxp000lp8to9efjhkbq" class="collapse in" role="tabpanel"
+       aria-labelledby="heading-ckjchnkxp000lp8to9efjhkbq">
+    
+    
+    
+      
+      
+        <a href="/2020/08/23/Taichi/" class="list-group-item list-group-item-action">
+          <span class="category-post">Taichi</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2020/05/30/python%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" class="list-group-item list-group-item-action">
+          <span class="category-post">python基础语法</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    <div class="category row">
+      <a
+        class="category-item collapsed list-group-item category-item-action col-10 col-md-11"
+        id="heading-ckjchnkxk0008p8to5h544c03" role="tab" data-toggle="collapse" href="#collapse-ckjchnkxk0008p8to5h544c03"
+        aria-expanded="false"
+      >
+        basic knowledge
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      <a href="/categories/basic-knowledge/" class="category-count col-2 col-md-1">
+        <i class="iconfont icon-articles"></i>
+        <span>1</span>
+      </a>
+      <div class="category-collapse">
+        
+          
+  <div id="collapse-ckjchnkxk0008p8to5h544c03" class="collapse in" role="tabpanel"
+       aria-labelledby="heading-ckjchnkxk0008p8to5h544c03">
+    
+    
+    
+      
+      
+        <a href="/2020/09/14/Linear-Algebra/" class="list-group-item list-group-item-action">
+          <span class="category-post">Linear Algebra</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>
