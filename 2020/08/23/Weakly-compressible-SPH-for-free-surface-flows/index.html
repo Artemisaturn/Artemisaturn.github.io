@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      5.5k 字
+      2.9k 字
     </span>
   
 
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      63
+      32
        分钟
     </span>
   
@@ -242,56 +242,97 @@
 <p>​    其他作者引入了处理多相流的扩展，包括两种或多种流体，与运动刚性固体的双向耦合，可变形固体，以及局部细化。奥布莱恩和哈金斯通过使用粒子系统来模拟液滴来增强基于网格的方法，米哈利夫等人解决了欧拉流体模拟的碎波问题。最近，点阵玻尔兹曼方法已经被提出用于流体模拟。在这种基于网格的替代方法中，粒子分布是使用碰撞和传播规则在有限的网格上演化的。</p>
 <p>​    计算机图形学中拉格朗日方法的研究—至少在某种程度上—是由交互式应用推动的。拉格朗日方法在内存和计算时间方面是比较有效的。它们对于时变仿真域具有灵活性，易于实现。基于上述基本SPH方法，已经给出了各种扩展。SPH流体的应用范围从河流模拟、多相流体模拟和高粘性流体到流体控制。Desbrun和Cani 提出了一种用于可变形固体的弹性SPH方法。Hadap和Magnenat-Thalmann 使用SPH进行头发动力学。在[MST∗04]中，实现了基于sph的流体和可变形固体的双向耦合。Solenthaler等人[SSP07]提出了一种适用于液体、弹性和刚性物体的统一SPH方法。SPH也在虚拟手术中得到了应用。</p>
 <p>​    Bell等人提出了一种基于分子动力学的颗粒方法。Zhu和Bridson 将细胞内粒子法扩展到模拟水和颗粒物质。为了更好地介绍图形中的各种流体模拟技术，我们参考了Bridson、Fedkiw和MullerFischer的优秀SIGGRAPH课程笔记。</p>
-<h2 id="SPH-fluid-model"><a href="#SPH-fluid-model" class="headerlink" title="SPH fluid model"></a>SPH fluid model</h2><p>对于流体，插值公式如下：<br>$$<br>A(\mathbf{x}) = \sum_j m_j \frac{A_j}{ρ_j} W(\mathbf{x}-\mathbf{x}_j,h) \quad\quad (1)<br>$$</p>
-<h3 id="The-governing-equations-and-their-SPH-formulation"><a href="#The-governing-equations-and-their-SPH-formulation" class="headerlink" title="The governing equations and their SPH formulation"></a>The governing equations and their SPH formulation</h3><p>​    在我们的方法中，我们求解欧拉方程，它是无粘流的Navier-Stokes方程的简化。为了提高方法的数值稳定性，在模型中加入了动量守恒的人工粘度。在非守恒形式下，欧拉方程：<br>$$<br>\frac{dρ}{dt} = -ρ\nabla \cdot \mathbf{v} \quad\quad \text{(continuity equation)} \quad\quad (2)<br>$$</p>
-<p>$$<br>\frac{d\mathbf{v}}{dt} = -\frac{1}{ρ}\nabla P + \mathbf{g} \quad\quad \text{(momentum equation)} \quad\quad (3)<br>$$</p>
-<p>​    v表示速度，P表示压力，g表示外力</p>
+<h2 id="SPH-fluid-model"><a href="#SPH-fluid-model" class="headerlink" title="SPH fluid model"></a>SPH fluid model</h2><p>对于流体，插值公式如下：</p>
+<script type="math/tex; mode=display">
+A(\mathbf{x}) = \sum_j m_j \frac{A_j}{ρ_j} W(\mathbf{x}-\mathbf{x}_j,h) \quad\quad (1)</script><h3 id="The-governing-equations-and-their-SPH-formulation"><a href="#The-governing-equations-and-their-SPH-formulation" class="headerlink" title="The governing equations and their SPH formulation"></a>The governing equations and their SPH formulation</h3><p>​    在我们的方法中，我们求解欧拉方程，它是无粘流的Navier-Stokes方程的简化。为了提高方法的数值稳定性，在模型中加入了动量守恒的人工粘度。在非守恒形式下，欧拉方程：</p>
+<script type="math/tex; mode=display">
+\frac{dρ}{dt} = -ρ\nabla \cdot \mathbf{v} \quad\quad \text{(continuity equation)} \quad\quad (2)</script><script type="math/tex; mode=display">
+\frac{d\mathbf{v}}{dt} = -\frac{1}{ρ}\nabla P + \mathbf{g} \quad\quad \text{(momentum equation)} \quad\quad (3)</script><p>​    v表示速度，P表示压力，g表示外力</p>
 <p><strong>Continuity equation</strong></p>
-<p>​    最初的SPH方法使用求和公式来计算密度:<br>$$<br>ρ<em>a = \sum_b m_b W</em>{ab}  \quad\quad (W_{ab} = W(\mathbf{x}_a - \mathbf{x}_b))  \quad\quad (4)<br>$$<br>​    由于质量是由粒子携带的，这种形式正好保持了质量。然而，由于自由表面中的表面粒子具有较少的邻居，因此公式(4)为等间距粒子计算了表面附近的错误(较低)密度。</p>
-<p>​    有几种方法可以解决这个问题。例如，[SDD06]使用自适应的核半径h，在表面强制执行恒定密度，并在表面模拟小规模效果。莫纳汉[Mon94]引入了另一种方法，并在[SAC*99]中通过求解连续性方程来使用，这导致了SPH形式：<br>$$<br>\frac{dρ<em>a}{dt} = \sum_b m_b \mathbf{v}</em>{ab} \nabla_a W_{ab} \quad\quad (5)<br>$$<br>with $\mathbf{v}_{ab} = \mathbf{v}_a - \mathbf{v}_b$ </p>
+<p>​    最初的SPH方法使用求和公式来计算密度:</p>
+<script type="math/tex; mode=display">
+ρ_a = \sum_b m_b W_{ab}  \quad\quad (W_{ab} = W(\mathbf{x}_a - \mathbf{x}_b))  \quad\quad (4)</script><p>​    由于质量是由粒子携带的，这种形式正好保持了质量。然而，由于自由表面中的表面粒子具有较少的邻居，因此公式(4)为等间距粒子计算了表面附近的错误(较低)密度。</p>
+<p>​    有几种方法可以解决这个问题。例如，[SDD06]使用自适应的核半径h，在表面强制执行恒定密度，并在表面模拟小规模效果。莫纳汉[Mon94]引入了另一种方法，并在[SAC*99]中通过求解连续性方程来使用，这导致了SPH形式：</p>
+<script type="math/tex; mode=display">
+\frac{dρ_a}{dt} = \sum_b m_b \mathbf{v}_{ab} \nabla_a W_{ab} \quad\quad (5)</script><p>with $\mathbf{v}_{ab} = \mathbf{v}_a - \mathbf{v}_b$ </p>
 <p>​    每个粒子都以密度ρ0初始化，密度变化只是由于粒子的相对运动。微分更新(5)保证了自由表面的正确密度。虽然使用(5)初始化更容易，但求和方法(4)更稳定，并已在我们的实验中使用。</p>
 <p><strong>Momentum equation</strong></p>
-<p>在SPH形式中，动量方程写成：<br>$$<br>\frac{d\mathbf{v}<em>a}{dt} = -\sum_b m_b \left( \frac{P_a}{ρ_a^2} + \frac{P_b}{ρ_b^2} \right) \nabla_a W</em>{ab} + \mathbf{g} \quad\quad (6)<br>$$<br>这个对称的版本保持了线动量和角动量。<br>$$<br>\frac{Dv}{Dt} = \frac{dv}{dt}|_{v_0=v}=\frac{∂v}{∂t}+v\cdot \nabla v=\frac{∂v}{∂t} + u\frac{∂v}{∂x}+v\frac{∂v}{∂y}+w\frac{∂v}{∂z}<br>$$<br><strong>Equation of state</strong></p>
+<p>在SPH形式中，动量方程写成：</p>
+<script type="math/tex; mode=display">
+\frac{d\mathbf{v}_a}{dt} = -\sum_b m_b \left( \frac{P_a}{ρ_a^2} + \frac{P_b}{ρ_b^2} \right) \nabla_a W_{ab} + \mathbf{g} \quad\quad (6)</script><p>这个对称的版本保持了线动量和角动量。</p>
+<script type="math/tex; mode=display">
+\frac{Dv}{Dt} = \frac{dv}{dt}|_{v_0=v}=\frac{∂v}{∂t}+v\cdot \nabla v=\frac{∂v}{∂t} + u\frac{∂v}{∂x}+v\frac{∂v}{∂y}+w\frac{∂v}{∂z}</script><p><strong>Equation of state</strong></p>
 <p>​    压力和密度有不同的联系形式。如果需要不可压缩性，泊松方程$\nabla^2 P = ρ\frac{\nabla \mathbf{v}}{∆t}$通常在欧拉方法中求解。然而，求解泊松方程是耗时的。相比之下，使用理想气体方程 $P = k_p ρ$ 或 $P = k_p(ρ - ρ_0)$ ，压力常数kp用于SPH，这导致相当高的可压缩性。</p>
-<p>​    与这两种方法相比，我们使用泰特方程，该方程强制要求非常低的密度变化，并且计算效率高。忽略可以简单地作为恒压项添加的大气压力，泰特方程具有以下形式：<br>$$<br>P = B \left( \left(\frac{ρ}{ρ_0} \right)^{\gamma} -1 \right) \quad\quad (7)<br>$$<br>with γ = 7</p>
-<p>​    压力常数B控制相对密度波动 $\frac{|∆ρ|}{ρ_0}$，其中 ∆ρ=ρ - ρ<sub>0</sub> 。为了确定B的值，我们考虑可压缩性效应与$O(M^2)$成比例，M表示流动的马赫数。这导致以下关系：<br>$$<br>\frac{|∆ρ|}{ρ_0} \sim \frac{|\mathbf{v}_f|^2}{c_s^2} \quad\quad (8)<br>$$<br>​    马赫数：流体力学中表征流体可压缩程度的一个重要的无量纲参数，记为Ma，定义为流场中某点的速度<em>v</em>同该点的当地声速c之比，即Ma=v/c。</p>
-<p>​    因此，如果假设声速足够大，使得 $\frac{\mathbf{v}_f}{c_s} &lt; \sqrt{\eta}$，我们可以保证 $\frac{|∆ρ|}{ρ_0} \sim \eta$。通常，η设置为0.01，即允许1%数量级的密度变化。为了实施这一条件，选择B作为：<br>$$<br>B = \frac{ρ_0 c_s^2}{\gamma} \quad\quad (9)<br>$$<br>​    假设声速很高以保持低密度波动，与不可压缩粒子方法相比，泰特方程需要更小的时间步长。但是我们避免了求解泊松方程，每个时间步长需要的计算时间要少得多。对于100k粒子，一个时间步长的计算速度可以比MPS快二十倍。</p>
-<h3 id="Viscosity"><a href="#Viscosity" class="headerlink" title="Viscosity"></a>Viscosity</h3><p>​    为了提高数值稳定性并考虑到冲击现象，采用了人工粘度：<br>$$<br>\frac{d\mathbf{v}<em>a}{dt} =<br>        \begin{cases}<br>        -\sum_b m_b \Pi</em>{ab}\nabla_a W_{ab} &amp; \mathbf{v}<em>{ab}^T\mathbf{x}</em>{ab}&lt;0\<br>        0 &amp; \mathbf{v}<em>{ab}^T\mathbf{x}</em>{ab}\geq 0<br>        \end{cases} \quad\quad(10)<br>$$</p>
-<p>$$<br>\Pi_{ab} = -v \left(\frac{\mathbf{v}<em>{ab}^T \mathbf{x}</em>{ab}}{|\mathbf{x}_{ab}^2| + \varepsilon h^2} \right) \quad\quad (11)<br>$$</p>
-<p>​    粘性项：$v = \frac{2αhc_s}{ρ_a + ρ_b}$ ，粘性常数α，对于我们的实验，α在0.08和0.5之间。线动量和角动量在(11)中是守恒的。</p>
-<h3 id="Surface-Tension"><a href="#Surface-Tension" class="headerlink" title="Surface Tension"></a>Surface Tension</h3><p>​    当前的表面张力模型通常基于分配给粒子a的颜色值ca，一个相位的所有粒子都具有相同的颜色值，根据颜色值进行插值：<br>$$<br>c = \sum_b \frac{m_b c_b}{ρ<em>b} W</em>{ab} \quad\quad (12)<br>$$<br>​    表面法线计算为：$\mathbf{n} = \nabla c$  ，表面张力计算：<br>$$<br>\mathbf{f}^{tension} = -k \nabla^2 c \frac{\mathbf{n}}{|\mathbf{n}|} \quad\quad(13)<br>$$<br>​    k是表面张力系数。</p>
+<p>​    与这两种方法相比，我们使用泰特方程，该方程强制要求非常低的密度变化，并且计算效率高。忽略可以简单地作为恒压项添加的大气压力，泰特方程具有以下形式：</p>
+<script type="math/tex; mode=display">
+P = B \left( \left(\frac{ρ}{ρ_0} \right)^{\gamma} -1 \right) \quad\quad (7)</script><p>with γ = 7</p>
+<p>​    压力常数B控制相对密度波动 $\frac{|∆ρ|}{ρ_0}$，其中 ∆ρ=ρ - ρ<sub>0</sub> 。为了确定B的值，我们考虑可压缩性效应与$O(M^2)$成比例，M表示流动的马赫数。这导致以下关系：</p>
+<script type="math/tex; mode=display">
+\frac{|∆ρ|}{ρ_0} \sim \frac{|\mathbf{v}_f|^2}{c_s^2} \quad\quad (8)</script><p>​    马赫数：流体力学中表征流体可压缩程度的一个重要的无量纲参数，记为Ma，定义为流场中某点的速度<em>v</em>同该点的当地声速c之比，即Ma=v/c。</p>
+<p>​    因此，如果假设声速足够大，使得 $\frac{\mathbf{v}_f}{c_s} &lt; \sqrt{\eta}$，我们可以保证 $\frac{|∆ρ|}{ρ_0} \sim \eta$。通常，η设置为0.01，即允许1%数量级的密度变化。为了实施这一条件，选择B作为：</p>
+<script type="math/tex; mode=display">
+B = \frac{ρ_0 c_s^2}{\gamma} \quad\quad (9)</script><p>​    假设声速很高以保持低密度波动，与不可压缩粒子方法相比，泰特方程需要更小的时间步长。但是我们避免了求解泊松方程，每个时间步长需要的计算时间要少得多。对于100k粒子，一个时间步长的计算速度可以比MPS快二十倍。</p>
+<h3 id="Viscosity"><a href="#Viscosity" class="headerlink" title="Viscosity"></a>Viscosity</h3><p>​    为了提高数值稳定性并考虑到冲击现象，采用了人工粘度：</p>
+<script type="math/tex; mode=display">
+\frac{d\mathbf{v}_a}{dt} = 
+        \begin{cases}
+        -\sum_b m_b \Pi_{ab}\nabla_a W_{ab} & \mathbf{v}_{ab}^T\mathbf{x}_{ab}<0\\
+        0 & \mathbf{v}_{ab}^T\mathbf{x}_{ab}\geq 0
+        \end{cases} \quad\quad(10)</script><script type="math/tex; mode=display">
+\Pi_{ab} = -v \left(\frac{\mathbf{v}_{ab}^T \mathbf{x}_{ab}}{|\mathbf{x}_{ab}^2| + \varepsilon h^2} \right) \quad\quad (11)</script><p>​    粘性项：$v = \frac{2αhc_s}{ρ_a + ρ_b}$ ，粘性常数α，对于我们的实验，α在0.08和0.5之间。线动量和角动量在(11)中是守恒的。</p>
+<h3 id="Surface-Tension"><a href="#Surface-Tension" class="headerlink" title="Surface Tension"></a>Surface Tension</h3><p>​    当前的表面张力模型通常基于分配给粒子a的颜色值ca，一个相位的所有粒子都具有相同的颜色值，根据颜色值进行插值：</p>
+<script type="math/tex; mode=display">
+c = \sum_b \frac{m_b c_b}{ρ_b} W_{ab} \quad\quad (12)</script><p>​    表面法线计算为：$\mathbf{n} = \nabla c$  ，表面张力计算：</p>
+<script type="math/tex; mode=display">
+\mathbf{f}^{tension} = -k \nabla^2 c \frac{\mathbf{n}}{|\mathbf{n}|} \quad\quad(13)</script><p>​    k是表面张力系数。</p>
 <p>​    由于归一化，法线只有在它们的长度超过某个阈值时才会被考虑。</p>
 <p>​    这种模式有几个缺点。在粒子只有几个邻居的表面附近，计算曲率 $-\nabla^2c$ 容易出错。此外，计算二阶导数对粒子无序很敏感。</p>
-<p>​    胡和亚当斯提出了修改版本。将表面张力表示为应力张量π的散度，应力张量π由颜色场c唯一定义:<br>$$<br>\Pi = k \frac{1}{|\nabla c|} \left(\frac{1}{3} \mathbf{I} |\nabla c|^2 - \nabla c \nabla c^T \right) \quad\quad (14)<br>$$<br>​    这个表达式得出加速度方程：<br>$$<br>\frac{d\mathbf{v}<em>a}{dt} = \frac{1}{m_a} \sum_b \nabla W</em>{ab} \left(\frac{\Pi_a}{\sigma_a^2} + \frac{\Pi_b}{\sigma_b^2} \right) \quad\quad (15)<br>$$<br>​    with $\sigma_a = \sum_b W(r_a -r_b)$ ，此方法解决了上述问题，因为他们没有明确计算曲率，对于|∇c| → 0，张量自然趋于零。</p>
+<p>​    胡和亚当斯提出了修改版本。将表面张力表示为应力张量π的散度，应力张量π由颜色场c唯一定义:</p>
+<script type="math/tex; mode=display">
+\Pi = k \frac{1}{|\nabla c|} \left(\frac{1}{3} \mathbf{I} |\nabla c|^2 - \nabla c \nabla c^T \right) \quad\quad (14)</script><p>​    这个表达式得出加速度方程：</p>
+<script type="math/tex; mode=display">
+\frac{d\mathbf{v}_a}{dt} = \frac{1}{m_a} \sum_b \nabla W_{ab} \left(\frac{\Pi_a}{\sigma_a^2} + \frac{\Pi_b}{\sigma_b^2} \right) \quad\quad (15)</script><p>​    with $\sigma_a = \sum_b W(r_a -r_b)$ ，此方法解决了上述问题，因为他们没有明确计算曲率，对于|∇c| → 0，张量自然趋于零。</p>
 <p>​    虽然上述两种方法已经应用于自由表面问题，但这两种方法最初都是针对多相场景的。因此，在没有第二相的情况下，它们无法计算出正确的表面张力。它们缺少适当数量的相邻粒子，特别是在高曲率的表面区域。</p>
-<p>​    本文提出了一个新的表面张力模型，它依赖于内聚力。由于以前的方法采用了模型的宏观视角，本文的方法受到微观视角的启发，因为在分子水平上，表面张力是由于分子之间的吸引力而产生的。本文使用光滑核W作为加权函数来缩放吸引力:<br>$$<br>\frac{d\mathbf{v}_a}{dt} = -\frac{κ}{m_a}\sum_b{m_b}W(\mathbf{x}_a - \mathbf{x}_b) \quad\quad (16)<br>$$<br>​    此方法不依赖于第二相，适用于高曲率的自由表面问题。吸引力可以有效地计算出来。通过只对同相粒子施加吸引力，所提出的方法可以很容易地推广到多相问题。</p>
+<p>​    本文提出了一个新的表面张力模型，它依赖于内聚力。由于以前的方法采用了模型的宏观视角，本文的方法受到微观视角的启发，因为在分子水平上，表面张力是由于分子之间的吸引力而产生的。本文使用光滑核W作为加权函数来缩放吸引力:</p>
+<script type="math/tex; mode=display">
+\frac{d\mathbf{v}_a}{dt} = -\frac{κ}{m_a}\sum_b{m_b}W(\mathbf{x}_a - \mathbf{x}_b) \quad\quad (16)</script><p>​    此方法不依赖于第二相，适用于高曲率的自由表面问题。吸引力可以有效地计算出来。通过只对同相粒子施加吸引力，所提出的方法可以很容易地推广到多相问题。</p>
 <h2 id="Visualization"><a href="#Visualization" class="headerlink" title="Visualization"></a>Visualization</h2><p>​    粒子方法的一些可视化技术基于显式表面重建。使用移动立方体(Marching Cubes)，从特征函数重建等值面。然而，捕捉小细节需要对底层空间进行非常精细或自适应的离散化。</p>
 <p>​    粒子水平集不仅使用等值面，而且还引入了与速度场平流的示踪粒子。它们可以使用示踪粒子处理小液滴。然而，这些液滴不一定能捕捉模拟的分辨率。对于大变形，必须重新播种示踪粒子。在[KCC * 06]中，示踪粒子是用拉格朗日方法平流的。</p>
-<p>​    受Zwicker等人[ZPvBG01]和Adams等人[ALD06]的表面喷溅算法启发，我们采用了一种光线追踪方法。小水花和单滴的可视化受到[KCC * 06]和[TRS06]的启发。该方法保证了适当地捕捉到小到单个粒子大小的特征。每个像素的法线计算类似于[Mor99]如下：<br>$$<br>\mathbf{n}_a = \sum_b\frac{m_b}{ρ_b}\nabla W(\mathbf{x}_a - \mathbf{x}_b) \quad\quad(17)<br>$$<br>​    我们对所有被射线击中的粒子求和。在3.4GHz的奔腾4上，可视化130k粒子大约需要1-2秒。</p>
+<p>​    受Zwicker等人[ZPvBG01]和Adams等人[ALD06]的表面喷溅算法启发，我们采用了一种光线追踪方法。小水花和单滴的可视化受到[KCC * 06]和[TRS06]的启发。该方法保证了适当地捕捉到小到单个粒子大小的特征。每个像素的法线计算类似于[Mor99]如下：</p>
+<script type="math/tex; mode=display">
+\mathbf{n}_a = \sum_b\frac{m_b}{ρ_b}\nabla W(\mathbf{x}_a - \mathbf{x}_b) \quad\quad(17)</script><p>​    我们对所有被射线击中的粒子求和。在3.4GHz的奔腾4上，可视化130k粒子大约需要1-2秒。</p>
 <h2 id="Results"><a href="#Results" class="headerlink" title="Results"></a>Results</h2><p>​    在本节中，我们将说明SPH实现的一些属性。我们首先讨论模拟时间步长、边界条件和方法的初始化。随后，说明使用泰特方程与理想气体方程相比的效果，并讨论我们的表面张力模型的性质。最后，我们给出了一个带有碎波的示例场景。</p>
 <p>​    邻域搜索通过均匀的空间细分来实现。集成是通过蛙跳方案实现的。所有实验均采用水的密度ρ<sub>0</sub>=  1000kg/m<sup>3</sup>进行。</p>
-<h3 id="Time-step"><a href="#Time-step" class="headerlink" title="Time step"></a>Time step</h3><p>​    时间步长的适当选择对于稳定性和收敛性至关重要。在我们的例子中，时间步长由CFL条件、粘性项和力项[Mon92]导出:<br>$$<br>∆t = min\left(0.25\cdot \min\limits_a\ \left(\frac{h}{|\mathbf{f}_a|}\right), 0.4\cdot \frac{h}{c_s\cdot(1+0.6α)}\right) \quad\quad(18)<br>$$<br>​    尽管就数值稳定性而言，时间步长可能更大，但我们使用建议的时间步长来确保收敛。</p>
-<h3 id="Boundary-conditions"><a href="#Boundary-conditions" class="headerlink" title="Boundary conditions"></a>Boundary conditions</h3><p>​    在流体粒子与边界碰撞的地方插入边界粒子。根据[Mon05]，计算流体粒子a与边界粒子k碰撞的力$\mathbf{f}<em>{ak}$为：<br>$$<br>\mathbf{f}</em>{ak} = \frac{m_k}{m_a + m_k}\Gamma(\mathbf{x}_a,\mathbf{x}_b)\frac{\mathbf{x}_a - \mathbf{x}_k}{|\mathbf{x}_a-\mathbf{x}_k|} \quad\quad(19)<br>$$<br>​    函数$\Gamma$定义为：<br>$$<br>\Gamma(\mathbf{x}_a,\mathbf{x}_b) = 0.02\frac{c_s^2}{|\mathbf{x}_a-\mathbf{x}_b|}<br>        \begin{cases}<br>            \frac{2}{3} &amp; 0&lt;q&lt;\frac{2}{3}\<br>            (2q-\frac{3}{2}q^2) &amp; \frac{2}{3}&lt;q&lt;1\<br>            \frac{1}{2}(2-q)^2 &amp; 1&lt;q&lt;2\<br>            0 &amp; otherwise<br>        \end{cases} \quad\quad (20)<br>$$<br>with $q = \frac{|\mathbf{x}_a - \mathbf{x}_b|}{h}$</p>
+<h3 id="Time-step"><a href="#Time-step" class="headerlink" title="Time step"></a>Time step</h3><p>​    时间步长的适当选择对于稳定性和收敛性至关重要。在我们的例子中，时间步长由CFL条件、粘性项和力项[Mon92]导出:</p>
+<script type="math/tex; mode=display">
+∆t = min\left(0.25\cdot \min\limits_a\ \left(\frac{h}{|\mathbf{f}_a|}\right), 0.4\cdot \frac{h}{c_s\cdot(1+0.6α)}\right) \quad\quad(18)</script><p>​    尽管就数值稳定性而言，时间步长可能更大，但我们使用建议的时间步长来确保收敛。</p>
+<h3 id="Boundary-conditions"><a href="#Boundary-conditions" class="headerlink" title="Boundary conditions"></a>Boundary conditions</h3><p>​    在流体粒子与边界碰撞的地方插入边界粒子。根据[Mon05]，计算流体粒子a与边界粒子k碰撞的力$\mathbf{f}_{ak}$为：</p>
+<script type="math/tex; mode=display">
+\mathbf{f}_{ak} = \frac{m_k}{m_a + m_k}\Gamma(\mathbf{x}_a,\mathbf{x}_b)\frac{\mathbf{x}_a - \mathbf{x}_k}{|\mathbf{x}_a-\mathbf{x}_k|} \quad\quad(19)</script><p>​    函数$\Gamma$定义为：</p>
+<script type="math/tex; mode=display">
+\Gamma(\mathbf{x}_a,\mathbf{x}_b) = 0.02\frac{c_s^2}{|\mathbf{x}_a-\mathbf{x}_b|}
+        \begin{cases}
+            \frac{2}{3} & 0<q<\frac{2}{3}\\
+            (2q-\frac{3}{2}q^2) & \frac{2}{3}<q<1\\
+            \frac{1}{2}(2-q)^2 & 1<q<2\\
+            0 & otherwise
+        \end{cases} \quad\quad (20)</script><p>with $q = \frac{|\mathbf{x}_a - \mathbf{x}_b|}{h}$</p>
 <h3 id="Initialization"><a href="#Initialization" class="headerlink" title="Initialization"></a>Initialization</h3><p>​    为了获得近似恒定密度的有效状态我们使用求和方法(4)，用(6)的强阻尼版本将粒子演化一百步。在简单的初始几何图形的情况下，这种初始化可能会导致小的视觉伪影。</p>
 <h3 id="Volume-preservation"><a href="#Volume-preservation" class="headerlink" title="Volume preservation"></a>Volume preservation</h3><p>​    为了比较基于Tait方程和理想气体方程的实现，我们进行了两个实验。在这两个实验中，我们测量最大密度和初始密度的比率，以评估体积保持。</p>
 <p>​    在第一个实验中，我们用130k个粒子模拟了一个溃坝场景。大坝的高度是H =5。对于Tait方程，密度波动η设置为0.01。对于气体方程，压力常数Kp设置为300。密度波动和压力常数分别最小化和最大化，以便在两种方法中使用相同的时间步长。在两个版本中，粒子半径和初始间距为0.1，粘性项α为0.1，计算时间约为每时间步4.5s。气体方程测得的密度比是4.06，泰特方程测得的密度比是1.01，如图1所示。</p>
-<img src="F:\blog\source\_posts\Weakly-compressible-SPH-for-free-surface-flows\Figure_1.png" srcset="/img/loading.gif" alt="Figure_1" style="zoom:80%;" />
-
+<p><img src="F:\blog\source\_posts\Weakly-compressible-SPH-for-free-surface-flows\Figure_1.png" srcset="/img/loading.gif" alt="Figure_1" style="zoom:80%;" /></p>
 <p>​    the Tait equation (left) and the ideal gas equation (right). The gas equation  leads to high compressibility.</p>
 <p>​    在第二个实验中，我们模拟了两个高度为H = 2、总粒子数为16k、粘度为α = 0.5的溃坝在一个矩形盆地中相互碰撞。气体方程的压力常数Kp设置为200，密度波动参数η设置为0.01。使用气体方程测得的最大密度比是1.2。由参数确定，对于泰特方程，测得的密度比是1.01。</p>
 <p>​    两个实验都是以相同的密度和相同的粒子质量初始化。实验表明，对于恒定的初始密度和粒子半径，气体方程的密度比随着模拟流体的体积而增加，即随着粒子的数量而增加。与弱可压缩方法相比，气体方程观察到相当大的体积变化。当大坝坍塌时，这一点尤其明显。使用我们的弱可压缩方法，密度波动可以对越来越多的粒子保持不变。就体积保持而言，泰特方程因此适用于处理大型粒子系统。</p>
 <h3 id="Surface-tension"><a href="#Surface-tension" class="headerlink" title="Surface tension"></a>Surface tension</h3><p>​    为了将我们的表面张力方法与[HA06]进行比较，我们使用了一个具有27k粒子的流体立方体，假设它在失重情况下会变形成一个水滴。对于可比结果，我们的方法的表面张力为0.8，而[HA06]的表面张力为30.6。可选参数设置主要影响收敛到平衡状态的速度。只要参数在合理范围内，定性结果不受影响。结果如图2所示。</p>
-<img src="F:\blog\source\_posts\Weakly-compressible-SPH-for-free-surface-flows\Figure_2.png" srcset="/img/loading.gif" alt="Figure_2" style="zoom:80%;" />
-
+<p><img src="F:\blog\source\_posts\Weakly-compressible-SPH-for-free-surface-flows\Figure_2.png" srcset="/img/loading.gif" alt="Figure_2" style="zoom:80%;" /></p>
 <p>​    The effect of surface tension. Initial state (left), resulting equilibrium using [HA06] (middle) and our surface tension approach (right).</p>
 <p>​    由于[HA06]最初用于多相情况，它不太适合自由表面情况下的高曲率。与我们的方法相反，初始状态的高曲率基本上被保留。</p>
 <p>​    在另一个实验中，我们研究了表面张力模型的参数设置。因此，我们模拟了具有两种不同表面张力的溃坝。表面张力0.01接近水，值3.4是此设定中最大的稳定值。如图3所示，选择较大的表面张力值会导致液体飞溅较大。</p>
-<img src="F:\blog\source\_posts\Weakly-compressible-SPH-for-free-surface-flows\Figure_3.png" srcset="/img/loading.gif" alt="Figure_3" style="zoom:80%;" />
-
+<p><img src="F:\blog\source\_posts\Weakly-compressible-SPH-for-free-surface-flows\Figure_3.png" srcset="/img/loading.gif" alt="Figure_3" style="zoom:80%;" /></p>
 <p>​    Two corner-breaking dams using a surface tension of 0.01 (left) and 3.4 (right).</p>
 <h3 id="Breaking-waves"><a href="#Breaking-waves" class="headerlink" title="Breaking waves"></a>Breaking waves</h3><p>​    我们设计了一个场景来说明碎波的处理。我们在一个26×5的水池中使用了200k个粒子，其地面坡度为12°。半径和初始间距设置为0.1。密度波动设置为0.01。粘度项为α = 0.08。为了产生波，我们使用平面波发生器。计算时间为每个时间步长7.5s。从图4中可以看出，飞溅和碎波可以用我们的方法来模拟。</p>
-<img src="F:\blog\source\_posts\Weakly-compressible-SPH-for-free-surface-flows\Figure_4.png" srcset="/img/loading.gif" alt="Figure_4" style="zoom:80%;" />
-
+<p><img src="F:\blog\source\_posts\Weakly-compressible-SPH-for-free-surface-flows\Figure_4.png" srcset="/img/loading.gif" alt="Figure_4" style="zoom:80%;" /></p>
 <p>​    A breaking wave is generated using a wave generator</p>
 <h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>​    我们提出了一种用于自由表面流体的弱可压缩SPH方法。通过允许小的用户定义的密度波动，与严格执行不可压缩性的方法相比，Tait方程是一种有效的替代方法。与气体方程相比，即使有大量粒子，密度波动仍然很小。已经在各种场景中说明了体积保持。使用我们的方法可以模拟具有飞溅的低粘性流体的碎波等自然现象。</p>
 <p>​    此外，我们还提出了一种基于内聚力的表面张力改进算法。与以前的方法相比，我们的模型可以处理单相自由表面流体的高曲率。</p>

@@ -261,8 +261,7 @@
 </li>
 </ul>
 <h3 id="Z-Index-Sort"><a href="#Z-Index-Sort" class="headerlink" title="Z-Index Sort"></a>Z-Index Sort</h3><ul>
-<li><p>粒子用一个Z曲线索引排序</p>
-</li>
+<li>粒子用一个Z曲线索引排序</li>
 <li><p>提高缓存命中率</p>
 <ul>
 <li>particles in adjacent cells are close in memory</li>
@@ -271,11 +270,9 @@
 <li><p>有效计算Z曲线索引</p>
 </li>
 </ul>
-<img src="neighbor-search\Z-curve.png" srcset="/img/loading.gif" alt="Z-curve" style="zoom:50%;" />
-
+<p><img src="neighbor-search\Z-curve.png" srcset="/img/loading.gif" alt="Z-curve" style="zoom:50%;" /></p>
 <h3 id="Z-Index-Sort-Sorting"><a href="#Z-Index-Sort-Sorting" class="headerlink" title="Z-Index Sort Sorting"></a>Z-Index Sort Sorting</h3><ul>
-<li><p>particle attributes 和 z-curve indices 分别处理</p>
-</li>
+<li>particle attributes 和 z-curve indices 分别处理</li>
 <li><p>句柄（particle identifier, z-curve index）在每个时间步中排序</p>
 <ul>
 <li>reduces memory transfer</li>
@@ -287,8 +284,7 @@
 <li>restores spatial locality</li>
 </ul>
 </li>
-<li><p>采用插入排序代替基排序</p>
-<ul>
+<li>采用插入排序代替基排序<ul>
 <li>O (n) for almost sorted arrays</li>
 <li>due to temporal coherence, only 2% of all particles change their cell</li>
 </ul>
@@ -315,8 +311,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="Compact-Hashing"><a href="#Compact-Hashing" class="headerlink" title="Compact Hashing"></a>Compact Hashing</h3><img src="neighbor-search\compact-hashing.png" srcset="/img/loading.gif" alt="compact-hashing" style="zoom:70%;" />
-
+<h3 id="Compact-Hashing"><a href="#Compact-Hashing" class="headerlink" title="Compact Hashing"></a>Compact Hashing</h3><p><img src="neighbor-search\compact-hashing.png" srcset="/img/loading.gif" alt="compact-hashing" style="zoom:70%;" /></p>
 <ul>
 <li>hash cells store handles to a compact list of used cells<ul>
 <li>k entries are pre-allocated for each element in the list of used cells</li>
@@ -341,8 +336,7 @@
 </li>
 </ul>
 <h3 id="Compact-Hashing-Query"><a href="#Compact-Hashing-Query" class="headerlink" title="Compact Hashing Query"></a>Compact Hashing Query</h3><ul>
-<li><p>processing of used cells</p>
-<ul>
+<li>processing of used cells<ul>
 <li>bad spatial locality </li>
 <li>used cells close in memory are not close in space </li>
 </ul>
@@ -355,10 +349,8 @@
 </li>
 <li><p>particles are sorted with respect to a z-curve every 100th step</p>
 </li>
-<li><p>after sorting, the list of used cells has to be rebuilt</p>
-</li>
-<li><p>as particles are serially inserted into the list of used cells, the list is consistent with the z-curve</p>
-<ul>
+<li>after sorting, the list of used cells has to be rebuilt</li>
+<li>as particles are serially inserted into the list of used cells, the list is consistent with the z-curve<ul>
 <li>improved cache hit rate during the traversal of the list of used cells</li>
 </ul>
 </li>
