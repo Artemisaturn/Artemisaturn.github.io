@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Wang Jiamin">
   <meta name="keywords" content="">
-  <title>neighbor_search - Hexo</title>
+  <title>overleaf latex - Hexo</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="neighbor_search">
+            <span class="h2" id="subtitle" title="overleaf latex">
               
             </span>
 
@@ -172,8 +172,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2020-12-15 18:37" pubdate>
-        2020年12月15日 晚上
+      <time datetime="2021-05-21 10:24" pubdate>
+        2021年5月21日 上午
       </time>
     </span>
   
@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      964 字
+      191 字
     </span>
   
 
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      13
+      3
        分钟
     </span>
   
@@ -224,161 +224,17 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">neighbor_search</h1>
+            <h1 style="display: none">overleaf latex</h1>
             
             <div class="markdown-body">
-              <h1 id="SPH-Neighborhood-Search"><a href="#SPH-Neighborhood-Search" class="headerlink" title="SPH Neighborhood Search"></a>SPH Neighborhood Search</h1><h2 id="Neighbor-Search-Characteristics"><a href="#Neighbor-Search-Characteristics" class="headerlink" title="Neighbor Search Characteristics"></a>Neighbor Search Characteristics</h2><ul>
-<li>高效构建和处理动态变化的邻居粒子集</li>
-<li>邻居搜索需要快速存取</li>
-<li>保持时间的一致性</li>
-<li>保持空间局部性</li>
-<li>分层数据结构的效率很低</li>
-<li>首选均匀网格法</li>
-</ul>
-<h2 id="Uniform-Grid-Implementations"><a href="#Uniform-Grid-Implementations" class="headerlink" title="Uniform Grid Implementations"></a>Uniform Grid Implementations</h2><h3 id="Basic-Grid"><a href="#Basic-Grid" class="headerlink" title="Basic Grid"></a>Basic Grid</h3><ul>
-<li>粒子被存储在一个单元网格里，坐标 $(k, l, m)$ </li>
-<li>27个网格需要被邻居搜索查询 $(k\pm1, l\pm1, m\pm1)$</li>
-<li>单元格大小等于粒子影响半径h</li>
-<li>并行构造会受到竞争条件的影响：粒子从不同的线程插入同一个cell</li>
-</ul>
-<h3 id="Index-Sort-Construction"><a href="#Index-Sort-Construction" class="headerlink" title="Index Sort Construction"></a>Index Sort Construction</h3><ul>
-<li>cell index: $c=k+l<em>K+m</em>K*L$  </li>
-<li>粒子根据cell index进行排序</li>
-<li>每个网格单元（k, l, m）存储排序列表中第一个粒子的索引</li>
-<li>可并行性</li>
-<li>内存分配可避免</li>
-<li>内存消耗是常数</li>
-<li>为了找相邻的单元格，需要对整个空间网格进行表示</li>
-</ul>
-<h3 id="Index-Sort-Query"><a href="#Index-Sort-Query" class="headerlink" title="Index Sort Query"></a>Index Sort Query</h3><ul>
-<li>查询已排序的粒子数组（可并行）</li>
-<li>查询同一个cell里的粒子</li>
-<li>获取邻近cell中的粒子</li>
-<li>提高缓存命中率<ul>
-<li>particles in the same cell are close in memory</li>
-<li>particles of neighboring cells are not necessarily close in memory</li>
-</ul>
-</li>
-</ul>
-<h3 id="Z-Index-Sort"><a href="#Z-Index-Sort" class="headerlink" title="Z-Index Sort"></a>Z-Index Sort</h3><ul>
-<li>粒子用一个Z曲线索引排序</li>
-<li><p>提高缓存命中率</p>
-<ul>
-<li>particles in adjacent cells are close in memory</li>
-</ul>
-</li>
-<li><p>有效计算Z曲线索引</p>
-</li>
-</ul>
-<p><img src="neighbor-search\Z-curve.png" srcset="/img/loading.gif" alt="Z-curve" style="zoom:50%;" /></p>
-<h3 id="Z-Index-Sort-Sorting"><a href="#Z-Index-Sort-Sorting" class="headerlink" title="Z-Index Sort Sorting"></a>Z-Index Sort Sorting</h3><ul>
-<li>particle attributes 和 z-curve indices 分别处理</li>
-<li><p>句柄（particle identifier, z-curve index）在每个时间步中排序</p>
-<ul>
-<li>reduces memory transfer</li>
-<li>spatial locality is only marginally influenced due to temporal coherence</li>
-</ul>
-</li>
-<li><p>属性集每100个模拟步骤排序一次</p>
-<ul>
-<li>restores spatial locality</li>
-</ul>
-</li>
-<li>采用插入排序代替基排序<ul>
-<li>O (n) for almost sorted arrays</li>
-<li>due to temporal coherence, only 2% of all particles change their cell</li>
-</ul>
-</li>
-</ul>
-<h3 id="Spatial-Hashing"><a href="#Spatial-Hashing" class="headerlink" title="Spatial Hashing"></a>Spatial Hashing</h3><ul>
-<li>哈希函数将网格单元格映射到哈希单元格<ul>
-<li>将无限域映射到有限链表</li>
-<li>与索引排序相比，可以处理无限域</li>
-</ul>
-</li>
-<li>大型哈希表减少哈希冲突的次数<ul>
-<li>如果不同的空间单元被映射到相同的哈希单元格，哈希会发生冲突</li>
-<li>哈希冲突减慢查询速度</li>
-</ul>
-</li>
-<li>减少内存分配<ul>
-<li>为每个哈希单元分配一定数量的内存</li>
-</ul>
-</li>
-<li>减少缓存命中率<ul>
-<li>哈希列表被稀疏填充</li>
-<li>满的和空的单元格是交替的</li>
-</ul>
-</li>
-</ul>
-<h3 id="Compact-Hashing"><a href="#Compact-Hashing" class="headerlink" title="Compact Hashing"></a>Compact Hashing</h3><p><img src="neighbor-search\compact-hashing.png" srcset="/img/loading.gif" alt="compact-hashing" style="zoom:70%;" /></p>
-<ul>
-<li>hash cells store handles to a compact list of used cells<ul>
-<li>k entries are pre-allocated for each element in the list of used cells</li>
-<li>elements in the used-cell list are generated if a particle is placed in a new cell</li>
-<li>elements are deleted, if a cell gets empty</li>
-</ul>
-</li>
-<li>memory consumption is reduced from O (m · k) to O (m + n · k) with m » n </li>
-<li>list of used cells is queried in the neighbor search</li>
-</ul>
-<h3 id="Compact-Hashing-1"><a href="#Compact-Hashing-1" class="headerlink" title="Compact Hashing"></a>Compact Hashing</h3><ul>
-<li>not parallelizable<ul>
-<li>particles from different threads might be inserted in the same cell</li>
-</ul>
-</li>
-<li>larger hash table compared to spatial hashing to reducehash collisions</li>
-<li>temporal coherence is employed<ul>
-<li>list of used cells is not rebuilt, but updated</li>
-<li>set of particles with changed cell index is estimated (about 2% of all particles)</li>
-<li>particle is removed from the old cell and added to the new cell (again not parallelizable)</li>
-</ul>
-</li>
-</ul>
-<h3 id="Compact-Hashing-Query"><a href="#Compact-Hashing-Query" class="headerlink" title="Compact Hashing Query"></a>Compact Hashing Query</h3><ul>
-<li>processing of used cells<ul>
-<li>bad spatial locality </li>
-<li>used cells close in memory are not close in space </li>
-</ul>
-</li>
-<li><p>hash-collision flag</p>
-<ul>
-<li>if there is no hash collision in a cell, hash indices of adjacent cells have to be computed only once for all particles in this cell</li>
-<li>large hash table results in 2% cells with hash collisions</li>
-</ul>
-</li>
-<li><p>particles are sorted with respect to a z-curve every 100th step</p>
-</li>
-<li>after sorting, the list of used cells has to be rebuilt</li>
-<li>as particles are serially inserted into the list of used cells, the list is consistent with the z-curve<ul>
-<li>improved cache hit rate during the traversal of the list of used cells</li>
-</ul>
-</li>
-</ul>
-<p><strong>C++ 并行编程: 设定 指令执行顺序</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">memory_order</span> &#123;</span><br>    memory_order_relaxed,    <span class="hljs-comment">// 不对执行顺序做保证</span><br>    memory_order_acquire,    <span class="hljs-comment">// 本线程中,所有后续的读操作必须在本条原子操作完成后执行</span><br>    memory_order_release,    <span class="hljs-comment">// 本线程中,所有之前的写操作完成后才能执行本条原子操作</span><br>    memory_order_acq_rel,    <span class="hljs-comment">// 同时包含 memory_order_acquire 和 memory_order_release</span><br>    memory_order_consume,    <span class="hljs-comment">// 本线程中,所有后续的有关本原子类型的操作,必须在本条原子操作完成之后执行</span><br>    memory_order_seq_cst    <span class="hljs-comment">// 全部存取都按顺序执行</span><br>    &#125; memory_order;<br></code></pre></td></tr></table></figure>
+              <p>表格</p>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs latex"><span class="hljs-keyword">\begin</span>&#123;table&#125;[b]<br><span class="hljs-keyword">\centering</span><br><span class="hljs-keyword">\caption</span>&#123;Number of iterations between 4.5s and 4.6s in the experiment of fluid coupling: two-phase dam-break (see Sec.<span class="hljs-keyword">\@</span>~<span class="hljs-keyword">\ref</span>&#123;sec:exp-vfsph&#125;).&#125;<br><span class="hljs-keyword">\label</span>&#123;tab:iteration&#125;<br><span class="hljs-keyword">\begin</span>&#123;tabular&#125;&#123;|c|l|ccc|&#125;<br><span class="hljs-keyword">\hline</span><br><span class="hljs-keyword">\multirow</span>&#123;2&#125;&#123;*&#125;&#123;SPH&#125; <span class="hljs-built_in">&amp;</span> <span class="hljs-keyword">\multicolumn</span>&#123;1&#125;&#123;c|&#125;&#123;<span class="hljs-keyword">\multirow</span>&#123;2&#125;&#123;*&#125;&#123;Solver&#125;&#125; <span class="hljs-built_in">&amp;</span> <span class="hljs-keyword">\multicolumn</span>&#123;3&#125;&#123;c|&#125;&#123;<span class="hljs-built_in">$</span><span class="hljs-keyword">\rho</span><span class="hljs-built_in">_</span>&#123;<span class="hljs-keyword">\mathrm</span>&#123;red&#125;&#125;:<span class="hljs-keyword">\rho</span><span class="hljs-built_in">_</span>&#123;<span class="hljs-keyword">\mathrm</span>&#123;blue&#125;&#125;<span class="hljs-built_in">$</span>&#125; <span class="hljs-keyword">\\</span> <span class="hljs-keyword">\cline</span>&#123;3-5&#125; <span class="hljs-built_in">&amp;</span> <span class="hljs-keyword">\multicolumn</span>&#123;1&#125;&#123;c|&#125;&#123;&#125; <span class="hljs-built_in">&amp;</span> <span class="hljs-built_in">$</span>1:2<span class="hljs-built_in">$</span> <span class="hljs-built_in">&amp;</span> <span class="hljs-built_in">$</span>1:5<span class="hljs-built_in">$</span>  <span class="hljs-built_in">&amp;</span> <span class="hljs-built_in">$</span>1:40<span class="hljs-built_in">$</span>   <span class="hljs-keyword">\\</span> <span class="hljs-keyword">\hline</span><br><span class="hljs-keyword">\multirow</span>&#123;2&#125;&#123;*&#125;&#123;DFSPH&#125; <span class="hljs-built_in">&amp;</span> divergenceFreeSolver <span class="hljs-built_in">&amp;</span> 379  <span class="hljs-built_in">&amp;</span> 662 <span class="hljs-built_in">&amp;</span> 787 <span class="hljs-keyword">\\</span> <br>                       <span class="hljs-built_in">&amp;</span> constantDensitySolver <span class="hljs-built_in">&amp;</span> 638 <span class="hljs-built_in">&amp;</span> 316 <span class="hljs-built_in">&amp;</span> 471 <span class="hljs-keyword">\\</span> <span class="hljs-keyword">\hline</span><br><span class="hljs-keyword">\multirow</span>&#123;2&#125;&#123;*&#125;&#123;VFSPH&#125; <span class="hljs-built_in">&amp;</span> divergenceFreeSolver <span class="hljs-built_in">&amp;</span> 264 <span class="hljs-built_in">&amp;</span> 327 <span class="hljs-built_in">&amp;</span> 338 <span class="hljs-keyword">\\</span> <br>                       <span class="hljs-built_in">&amp;</span> constantDensitySolver <span class="hljs-built_in">&amp;</span> 647 <span class="hljs-built_in">&amp;</span> 533 <span class="hljs-built_in">&amp;</span> 417 <span class="hljs-keyword">\\</span> <span class="hljs-keyword">\hline</span><br><span class="hljs-keyword">\end</span>&#123;tabular&#125;<br><span class="hljs-keyword">\end</span>&#123;table&#125;<br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
-                  <div class="post-meta mr-3">
-                    <i class="iconfont icon-category"></i>
-                    
-                      <a class="hover-with-bg" href="/categories/scientific-research/">scientific research</a>
-                    
-                  </div>
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/paper/">paper</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E9%82%BB%E5%B1%85%E6%90%9C%E7%B4%A2/">邻居搜索</a>
-                    
-                  </div>
                 
               </div>
               
@@ -389,9 +245,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/01/25/pr-make-img-vedio/">
+                      <a href="/2021/06/27/win10-cuda-vs2019/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">pr make img vedio</span>
+                        <span class="hidden-mobile">win10+cuda+vs2019</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -399,8 +255,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2020/11/20/ansys-learning/">
-                        <span class="hidden-mobile">ansys learning</span>
+                      <a href="/2021/03/20/volume-rendering/">
+                        <span class="hidden-mobile">volume rendering</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
