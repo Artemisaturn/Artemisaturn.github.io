@@ -8,7 +8,7 @@
     <link href="/2021/06/27/win10-cuda-vs2019/"/>
     <url>/2021/06/27/win10-cuda-vs2019/</url>
     
-    <content type="html"><![CDATA[<h1 id="win10-cuda-vs2019"><a href="#win10-cuda-vs2019" class="headerlink" title="win10+cuda+vs2019"></a>win10+cuda+vs2019</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="1、检查显卡支持的cuda版本"><a href="#1、检查显卡支持的cuda版本" class="headerlink" title="1、检查显卡支持的cuda版本"></a>1、检查显卡支持的cuda版本</h3><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">nvidia-smi</span><br></code></pre></td></tr></table></figure><p><img src="win10-cuda-vs2019\cuda_version.png" alt="cuda_version"></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="win10-cuda-vs2019"><a href="#win10-cuda-vs2019" class="headerlink" title="win10+cuda+vs2019"></a>win10+cuda+vs2019</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="1、检查显卡支持的cuda版本"><a href="#1、检查显卡支持的cuda版本" class="headerlink" title="1、检查显卡支持的cuda版本"></a>1、检查显卡支持的cuda版本</h3><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">nvidia-smi</span><br></code></pre></td></tr></table></figure><p><img src="https://cdn.jsdelivr.net/gh/Artemisaturn/my_pictures/img/win10-cuda-vs2019/cuda_version.png" alt="cuda_version"></p>]]></content>
     
     
     
