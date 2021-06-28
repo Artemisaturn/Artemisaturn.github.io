@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      373 字
+      1.3k 字
     </span>
   
 
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      4
+      15
        分钟
     </span>
   
@@ -254,6 +254,55 @@
 <p>（6）包含目录配置：项目属性–&gt;属性–&gt;配置属性–&gt;VC++目录–&gt;包含目录，添加包含目录$(CUDA_PATH)\include</p>
 <p>（7）库目录配置：VC++目录–&gt;库目录，$(CUDA_PATH)\lib\x64</p>
 <p>（8）依赖项：配置属性–&gt;连接器–&gt;输入–&gt;附加依赖项，添加库文件：cublas.lib cuda.lib cudadevrt.lib cudart.lib cudart_static.lib OpenCL.lib cublas.lib</p>
+<h2 id="NVIDIA-CUDA-Libraries"><a href="#NVIDIA-CUDA-Libraries" class="headerlink" title="NVIDIA CUDA Libraries"></a>NVIDIA CUDA Libraries</h2><h3 id="cuBLAS库"><a href="#cuBLAS库" class="headerlink" title="cuBLAS库"></a>cuBLAS库</h3><p>cuBLAS 库是<strong>基本线性代数子程序</strong> (BLAS) 在 NVIDIA CUDA 运行时上的实现。它使用户能够访问 NVIDIA GPU 的计算资源。</p>
+<p>要使用 cuBLAS API，应用程序必须在 GPU 内存空间中分配所需的矩阵和向量，用数据填充它们，调用所需的 cuBLAS 函数序列，然后将结果从 GPU 内存空间上传回主机。</p>
+<h4 id="数据布局"><a href="#数据布局" class="headerlink" title="数据布局"></a>数据布局</h4><p>为了最大程度地与现有 Fortran 环境兼容，cuBLAS 库使用列优先存储和基于 1 的索引。应该定义宏或内联函数来实现在一维数组之上的矩阵，在基于 1 的索引的情况下，可以通过以下宏计算行“i”和“j”列中矩阵元素的数组索引：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> IDX2F(i,j,ld) ((((j)-1)*(ld))+((i)-1))</span><br></code></pre></td></tr></table></figure>
+<p>这里，ld 指的是矩阵的前导维度，在列优先存储的情况下，它是分配矩阵的行数。对于本地编写的 C 和 C++ 代码，最有可能选择基于 0 的索引，在这种情况下，可以通过以下宏计算行“i”和列“j”中矩阵元素的数组索引：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> IDX2C(i,j,ld) (((j)*(ld))+(i))</span><br></code></pre></td></tr></table></figure>
+<h4 id="cuBLAS数据类型"><a href="#cuBLAS数据类型" class="headerlink" title="cuBLAS数据类型"></a>cuBLAS数据类型</h4><p><strong>cublasHandle_t</strong> 是指向包含 cuBLAS 库上下文的不透明结构的指针类型。cuBLAS 库上下文必须使用<em>cublasCreate()</em>初始化，并且返回的句柄必须传递给所有后续的库函数调用。最后使用<em>cublasDestroy()</em>释放与CUBLAS库上下文相关联的资源。</p>
+<p><strong>cublasStatus_t</strong> ：该类型用于函数状态返回。 所有Cublas库函数都返回其状态，可以具有以下值。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>value</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CUBLAS_STATUS_SUCCESS</td>
+<td>操作成功完成</td>
+</tr>
+<tr>
+<td>CUBLAS_STATUS_NOT_INITIALIZED</td>
+<td>cuBLAS 库未初始化</td>
+</tr>
+<tr>
+<td>CUBLAS_STATUS_ALLOC_FAILED</td>
+<td>cuBLAS 库内的资源分配失败</td>
+</tr>
+<tr>
+<td>CUBLAS_STATUS_MAPPING_ERROR</td>
+<td>访问 GPU 内存空间失败</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="cuBLAS辅助函数"><a href="#cuBLAS辅助函数" class="headerlink" title="cuBLAS辅助函数"></a>cuBLAS辅助函数</h4><p>cublasGetVector()</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++">cublasGetVector(<span class="hljs-keyword">int</span> n, <span class="hljs-keyword">int</span> elemSize, <span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span> *x, <span class="hljs-keyword">int</span> incx, <span class="hljs-keyword">void</span> *y, <span class="hljs-keyword">int</span> incy)<br></code></pre></td></tr></table></figure>
+<p>将GPU内存空间的向量x的n个元素复制到主机内存空间的y向量。两个向量中的元素大小为elemSize字节。对于源向量x，连续元素之间的存储间隔为incx，对于目标向量y，连续元素之间的存储间隔为incy。</p>
+<p>cublasSgemm()</p>
+<script type="math/tex; mode=display">
+C=\alpha op(A)op(B)+\beta C</script><h3 id="cuFFT库"><a href="#cuFFT库" class="headerlink" title="cuFFT库"></a>cuFFT库</h3><p>NVIDIA CUDA 快速傅立叶变换 (cuFFT) 库由两个组件组成：cuFFT 和 cuFFTW。cuFFT 库在 NVIDIA GPU 上提供高性能，cuFFTW 库是一个移植工具，用于在 NVIDIA GPU 上使用最快的傅立叶变换 (FFTW)。</p>
+<h3 id="cuRAND库"><a href="#cuRAND库" class="headerlink" title="cuRAND库"></a>cuRAND库</h3><p>NVIDIA CUDA 随机数生成 (cuRAND) 库提供了一个 API，用于简单高效地生成高质量的伪随机数和准随机数。</p>
+<h3 id="cuSOLVER库"><a href="#cuSOLVER库" class="headerlink" title="cuSOLVER库"></a>cuSOLVER库</h3><p>cuSOLVER 库是基于 cuBLAS 和 cuSPARSE 库的高级包。它提供类似于线性代数包 (LAPACK) 的功能，例如常见矩阵分解和用于密集矩阵的三角求解例程。</p>
+<h3 id="cuSPARSEL库"><a href="#cuSPARSEL库" class="headerlink" title="cuSPARSEL库"></a>cuSPARSEL库</h3><p>cuSPARSE 库包含一组用于处理稀疏矩阵的基本线性代数子程序。它在 NVIDIA CUDA 运行时上实现，旨在从 C 和 C++ 调用。</p>
+<h3 id="cuSPARSELt库"><a href="#cuSPARSELt库" class="headerlink" title="cuSPARSELt库"></a>cuSPARSELt库</h3><p>cuSPARSELt 库提供高性能、结构化、矩阵密集的矩阵乘法功能。cuSPARSELt 允许用户利用最新的 NVIDIA GPU 的计算资源。</p>
+<h3 id="cuTENSOR库"><a href="#cuTENSOR库" class="headerlink" title="cuTENSOR库"></a>cuTENSOR库</h3><p>cuTENSOR 库是同类中首创的、GPU 加速的张量线性代数库，提供高性能的张量收缩、缩减和元素操作。cuTENSOR 用于加速深度学习训练和推理、计算机视觉、量子化学和计算物理领域的应用。</p>
+<h3 id="NPP库"><a href="#NPP库" class="headerlink" title="NPP库"></a>NPP库</h3><p>NVIDIA Performance Primitives (NPP) 是一个用于执行 CUDA 加速 2D 图像和信号处理的函数库。该库广泛适用于这些领域的开发人员，其编写目的是在保持高性能的同时最大限度地提高灵活性。</p>
+<h2 id="NVIDIA-CUDA-Toolkit"><a href="#NVIDIA-CUDA-Toolkit" class="headerlink" title="NVIDIA CUDA Toolkit"></a>NVIDIA CUDA Toolkit</h2><p>线性内存通常使用<em>cudaMalloc()</em>分配和<em>cudaFree()</em>释放，主机内存和设备内存之间的数据传输通常使用<em>cudaMemcpy()</em>。</p>
 
             </div>
             <hr>
