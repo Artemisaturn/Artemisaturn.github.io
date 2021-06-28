@@ -290,10 +290,10 @@
 </tbody>
 </table>
 </div>
-<h4 id="cuBLAS辅助函数"><a href="#cuBLAS辅助函数" class="headerlink" title="cuBLAS辅助函数"></a>cuBLAS辅助函数</h4><p>cublasGetVector()</p>
+<h4 id="cuBLAS辅助函数"><a href="#cuBLAS辅助函数" class="headerlink" title="cuBLAS辅助函数"></a>cuBLAS辅助函数</h4><p><strong>cublasGetVector()</strong></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++">cublasGetVector(<span class="hljs-keyword">int</span> n, <span class="hljs-keyword">int</span> elemSize, <span class="hljs-keyword">const</span> <span class="hljs-keyword">void</span> *x, <span class="hljs-keyword">int</span> incx, <span class="hljs-keyword">void</span> *y, <span class="hljs-keyword">int</span> incy)<br></code></pre></td></tr></table></figure>
 <p>将GPU内存空间的向量x的n个元素复制到主机内存空间的y向量。两个向量中的元素大小为elemSize字节。对于源向量x，连续元素之间的存储间隔为incx，对于目标向量y，连续元素之间的存储间隔为incy。</p>
-<p>cublasSgemm()</p>
+<p><strong>cublasSgemm()</strong></p>
 <script type="math/tex; mode=display">
 C=\alpha op(A)op(B)+\beta C</script><h3 id="cuFFT库"><a href="#cuFFT库" class="headerlink" title="cuFFT库"></a>cuFFT库</h3><p>NVIDIA CUDA 快速傅立叶变换 (cuFFT) 库由两个组件组成：cuFFT 和 cuFFTW。cuFFT 库在 NVIDIA GPU 上提供高性能，cuFFTW 库是一个移植工具，用于在 NVIDIA GPU 上使用最快的傅立叶变换 (FFTW)。</p>
 <h3 id="cuRAND库"><a href="#cuRAND库" class="headerlink" title="cuRAND库"></a>cuRAND库</h3><p>NVIDIA CUDA 随机数生成 (cuRAND) 库提供了一个 API，用于简单高效地生成高质量的伪随机数和准随机数。</p>
