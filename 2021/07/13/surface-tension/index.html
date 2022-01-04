@@ -1,0 +1,555 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Wang Jiamin">
+  <meta name="keywords" content="">
+  <title>surface tension - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"artemisaturn.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="surface tension">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-13 21:57" pubdate>
+        2021年7月13日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      28
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">surface tension</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Versatile-Surface-Tension-and-Adhesion-for-SPH-Fluids"><a href="#Versatile-Surface-Tension-and-Adhesion-for-SPH-Fluids" class="headerlink" title="Versatile Surface Tension and Adhesion for SPH Fluids"></a>Versatile Surface Tension and Adhesion for SPH Fluids</h1><h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>提出了一种新的表面张力和粘附力：可以处理很大的表面张力，防止自由表面的粒子聚集，最小化表面曲率；粘附力允许流固双向吸引，可以模拟不同的湿润条件；建模表面张力和粘附力不需要生成幽灵空气粒子或表面追踪；作用于流-流和流-固粒子对间的力是对称的，满足动量守恒。</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>表面张力，由相邻流体分子之间的内聚力引起；</p>
+<p>在流体内部，每个分子都被其邻居分子同等地吸引，所以合力为零；</p>
+<p>然而，自由表面不是所有方向都有邻居粒子，这些区域的分子被向内牵引；</p>
+<p>根据拉普拉斯定律，表面张力使表面积最小化，当排除外力时，水滴成球形。</p>
+<p>另一个同样由分子间相互作用引起的效应是粘附力，使流体被其他材质吸引。</p>
+<p>存在问题：</p>
+<p>​        在SPH中，气-液和流-固界面上出现的一个重要问题是密度低估，错误的密度值会导致负的压力，造成粒子聚集；称为张力不稳定性。</p>
+<p>解决方法：</p>
+<p>​    （1）使用人工压力（但会导致虚假的表面张力）</p>
+<p>​    （2）使用密度校正技术，或简单地不允许负压力（仍然没有解决流体界面黏附粒子的问题）</p>
+<p>​    （3）通过为固体边界预先计算单层边界粒子来解决流-固界面的问题</p>
+<p>为了模拟表面张力：计算基于曲率的粒子外力；基于内聚力的对称性力；修正的SPH公式；基于表面网格曲率的力</p>
+<p>固-液粘附力建模：使用基于距离的吸引力；结合幽灵固体粒子和XSPH</p>
+<hr>
+<h3 id="Surface-Tension-in-Fluid-Simulation"><a href="#Surface-Tension-in-Fluid-Simulation" class="headerlink" title="Surface Tension in Fluid Simulation"></a>Surface Tension in Fluid Simulation</h3><p>早期的表面张力技术关注于施加力最小化表面曲率；</p>
+<p>计算每个粒子的法线，从而确定力的方向，通过光滑颜色场的梯度来计算；</p>
+<p>力的大小基于粒子位置的曲率，可以通过光滑颜色场的二阶导数或法线场的散度来计算。</p>
+<p>存在的问题：</p>
+<p>​    （1）流体内部的粒子，归一化光滑颜色场梯度会导致内部粒子的任意法线（通过将表面张力施加到光滑颜色场梯度大小 &gt; 阈值的粒子上，避免此问题，但会导致不连续的力）；</p>
+<p>​    （2）由于需要二阶导数，曲率估计对粒子无序非常敏感；</p>
+<p>​    （3）力以非对称的方式作为外力施加到流体粒子上，不能保持动量守恒。</p>
+<p>新方法（1）</p>
+<p>在分子水平上解决表面张力问题：使用相邻流体粒子间的内聚力。</p>
+<p>优势：避免了法线计算和错误的曲率估计；所施加的力是对称性的，保持动量守恒。</p>
+<p>缺点：仅使用流体粒子间的内聚力不能保证表面积最小化，大的内聚力会导致不真实的流体效果</p>
+<p>新方法（2）</p>
+<p>在邻居流体粒子间施加吸引力以产生表面张力，基本的SPH方法使用双密度松弛重制，其中表面张力是基于自由表面产生的负压计算的。</p>
+<p>缺点：由于表面张力作为副作用出现，不同的表面张力行为不能用此方法来模拟，并且，没有考虑表面积最小化。</p>
+<p>新方法（3）</p>
+<p>曲率在流体表面网格上估计，产生的表面张力被施加到相邻的流体粒子上</p>
+<p>优势：当表面网格比流体有更多的样本时（即比粒子有更多的顶点），曲率计算不像从粒子计算曲率那样容易出错</p>
+<p>缺点：1、所采用的表面跟踪方案可能无法检测网格分辨率粗糙的区域中的独立流体块；2、表面张力的质量取决于跟踪的网格分辨率；3、在每个模拟步骤中要求流体表面显式表示，对于不需要显式表面的情况是一种额外开销</p>
+<hr>
+<h3 id="Solid-Adhesion-in-Fluid-Simulation"><a href="#Solid-Adhesion-in-Fluid-Simulation" class="headerlink" title="Solid Adhesion in Fluid Simulation"></a>Solid Adhesion in Fluid Simulation</h3><p>一种完全拉格朗日方法来模拟粘性液体，包括对固体的粘附：使用距离相关的力来定义不同类型材料的粘附特性；然而，所采用的线密度核和严格的防渗透约束限制了它们对高粘性液体的处理。</p>
+<p>粘弹性SPH流体对固体的粘附通过使用基于距离的吸引力项来建模，该吸引力项作为流体粒子的脉冲被添加。</p>
+<p>流体对固体的粘附通过结合固体自身的速度和最近的流体粒子速度的切向分量来计算每个固体粒子的幽灵速度来实现，在这个步骤之后，使用基于XSPH的人工粘度项产生流体对固体的粘附。</p>
+<hr>
+<h3 id="Contributions"><a href="#Contributions" class="headerlink" title="Contributions"></a>Contributions</h3><p>本文提出了一个表面张力和一个流-固粘附力来改善SPH中气-液和流-固界面的处理。</p>
+<p>本文的表面张力方法可以在保持动量的同时，通过最小化所有尺度的表面积来处理大的表面张力。</p>
+<p>此外，本文的表面张力还会对近距离产生排斥力，这可以防止自由表面上的粒子聚集，而不需要额外的处理，例如产生幽灵空气粒子或人工压力。</p>
+<p>本文的粘附力允许物理上合理的固液粘附效果，而不需要额外的处理，如幽灵SPH。</p>
+<p>此外，本文的方法允许模拟有趣的现象，如不同的润湿效果和双向粘附。</p>
+<p>本文的两种力可以很容易地添加到现有的SPH求解器中，作为额外的力项。</p>
+<p>通过结合本文的表面张力和粘附力，能够模拟自然界中可以观察到的各种效果。</p>
+<h2 id="Surface-Tension-Model"><a href="#Surface-Tension-Model" class="headerlink" title="Surface Tension Model"></a>Surface Tension Model</h2><p>流体的表面张力源自分子的内聚力；</p>
+<p>增大只有cohesion的表面张力，可能导致像蜘蛛网一样的流体结构，因为仅依靠分子间内聚力不能最小化流体的表面积，反而会加强已存在的结构。</p>
+<p>只考虑曲率最小化项，也不行，会导致更严重的粒子聚集，液滴破碎成许多更小的液滴。</p>
+<p>所以，同时考虑分子内聚力和表面积最小化。</p>
+<h3 id="Cohesion-Term"><a href="#Cohesion-Term" class="headerlink" title="Cohesion Term"></a>Cohesion Term</h3><p>最初用分子内聚力产生表面张力：调整余弦函数，对远处的粒子产生吸引力，对近处的粒子产生排斥力；</p>
+<p>邻居粒子非常接近时斥力消失，导致粒子聚集。</p>
+<p>用SPH核函数代替余弦函数：缺少排斥项，导致粒子严重聚集。</p>
+<p>本文内聚力模型：距离d &gt; 静态距离h/2，&lt; 支持半径h时，吸引力平滑减小到0；d&lt;h/2时，力平滑地减小到负值，避免粒子聚集。并且粒子过近，排斥力不会消失，也不会一直增加，避免斥力太强产生不稳定问题。</p>
+<h3 id="Surface-Area-Minimization-Term"><a href="#Surface-Area-Minimization-Term" class="headerlink" title="Surface Area Minimization Term"></a>Surface Area Minimization Term</h3><p>由于从粒子计算曲率容易出错，所以避免显示计算表面曲率，通过SPH近似光滑颜色场梯度计算法线信息；</p>
+<p>参数h，控制法线比例大小；</p>
+<p>法线大小与曲率成正比：对于流体内部，n接近于0，在曲率大的自由表面处，n很大。</p>
+<p>创造了一个对称性力：在平坦的区域和流体内部为0，随着曲率的增大而变大。</p>
+<p>本文的表面积最小化力避免了先前技术的两个重要问题：n的归一化(在流体内部是错误的)和显式曲率计算(对粒子无序非常敏感)。</p>
+<h3 id="Combined-Surface-Tension-Force"><a href="#Combined-Surface-Tension-Force" class="headerlink" title="Combined Surface Tension Force"></a>Combined Surface Tension Force</h3><p>现实中的流体，流体分子之间的引力发生在微观尺度上；</p>
+<p>在SPH中，粒子代表流体的宏观体积。</p>
+<p>提出的方法：修正SPH，适应性SPH  但是，增加了计算开销</p>
+<p>本文通过创建对称化校正因子显式解决这个问题：缺少邻居粒子K&gt;1，充满邻居粒子K≈1</p>
+<p>意义：对于邻居粒子不足的区域，K放大了力，而对于具有适当邻居粒子的区域，力保持不变</p>
+<p>最终得到的表面张力模型：完全对称，总的力施加到粒子对上。简单地保持动量守恒。</p>
+<h2 id="Adhesion-Model"><a href="#Adhesion-Model" class="headerlink" title="Adhesion Model"></a>Adhesion Model</h2><p>粘附力是不同材料分子相互作用的结果。</p>
+<p>使用边界粒子对固体表面采样，边界粒子对流体粒子的贡献基于边界粒子的体积</p>
+<p>在计算流体密度、压力和粘性力时，用\psi来代替边界粒子的质量。</p>
+<p>本文的粘附力模型只吸引距离在h/2到h之间的粒子，并将这个区间内的吸引力变大，并保持连续性。</p>
+<p>陡峭的抛物线函数，它对大多数邻近的流体粒子产生强烈的吸引力。</p>
+<h1 id="Solid-Fluid-Interaction-with-Surface-Tension-Dominant-Contact"><a href="#Solid-Fluid-Interaction-with-Surface-Tension-Dominant-Contact" class="headerlink" title="Solid-Fluid Interaction with Surface-Tension-Dominant Contact"></a>Solid-Fluid Interaction with Surface-Tension-Dominant Contact</h1><p>主要内容：</p>
+<p>​        一种新的<strong>三向耦合方法</strong>模拟强表面张力驱动下固体与流体的接触相互作用。</p>
+<p>​        该物理模型的核心是一个薄液膜，它同时耦合液体和刚性物体，便于精确的动量传递、碰撞处理和表面张力计算。</p>
+<p>​        该模型在<strong>混合欧拉-拉格朗日框架</strong>下进行数值实现，其中薄膜被建模为简单网格，液体体积在背景笛卡尔网格上模拟。</p>
+<p>固液耦合：</p>
+<p><img src="surface-tension/固液耦合.png" srcset="/img/loading.gif" alt="固液耦合" style="zoom:80%;" /></p>
+<p>​        从计算的角度来看，精确模拟三种力之间的相互作用需要正确处理三个子系统——液体、固体和它们之间的强张力液体界面。</p>
+<p>​        本文提出一种新的三向耦合机制来模拟强表面张力驱动的流固耦合系统。将表面张力占主导地位的界面视为拉格朗日薄膜，有有限的厚度，可以直接对其接触的物体施加浮力和表面张力。</p>
+<p>技术贡献：</p>
+<ul>
+<li>一种新的拉格朗日薄膜表示法，精确地捕捉强表面张力驱动下固体与流体之间的接触相互作用。</li>
+<li>一个整体耦合框架，满足所有速度和位置约束，同时保持动量。</li>
+<li>一个预测-校正接触处理方案，以准确处理具有现实物理参数的流固耦合。</li>
+</ul>
+<h3 id="物理模型"><a href="#物理模型" class="headerlink" title="物理模型"></a>物理模型</h3><p>体积流体</p>
+<p>表面薄膜</p>
+<p>刚体</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/09/06/MPM/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MPM</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/03/blender/">
+                        <span class="hidden-mobile">blender</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

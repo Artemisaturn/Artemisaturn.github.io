@@ -1,0 +1,567 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Wang Jiamin">
+  <meta name="keywords" content="">
+  <title>blender - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"artemisaturn.github.io","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="blender">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-03 20:04" pubdate>
+        2021年7月3日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      27
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">blender</h1>
+            
+            <div class="markdown-body">
+              <h1 id="blender流体模拟"><a href="#blender流体模拟" class="headerlink" title="blender流体模拟"></a>blender流体模拟</h1><p>Physics &gt;&gt;&gt; Fluid</p>
+<ol>
+<li>创建一个定义模拟边界的域物体（Domain object ）；</li>
+<li>设置发射器流物体（Flow objects）；</li>
+<li>设置效应器物体（Effector objects），使流体与场景中的物体交互；</li>
+<li>为域物体分配材质；</li>
+<li>烘焙缓存。</li>
+</ol>
+<h2 id="Domain-Type"><a href="#Domain-Type" class="headerlink" title="Domain Type"></a>Domain Type</h2><h3 id="Settings"><a href="#Settings" class="headerlink" title="Settings"></a>Settings</h3><p><strong>Domain Type</strong></p>
+<p>Gas</p>
+<p>Liquid</p>
+<p><strong>Resolution Divisions</strong></p>
+<p>改变domain中voxel单位大小</p>
+<p>细分精度越高，流体粒子数越多，细节更丰富</p>
+<p><strong>Time Scale</strong></p>
+<p>控制模拟的速度</p>
+<p><strong>CFL Number</strong></p>
+<p><strong>Use Adaptive Time Steps</strong></p>
+<p>使用自适应时间步长</p>
+<p><strong>Timesteps Maximum</strong></p>
+<p><strong>Timesteps Minimum</strong></p>
+<p><strong>Border Collisions</strong></p>
+<h3 id="Liquid"><a href="#Liquid" class="headerlink" title="Liquid"></a>Liquid</h3><p><strong>Simulation Method</strong></p>
+<p>FLIP （Fluid Implicit Particle，隐式粒子流体法）解决了PIC存在的耗散问题，有噪声，不稳定</p>
+<p>APIC （Affine Particle-In-Cell，仿射粒子元胞法）更活跃更稳定，涡度保持更好</p>
+<p><strong>FLIP Ratio</strong> （Simulation FLIP Only）</p>
+<p>更新液体粒子速度时使用多少 FLIP 速度。值为 1.0 表示完全基于 FLIP 的模拟。</p>
+<p><strong>System Maximum</strong></p>
+<p>模拟中允许的最大流体粒子数。如果此字段设置为零，求解器将始终在需要时对新粒子进行采样。</p>
+<p><strong>Particle Radius</strong></p>
+<p>以网格单元为单位的一种液体粒子的半径</p>
+<p><strong>Sampling</strong></p>
+<p>改变每个voxel单元中流体粒子的采样数量，从而改变整体流体粒子的数量</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs markdown">Resolution Divisions 和 Sampling 提升精度的区别：<br>Resolution Divisions 改变的是流体模拟的最小计算单位，从而增加参与计算的粒子数；<br>Sampling 改变的是每个计算单位里流体粒子的采样数，对全局模拟精度无提升，但能提升粒子间的运动细腻度和平滑度。<br></code></pre></td></tr></table></figure>
+<p><strong>Randomness</strong></p>
+<p>随机性，值为 0 时，所有新粒子都将在其相应的网格单元内均匀采样</p>
+<p><strong>Particles Maximum</strong></p>
+<p>每个网格单元的最大液体粒子数</p>
+<p><strong>Minimum</strong></p>
+<p>每个网格单元的最小液体粒子数</p>
+<p><strong>Narrow Band Width</strong></p>
+<h3 id="Viscosity"><a href="#Viscosity" class="headerlink" title="Viscosity"></a>Viscosity</h3><p><strong>Strength</strong> </p>
+<p>液体的粘度。更高的值会导致更粘稠的流体。</p>
+<h3 id="Diffusion"><a href="#Diffusion" class="headerlink" title="Diffusion"></a>Diffusion</h3><p>扩散的主要因素是<em>Viscosity</em>和<em>Surface Tension</em>。</p>
+<p><strong>Base</strong>和<strong>Exponent</strong>决定了液体的粘度</p>
+<p><strong>Surface Tension</strong> 表面张力</p>
+<h3 id="Particles"><a href="#Particles" class="headerlink" title="Particles"></a>Particles</h3><p><strong>Spray</strong>   飞沫，在液体表面上方的空气中飞舞的颗粒</p>
+<p><strong>Foam</strong>   泡沫，泡沫粒子仅在液体表面移动</p>
+<p><strong>Bubbles</strong>  气泡，气泡粒子是那些在液体表面以下移动的粒子</p>
+<h3 id="Mesh"><a href="#Mesh" class="headerlink" title="Mesh"></a>Mesh</h3><p><strong>Upres Factor</strong></p>
+<p>在<strong>Resolution Divisions</strong>的基础上进一步提升Mesh的细分精度。</p>
+<p><strong>Particle Radius</strong></p>
+<p>以网格单元为单位的一种液体粒子的半径。该值描述了一个粒子覆盖了多少区域，从而确定了它周围有多少区域可以被视为液体。</p>
+<p><strong>Use Speed Vectors</strong></p>
+<p>如果启用此复选框，则会生成速度矢量（网格顶点速度）并将其存储在驱动器上。它们可用于通过合成节点计算基于图像的运动模糊。</p>
+<p><strong>Mesh Generator</strong></p>
+<p>网格生成器方法决定了网格的精度。<em>Final</em> 将产生更高质量的网格，<em>Preview</em>速度快但不平滑</p>
+<p><strong>Smoothing Positive</strong></p>
+<p>正网格平滑迭代。值越高网格轮廓越平滑。</p>
+<p><strong>Smoothing Negative</strong></p>
+<p>负网格平滑迭代。值越高网格轮廓越清晰。</p>
+<p><strong>Concavity Upper</strong></p>
+<p><strong>Concavity Lower</strong></p>
+<h2 id="Flow-Type"><a href="#Flow-Type" class="headerlink" title="Flow Type"></a>Flow Type</h2><h3 id="Settings-1"><a href="#Settings-1" class="headerlink" title="Settings"></a>Settings</h3><p><strong>Flow Type</strong></p>
+<p>Smoke、 Fire+Smoke、 Fire、 Liquid</p>
+<p><strong>Flow Behavior</strong></p>
+<p>Inflow</p>
+<p>Outflow</p>
+<p>Geometry</p>
+<p><strong>Sampling Substeps</strong></p>
+<h3 id="Flow-Source"><a href="#Flow-Source" class="headerlink" title="Flow Source"></a>Flow Source</h3><p><strong>Flow Source </strong></p>
+<p>Mesh  直接从对象的网格中发射流体</p>
+<p><strong>Is Planar</strong></p>
+<p><strong>Surface Emission</strong></p>
+<h3 id="Initial-Velocity"><a href="#Initial-Velocity" class="headerlink" title="Initial Velocity"></a>Initial Velocity</h3><h2 id="Effector-Type"><a href="#Effector-Type" class="headerlink" title="Effector Type"></a>Effector Type</h2><h3 id="Settings-2"><a href="#Settings-2" class="headerlink" title="Settings"></a>Settings</h3><p><strong>Effector Type</strong></p>
+<p>Collision  这种类型的物体会与流体发生碰撞</p>
+<p>Guide  这类物体需移动并具有一定的速度</p>
+<p><strong>Effector Substeps</strong></p>
+<p><strong>Surface Thickness</strong></p>
+<p><strong>Use Effector</strong></p>
+<p><strong>Is Planar</strong></p>
+<h1 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">bl_info = &#123;<br>    <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;My Test Add-on&quot;</span>,<br>    <span class="hljs-string">&quot;blender&quot;</span>: (<span class="hljs-number">2</span>, <span class="hljs-number">80</span>, <span class="hljs-number">0</span>),<br>    <span class="hljs-string">&quot;category&quot;</span>: <span class="hljs-string">&quot;Object&quot;</span>,<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">register</span>():</span><br>    print(<span class="hljs-string">&quot;Hello World&quot;</span>)<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">unregister</span>():</span><br>    print(<span class="hljs-string">&quot;Goodbye World&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p><code>bl_info</code></p>
+<p>一个字典，包含插件元数据如标题、版本和作者，这些信息会显示在用户设置的插件列表。</p>
+<p><code>register</code></p>
+<p>仅在启用插件时运行的函数，这意味着无需激活插件即可加载模块。</p>
+<p><code>unregister</code></p>
+<p>用于卸载 <code>register</code> 建立的数据的函数，在禁用插件时调用。</p>
+<h3 id="demo1"><a href="#demo1" class="headerlink" title="demo1"></a>demo1</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs python">bl_info = &#123;<br>    <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;Move X Axis&quot;</span>,<br>    <span class="hljs-string">&quot;blender&quot;</span>: (<span class="hljs-number">2</span>, <span class="hljs-number">80</span>, <span class="hljs-number">0</span>),<br>    <span class="hljs-string">&quot;category&quot;</span>: <span class="hljs-string">&quot;Object&quot;</span>,<br>&#125;<br><br><span class="hljs-keyword">import</span> bpy<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ObjectMoveX</span>(<span class="hljs-params">bpy.types.Operator</span>):</span><br>    <span class="hljs-string">&quot;&quot;&quot;My Object Moving Script&quot;&quot;&quot;</span>      <span class="hljs-comment"># Use this as a tooltip for menu items and buttons.</span><br>    bl_idname = <span class="hljs-string">&quot;object.move_x&quot;</span>        <span class="hljs-comment"># Unique identifier for buttons and menu items to reference.</span><br>    bl_label = <span class="hljs-string">&quot;Move X by One&quot;</span>         <span class="hljs-comment"># Display name in the interface.</span><br>    bl_options = &#123;<span class="hljs-string">&#x27;REGISTER&#x27;</span>, <span class="hljs-string">&#x27;UNDO&#x27;</span>&#125;  <span class="hljs-comment"># Enable undo for the operator.</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">execute</span>(<span class="hljs-params">self, context</span>):</span>        <span class="hljs-comment"># execute() is called when running the operator.</span><br><br>        <span class="hljs-comment"># The original script</span><br>        scene = context.scene<br>        <span class="hljs-keyword">for</span> obj <span class="hljs-keyword">in</span> scene.objects:<br>            obj.location.x += <span class="hljs-number">1.0</span><br><br>        <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&#x27;FINISHED&#x27;</span>&#125;            <span class="hljs-comment"># Lets Blender know the operator finished successfully.</span><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">menu_func</span>(<span class="hljs-params">self, context</span>):</span><br>    self.layout.operator(ObjectMoveX.bl_idname)<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">register</span>():</span><br>    bpy.utils.register_class(ObjectMoveX)<br>    bpy.types.VIEW3D_MT_object.append(menu_func)  <span class="hljs-comment"># Adds the new operator to an existing menu.</span><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">unregister</span>():</span><br>    bpy.utils.unregister_class(ObjectMoveX)<br><br><br><span class="hljs-comment"># This allows you to run the script directly from Blender&#x27;s Text editor</span><br><span class="hljs-comment"># to test the add-on without having to install it.</span><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    register()<br></code></pre></td></tr></table></figure>
+<p>Demo2</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs python">bl_info = &#123;<br>    <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;Cursor Array&quot;</span>,<br>    <span class="hljs-string">&quot;blender&quot;</span>: (<span class="hljs-number">2</span>, <span class="hljs-number">80</span>, <span class="hljs-number">0</span>),<br>    <span class="hljs-string">&quot;category&quot;</span>: <span class="hljs-string">&quot;Object&quot;</span>,<br>&#125;<br><br><span class="hljs-keyword">import</span> bpy<br><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ObjectCursorArray</span>(<span class="hljs-params">bpy.types.Operator</span>):</span><br>    <span class="hljs-string">&quot;&quot;&quot;Object Cursor Array&quot;&quot;&quot;</span><br>    bl_idname = <span class="hljs-string">&quot;object.cursor_array&quot;</span><br>    bl_label = <span class="hljs-string">&quot;Cursor Array&quot;</span><br>    bl_options = &#123;<span class="hljs-string">&#x27;REGISTER&#x27;</span>, <span class="hljs-string">&#x27;UNDO&#x27;</span>&#125;<br><br>    total: bpy.props.IntProperty(name=<span class="hljs-string">&quot;Steps&quot;</span>, default=<span class="hljs-number">2</span>, <span class="hljs-built_in">min</span>=<span class="hljs-number">1</span>, <span class="hljs-built_in">max</span>=<span class="hljs-number">100</span>)<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">execute</span>(<span class="hljs-params">self, context</span>):</span><br>        scene = context.scene<br>        cursor = scene.cursor.location<br>        obj = context.active_object<br><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(self.total):<br>            obj_new = obj.copy()<br>            scene.collection.objects.link(obj_new)<br><br>            factor = i / self.total<br>            obj_new.location = (obj.location * factor) + (cursor * (<span class="hljs-number">1.0</span> - factor))<br><br>        <span class="hljs-keyword">return</span> &#123;<span class="hljs-string">&#x27;FINISHED&#x27;</span>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">menu_func</span>(<span class="hljs-params">self, context</span>):</span><br>    self.layout.operator(ObjectCursorArray.bl_idname)<br><br><span class="hljs-comment"># store keymaps here to access after registration</span><br>addon_keymaps = []<br><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">register</span>():</span><br>    bpy.utils.register_class(ObjectCursorArray)<br>    bpy.types.VIEW3D_MT_object.append(menu_func)<br><br>    <span class="hljs-comment"># handle the keymap</span><br>    wm = bpy.context.window_manager<br>    <span class="hljs-comment"># Note that in background mode (no GUI available), keyconfigs are not available either,</span><br>    <span class="hljs-comment"># so we have to check this to avoid nasty errors in background case.</span><br>    kc = wm.keyconfigs.addon<br>    <span class="hljs-keyword">if</span> kc:<br>        km = wm.keyconfigs.addon.keymaps.new(name=<span class="hljs-string">&#x27;Object Mode&#x27;</span>, space_type=<span class="hljs-string">&#x27;EMPTY&#x27;</span>)<br>        kmi = km.keymap_items.new(ObjectCursorArray.bl_idname, <span class="hljs-string">&#x27;T&#x27;</span>, <span class="hljs-string">&#x27;PRESS&#x27;</span>, ctrl=<span class="hljs-literal">True</span>, shift=<span class="hljs-literal">True</span>)<br>        kmi.properties.total = <span class="hljs-number">4</span><br>        addon_keymaps.append((km, kmi))<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">unregister</span>():</span><br>    <span class="hljs-comment"># Note: when unregistering, it&#x27;s usually good practice to do it in reverse order you registered.</span><br>    <span class="hljs-comment"># Can avoid strange issues like keymap still referring to operators already unregistered...</span><br>    <span class="hljs-comment"># handle the keymap</span><br>    <span class="hljs-keyword">for</span> km, kmi <span class="hljs-keyword">in</span> addon_keymaps:<br>        km.keymap_items.remove(kmi)<br>    addon_keymaps.clear()<br><br>    bpy.utils.unregister_class(ObjectCursorArray)<br>    bpy.types.VIEW3D_MT_object.remove(menu_func)<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    register()<br></code></pre></td></tr></table></figure>
+<p>参数传递</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># moved assignment from execute() to the body of the class...</span><br>total: bpy.props.IntProperty(name=<span class="hljs-string">&quot;Steps&quot;</span>, default=<span class="hljs-number">2</span>, <span class="hljs-built_in">min</span>=<span class="hljs-number">1</span>, <span class="hljs-built_in">max</span>=<span class="hljs-number">100</span>)<br><br><span class="hljs-comment"># and this is accessed on the class</span><br><span class="hljs-comment"># instance within the execute() function as...</span><br>self.total<br></code></pre></td></tr></table></figure>
+<p>键位映射</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># store keymaps here to access after registration</span><br>addon_keymaps = []<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">register</span>():</span><br><br>    <span class="hljs-comment"># handle the keymap</span><br>    wm = bpy.context.window_manager<br>    km = wm.keyconfigs.addon.keymaps.new(name=<span class="hljs-string">&#x27;Object Mode&#x27;</span>, space_type=<span class="hljs-string">&#x27;EMPTY&#x27;</span>)<br><br>    kmi = km.keymap_items.new(ObjectCursorArray.bl_idname, <span class="hljs-string">&#x27;T&#x27;</span>, <span class="hljs-string">&#x27;PRESS&#x27;</span>, ctrl=<span class="hljs-literal">True</span>, shift=<span class="hljs-literal">True</span>)<br>    kmi.properties.total = <span class="hljs-number">4</span><br><br>    addon_keymaps.append((km, kmi))<br><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">unregister</span>():</span><br><br>    <span class="hljs-comment"># handle the keymap</span><br>    <span class="hljs-keyword">for</span> km, kmi <span class="hljs-keyword">in</span> addon_keymaps:<br>        km.keymap_items.remove(kmi)<br>    addon_keymaps.clear()<br></code></pre></td></tr></table></figure>
+<p>mesh data</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs python">so = bpy.context.active_object<br>verts = so.data.vertices<br>edges = so.data.edges<br>faces = so.data.polygons<br><span class="hljs-comment"># coordinates:</span><br><span class="hljs-comment"># verts[i].co</span><br><span class="hljs-keyword">for</span> v <span class="hljs-keyword">in</span> verts:<br>    print(v.co)<br>    <br><span class="hljs-comment"># edges[i].vertices[j] -&gt; a list of integer values</span><br><span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> edges:<br>    <span class="hljs-keyword">for</span> v <span class="hljs-keyword">in</span> e.vertices:<br>        print(v)<br>        <br>index = edges[i].vertices[j]<br>vertex = verts[index]<br><br><span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> faces:<br>    <span class="hljs-keyword">for</span> v <span class="hljs-keyword">in</span> f.vertices:<br>        print(v)<br>        <br><span class="hljs-comment"># add </span><br>verts = []<br>edges = []<br>faces = []<br>verts.append([ <span class="hljs-comment">#index 0</span><br>    <span class="hljs-number">0.0</span>, <span class="hljs-comment"># x</span><br>    <span class="hljs-number">1.0</span>, <span class="hljs-comment"># y</span><br>    <span class="hljs-number">0.0</span>, <span class="hljs-comment"># z</span><br>])<br>verts.append([ <span class="hljs-comment">#index 1</span><br>    <span class="hljs-number">1.0</span>, <span class="hljs-comment"># x</span><br>    <span class="hljs-number">0.0</span>, <span class="hljs-comment"># y</span><br>    <span class="hljs-number">0.0</span>, <span class="hljs-comment"># z</span><br>])<br>edges.append([<span class="hljs-number">0</span>,<span class="hljs-number">1</span>])<br>faces.append([<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>])<br>faces.append([<span class="hljs-number">2</span>,<span class="hljs-number">0</span>,<span class="hljs-number">3</span>])<br><br><span class="hljs-comment"># create a new mesh</span><br>name = <span class="hljs-string">&quot;New Object&quot;</span><br>mesh = bpy.data.meshes.new(name)<br>obj = bpy.data.objects.new(name, mesh)<br>col = bpy.data.collections.get(<span class="hljs-string">&quot;Objects&quot;</span>)<br>col.objects.link(obj)<br>bpy.context.view_layer.objects.active = obj<br>mesh.from_pydata(verts, edges, faces)<br></code></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs json">&#123;<br>   <span class="hljs-attr">&quot;spacing_r&quot;</span> : <span class="hljs-number">0.1</span>,<br>   <span class="hljs-attr">&quot;bound_cube&quot;</span> : &#123;<br>      <br>   &#125;,<br>   <span class="hljs-attr">&quot;fluid&quot;</span> : [ <br>       [<br>           (<span class="hljs-number">-3.9</span>, <span class="hljs-number">-3.9</span>, <span class="hljs-number">-0.9</span>),<br>           (<span class="hljs-number">3.9</span>, <span class="hljs-number">-0.9</span>, <span class="hljs-number">0.9</span>)<br>       ],<br>       [<br>           (<span class="hljs-number">-3.9</span>, <span class="hljs-number">-0.8</span>, <span class="hljs-number">-0.9</span>),<br>           (<span class="hljs-number">3.9</span>, <span class="hljs-number">2.2</span>, <span class="hljs-number">0.9</span>)<br>       ]<br>   ],<br>   <span class="hljs-attr">&quot;density&quot;</span> : <span class="hljs-number">1000</span>,<br>   <span class="hljs-attr">&quot;vis&quot;</span> : <span class="hljs-number">0.05</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/13/surface-tension/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">surface tension</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/06/27/win10-cuda-vs2019/">
+                        <span class="hidden-mobile">win10+cuda+vs2019</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>
